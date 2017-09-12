@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+        <meta charset="utf-8" />
+        <title>Сборка проекта на С++ в GNU/Linux</title>
+        <link rel="stylesheet" href="http://judge.mipt.ru/mipt_cs_on_cpp/theme/css/main.css" />
+        <link rel="icon" type="image/png" href="http://judge.mipt.ru/mipt_cs_on_cpp/favicon.png" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <div id="wrap">
+            <header id="banner" class="body">
+                    <!--img src="http://judge.mipt.ru/mipt_cs_on_cpp/images/logo.svg" class="logo" /-->
+                    <nav><ul>
+                        <li><a href="http://judge.mipt.ru/mipt_cs_on_cpp">Главная</a></li>
+                    </ul></nav>
+            </header><!-- /#banner -->
+            <div id="main"
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://judge.mipt.ru/mipt_cs_on_cpp/labs/lab1.html" rel="bookmark"
+           title="Permalink to Сборка проекта на С++ в GNU/Linux">Сборка проекта на С++ в GNU/Linux</a></h1>
+    </header>
+      <nav class="toc">
+      <div class="toc" id="">
+
+<ul class="simple">
+<li><a class="reference internal" href="#id2" id="id15">Введение</a><ul>
+<li><a class="reference internal" href="#hello-cpp" id="id16">hello.cpp</a></li>
+<li><a class="reference internal" href="#o1" id="id17">Упражнение №1</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3" id="id18">Ввод и вывод на языке С++</a><ul>
+<li><a class="reference internal" href="#id4" id="id19">Вывод</a></li>
+<li><a class="reference internal" href="#id5" id="id20">Ввод</a></li>
+<li><a class="reference internal" href="#o2" id="id21">Упражнение №2</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6" id="id22">Этапы сборки: препроцессинг, компиляция, компоновка</a><ul>
+<li><a class="reference internal" href="#id7" id="id23">Препроцессинг</a></li>
+<li><a class="reference internal" href="#id8" id="id24">Компиляция</a></li>
+<li><a class="reference internal" href="#id9" id="id25">Компоновка</a></li>
+<li><a class="reference internal" href="#o3" id="id26">Упражнение №3</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id10" id="id27">Принцип раздельной компиляции</a></li>
+<li><a class="reference internal" href="#id11" id="id28">Пример модульной программы с раздельной компиляцией на С++</a><ul>
+<li><a class="reference internal" href="#program-cpp" id="id29">program.cpp</a></li>
+<li><a class="reference internal" href="#mylib-hpp" id="id30">mylib.hpp</a></li>
+<li><a class="reference internal" href="#mylib-cpp" id="id31">mylib.cpp</a></li>
+<li><a class="reference internal" href="#o4" id="id32">Упражнение №4</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#make-makefile" id="id33">Утилита make и Makefile</a><ul>
+<li><a class="reference internal" href="#makefile" id="id34">Простейший Makefile</a></li>
+<li><a class="reference internal" href="#id12" id="id35">Makefile для модульной программы</a></li>
+<li><a class="reference internal" href="#id13" id="id36">Фиктивные цели</a></li>
+</ul>
+</li>
+</ul>
+</div>
+      </nav>
+      <br/>
+      <br/>
+    
+<div class="section" id="id2">
+<h2><a class="toc-backref" href="#id15">Введение</a></h2>
+<p>Язык С++ является <em>компилируемым</em>, то есть трансляция кода с языка высокого уровня на инструкции машинного кода происходит не в момент выполнения, а заранее — в процессе изготовления так называемого <em>исполняемого файла</em> (в ОС Windows такие файлы имеют расширение <code>.exe</code>, а в ОС GNU/Linux чаще всего не имеют расширения).</p>
+<div class="section" id="hello-cpp">
+<h3><a class="toc-backref" href="#id16">hello.cpp</a></h3>
+<p>Пример простой программы на С++, которая печатает "Привет, Мир!":</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Hello, World!"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>Для вывода здесь используется стандартная библиотека <code>iostream</code>, поток вывода <code>cout</code>.</p>
+<p>Исполняемые операторы в программах на С++ не могут быть сами по себе — они должны быть обязательно заключены в <em>функции</em>.</p>
+<p>Функция <code>main()</code> — это <em>главная функция</em>, выполнение программы начинается с её вызова и заканчивается выходом из неё.
+Возвращаемое значение <code>main()</code> в случае успешных вычислений должно быть равно 0, что значит "ошибка номер ноль", то есть "нет ошибки". В противном процесс, вызвавший программу, может посчитать её выполнившейся с ошибкой.</p>
+<p>Чтобы выполнить программу, нужно её сохранить в текстовом файле <code>hello.cpp</code> и скомпилировать следующей командой:</p>
+<div class="highlight"><pre><span></span>$ g++ -o hello hello.cpp
+</pre></div>
+<p>Опция <code>-o</code> сообщает компилятору, что итоговый исполняемый файл должен называться <code>hello</code>. <code>g++</code> — это компилятор языка C++, входящий в состав проекта GCC (GNU Compiler Collection). <code>g++</code> не является единственным компиляторм языка C++. Помимо него в ходе курса мы будет использовать компилятор <code>clang</code>, поскольку он обладает рядом преимуществ, из которых нас больше всего интересует одно — этот компилятор выдаёт более понятные сообщения об ошибках по сравнению с <code>g++</code>.</p>
+</div>
+<div class="section" id="o1">
+<h3><a class="toc-backref" href="#id17">Упражнение №1</a></h3>
+<p>Скомпилируйте и выполните данную программу.</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id18">Ввод и вывод на языке С++</a></h2>
+<p>В Python и в С ввод и вывод синтаксически оформлены как вызов функции, а в С++ — это <em>операция</em> над объектом специального типа — <em>потоком</em>.</p>
+<p>Потоки определяются в библиотеке <code>iostream,</code> где определены операции ввода и вывода для каждого встроенного типа.</p>
+<div class="section" id="id4">
+<h3><a class="toc-backref" href="#id19">Вывод</a></h3>
+<p>Все идентификаторы стандартной библиотеки определены в пространстве имен <code>std</code>, что означает необходимость обращения к ним через квалификатор <code>std::</code>.</p>
+<div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"mipt"</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="mi">2016</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sc">'.'</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="nb">true</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+<p>Заметим, что в С++ мы не прописываем типы выводимых значений, компилятор неким (пока непонятным) способом разбирается в типе выводимого значения и выводит его соответствующим образом.</p>
+<p>Вывод в один и тот же поток можно писать в одну строчку:</p>
+<div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"mipt"</span> <span class="o">&lt;&lt;</span> <span class="mi">2016</span> <span class="o">&lt;&lt;</span> <span class="sc">'.'</span> <span class="o">&lt;&lt;</span> <span class="nb">true</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+<p>Для вывода в поток ошибок определён поток <code>cerr</code>.</p>
+</div>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id20">Ввод</a></h3>
+<p>Поток ввода с клавиатуры называется <code>cin</code>, а считывание из потока производится другой операцией — <code>&gt;&gt;</code> :</p>
+<div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">x</span><span class="p">;</span>
+</pre></div>
+<p>Тип считываемого значения определяется автоматически по типу переменной <code>x</code>.</p>
+<p>Для всех типов, кроме <code>char</code>, считывание будет производиться с пропуском символов-разделителей и до следующего символа-разделителя. При этом пробел и табуляция так же, как и символ перевода каретки, являются корректными разделителями. Считывание в char происходит посимвольно независимо от типа символа.</p>
+<p>Например для введенной строки "Иван Иванович Иванов",</p>
+<div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">name</span><span class="p">;</span>
+</pre></div>
+<p>считает в name только первое слово "Иван".</p>
+<p>Считать всю строку целиком можно с помощью функции <code>getline()</code>:</p>
+<div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">getline</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">,</span> <span class="n">name</span><span class="p">);</span>
+</pre></div>
+<p>Считывать несколько значений можно и в одну строку:</p>
+<div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">y</span> <span class="o">&gt;&gt;</span> <span class="n">z</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="section" id="o2">
+<h3><a class="toc-backref" href="#id21">Упражнение №2</a></h3>
+<p>Напишите программу, которая считает гипотенузу прямоугольного треугольника по двум катетам. Ввод и вывод стандартные.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="47%"/>
+<col width="53%"/>
+</colgroup>
+<tbody valign="top">
+<tr><td>Ввод</td>
+<td>Вывод</td>
+</tr>
+<tr><td>3 4</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="id6">
+<h2><a class="toc-backref" href="#id22">Этапы сборки: препроцессинг, компиляция, компоновка</a></h2>
+<p>Компиляция исходных текстов на Си в исполняемый файл происходит в три этапа.</p>
+<img alt="" src="http://judge.mipt.ru/mipt_cs_on_cpp/images/lab1/lab1_1.png"/>
+<div class="section" id="id7">
+<h3><a class="toc-backref" href="#id23">Препроцессинг</a></h3>
+<p>Эту операцию осуществляет текстовый препроцессор.</p>
+<p>Исходный текст частично обрабатывается — производятся:</p>
+<ol class="arabic simple">
+<li>Замена комментариев пустыми строками</li>
+<li>Текстовое включение файлов — <code>#include</code></li>
+<li>Макроподстановки — <code>#define</code></li>
+<li>Обработка директив условной компиляции — <code>#if</code>, <code>#ifdef</code>, <code>#elif</code>, <code>#else</code>, <code>#endif</code></li>
+</ol>
+</div>
+<div class="section" id="id8">
+<h3><a class="toc-backref" href="#id24">Компиляция</a></h3>
+<p>Процесс компиляции состоит из следующих этапов:</p>
+<ol class="arabic simple">
+<li><strong>Лексический анализ</strong>. Последовательность символов исходного файла преобразуется в последовательность лексем.</li>
+<li><strong>Синтаксический анализ</strong>. Последовательность лексем преобразуется в дерево разбора.</li>
+<li><strong>Семантический анализ</strong>. Дерево разбора обрабатывается с целью установления его семантики (смысла) — например, привязка идентификаторов к их декларациям, типам, проверка совместимости, определение типов выражений и т. д.</li>
+<li><strong>Оптимизация</strong>. Выполняется удаление излишних конструкций и упрощение кода с сохранением его смысла.</li>
+<li><strong>Генерация кода</strong>. Из промежуточного представления порождается объектный код.</li>
+</ol>
+<p>Результатом компиляции является <strong>объектный код</strong>.</p>
+<p>Объектный код — это программа на языке машинных кодов с частичным сохранением символьной информации, необходимой в процессе сборки.</p>
+<p>При отладочной сборке возможно сохранение большого количества символьной информации (идентификаторов переменных, функций, а также типов).</p>
+</div>
+<div class="section" id="id9">
+<h3><a class="toc-backref" href="#id25">Компоновка</a></h3>
+<p>Компоновка также называется <em>связывание</em> или <em>линковка</em>. На этом этапе отдельные объектные файлы проекта соединяются в единый <em>исполняемый файл</em>.</p>
+<p>На этом этапе возможны так называемые ошибки связывания: если функция была объявлена, но не определена, ошибка обнаружится только на этом этапе.</p>
+</div>
+<div class="section" id="o3">
+<h3><a class="toc-backref" href="#id26">Упражнение №3</a></h3>
+<p>Выполните в консоли для ранее созданного файла hello.cpp последовательно операции препроцессинга, компиляции и компоновки:</p>
+<ol class="arabic simple">
+<li>Препроцессинг:</li>
+</ol>
+<div class="highlight"><pre><span></span>$ g++ -E -o hello1.cpp hello.cpp
+</pre></div>
+<ol class="arabic simple">
+<li>Компиляция:</li>
+</ol>
+<div class="highlight"><pre><span></span>$ g++ -c -o hello.o hello1.cpp
+</pre></div>
+<ol class="arabic simple">
+<li>Компоновка:</li>
+</ol>
+<div class="highlight"><pre><span></span>$ g++ -o hello hello.o
+</pre></div>
+</div>
+</div>
+<div class="section" id="id10">
+<h2><a class="toc-backref" href="#id27">Принцип раздельной компиляции</a></h2>
+<p>Компиляция — алгоритмически сложный процесс, для больших программных проектов требующий существенного времени и вычислительных возможностей ЭВМ. Благодаря наличию в процессе сборки программы этапа компоновки (связывания) возникает возможность <em>раздельной компиляции</em>.</p>
+<p>В модульном подходе программный код разбивается на несколько файлов <code>.cpp</code>, каждый из которых компилируется отдельно от остальных.</p>
+<p>Это позволяет значительно уменьшить время перекомпиляции при изменениях, вносимых лишь в небольшое количество исходных файлов. Также это даёт возможность замены отдельных компонентов конечного программного продукта, без необходимости пересборки всего проекта.</p>
+</div>
+<div class="section" id="id11">
+<h2><a class="toc-backref" href="#id28">Пример модульной программы с раздельной компиляцией на С++</a></h2>
+<p>Рассмотрим пример: есть желание вынести часть кода в отдельный файл — пользовательскую библиотеку.</p>
+<div class="section" id="program-cpp">
+<h3><a class="toc-backref" href="#id29">program.cpp</a></h3>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">"mylib.hpp"</span><span class="cp"></span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">MAX_DIVISORS_NUMBER</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">number</span> <span class="o">=</span> <span class="n">read_number</span><span class="p">();</span>
+
+    <span class="kt">int</span> <span class="n">Divisor</span><span class="p">[</span><span class="n">MAX_DIVISORS_NUMBER</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">Divisor_top</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">factorize</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">Divisor</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">Divisor_top</span><span class="p">);</span>
+
+    <span class="n">print_array</span><span class="p">(</span><span class="n">Divisor</span><span class="p">,</span> <span class="n">Divisor_top</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>Подключение пользовательской библиотеки в С++ на самом деле не так просто, как кажется.</p>
+<p>Сама библиотека должна состоять из двух файлов: <code>mylib.hpp</code> и <code>mylib.cpp</code>:</p>
+</div>
+<div class="section" id="mylib-hpp">
+<h3><a class="toc-backref" href="#id30">mylib.hpp</a></h3>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef MY_LIBRARY_H_INCLUDED</span>
+<span class="cp">#define MY_LIBRARY_H_INCLUDED</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;cstdlib&gt;</span><span class="cp"></span>
+
+<span class="c1">//считываем число</span>
+<span class="kt">int</span> <span class="nf">read_number</span><span class="p">();</span>
+
+<span class="c1">//получаем простые делители числа</span>
+<span class="c1">// сохраняем их в массив, чей адрес нам передан</span>
+<span class="kt">void</span> <span class="nf">factorize</span><span class="p">(</span><span class="kt">int</span> <span class="n">number</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">Divisor</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">Divisor_top</span><span class="p">);</span>
+
+<span class="c1">//выводим число</span>
+<span class="kt">void</span> <span class="nf">print_number</span><span class="p">(</span><span class="kt">int</span> <span class="n">number</span><span class="p">);</span>
+
+<span class="c1">//распечатывает массив размера A_size в одной строке через TAB</span>
+<span class="kt">void</span> <span class="nf">print_array</span><span class="p">(</span><span class="kt">int</span> <span class="n">A</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">A_size</span><span class="p">);</span>
+
+<span class="cp">#endif </span><span class="c1">// MY_LIBRARY_H_INCLUDED</span>
+</pre></div>
+</div>
+<div class="section" id="mylib-cpp">
+<h3><a class="toc-backref" href="#id31">mylib.cpp</a></h3>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">"mylib.hpp"</span><span class="cp"></span>
+
+<span class="c1">//считываем число</span>
+<span class="kt">int</span> <span class="nf">read_number</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">number</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">number</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">number</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//получаем простые делители числа</span>
+<span class="c1">// сохраняем их в массив, чей адрес нам передан</span>
+<span class="kt">void</span> <span class="nf">factorize</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">Divisor</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">Divisor_top</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">d</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">;</span> <span class="n">d</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">x</span><span class="o">%</span><span class="n">d</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Divisor</span><span class="p">[(</span><span class="o">*</span><span class="n">Divisor_top</span><span class="p">)</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">;</span>
+            <span class="n">x</span> <span class="o">/=</span> <span class="n">d</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">//выводим число</span>
+<span class="kt">void</span> <span class="nf">print_number</span><span class="p">(</span><span class="kt">int</span> <span class="n">number</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">number</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//распечатывает массив размера A_size в одной строке через TAB</span>
+<span class="kt">void</span> <span class="nf">print_array</span><span class="p">(</span><span class="kt">int</span> <span class="n">A</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">A_size</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">A_size</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="sc">'\t'</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>Препроцессор С++, встречая <code>#include "mylib.hpp"</code>, полностью копирует содержимое указанного файла (как текст) вместо вызова директивы. Благодаря этому на этапе компиляции не возникает ошибок типа Unknown identifier при использовании функций из библиотеки.</p>
+<p>Файл <code>mylib.cpp</code> компилируется отдельно.</p>
+<p>А на этапе компоновки полученный файл <code>mylib.o</code> должен быть включен в исполняемый файл <code>program</code>.</p>
+<p>Cреда разработки обычно скрывает весь этот процесс от программиста, но для корректного анализа ошибок сборки важно представлять себе, как это делается.</p>
+</div>
+<div class="section" id="o4">
+<h3><a class="toc-backref" href="#id32">Упражнение №4</a></h3>
+<p>Давайте сделаем это руками:</p>
+<div class="highlight"><pre><span></span>$ g++ -c mylib.cpp                      <span class="c1"># 1</span>
+$ g++ -c program.cpp                    <span class="c1"># 2</span>
+$ g++ -o program mylib.o program.o      <span class="c1"># 3</span>
+</pre></div>
+<p>Теперь, если изменения коснутся только <code>mylib.cpp</code>, то достаточно выполнить только команды 1 и 3.
+Если только program.cpp, то только команды 2 и 3.
+И только в случае, когда изменения коснутся интерфейса библиотеки, т.е. заголовочного файла <code>mylib.hpp</code>, придётся перекомпилировать оба объектных файла.</p>
+</div>
+</div>
+<div class="section" id="make-makefile">
+<h2><a class="toc-backref" href="#id33">Утилита make и Makefile</a></h2>
+<p>Утилита <code>make</code> предназначена для автоматизации преобразования файлов из одной формы в другую.
+По отметкам времени каждого из имеющихся объектных файлов (при их наличии) она может определить, требуется ли их пересборка.</p>
+<p>Правила преобразования задаются в скрипте с именем <code>Makefile</code>, который должен находиться в корне рабочей директории проекта. Сам скрипт состоит из набора правил, которые в свою очередь описываются:</p>
+<ol class="arabic simple">
+<li>целями (то, что данное правило делает);</li>
+<li>реквизитами (то, что необходимо для выполнения правила и получения целей);</li>
+<li>командами (выполняющими данные преобразования).</li>
+</ol>
+<p>В общем виде синтаксис Makefile можно представить так:</p>
+<div class="highlight"><pre><span></span># Индентация осуществляется исключительно при помощи символов табуляции,
+# каждой команде должен предшествовать отступ
+&lt;цели&gt;: &lt;реквизиты&gt;
+        &lt;команда #1&gt;
+        ...
+        &lt;команда #n&gt;
+</pre></div>
+<p>То есть, правило make это ответы на три вопроса:</p>
+<blockquote>
+{Из чего делаем? (реквизиты)} ---&gt; [Как делаем? (команды)] ---&gt; {Что делаем? (цели)}</blockquote>
+<p>Несложно заметить что процессы трансляции и компиляции очень красиво ложатся на эту схему:</p>
+<blockquote>
+<p>{исходные файлы} ---&gt; [трансляция] ---&gt; {объектные файлы}</p>
+<p>{объектные файлы} ---&gt; [линковка] ---&gt; {исполнимые файлы}</p>
+</blockquote>
+<div class="section" id="makefile">
+<h3><a class="toc-backref" href="#id34">Простейший Makefile</a></h3>
+<p>Для компиляции <code>hello.cpp</code> достаточно очень простого мэйкфайла:</p>
+<div class="highlight"><pre><span></span><span class="nf">hello</span><span class="o">:</span> <span class="n">hello</span>.<span class="n">cpp</span>
+        gcc -o hello hello.cpp
+</pre></div>
+<p>Данный Makefile состоит из одного правила, которое в свою очередь состоит из цели — <code>hello</code>, реквизита — <code>hello.cpp</code>, и команды — <code>gcc -o hello hello.cpp</code>.</p>
+<p>Теперь, для компиляции достаточно дать команду <code>make</code> в рабочем каталоге. По умолчанию <code>make</code> станет выполнять самое первое правило, если цель выполнения не была явно указана при вызове:</p>
+<blockquote>
+$ make &lt;цель&gt;</blockquote>
+</div>
+<div class="section" id="id12">
+<h3><a class="toc-backref" href="#id35">Makefile для модульной программы</a></h3>
+<div class="highlight"><pre><span></span><span class="nf">program</span><span class="o">:</span> <span class="n">program</span>.<span class="n">o</span> <span class="n">mylib</span>.<span class="n">o</span>
+        g++ -o program program.o mylib.o
+
+<span class="nf">program.o</span><span class="o">:</span> <span class="n">program</span>.<span class="n">cpp</span> <span class="n">mylib</span>.<span class="n">hpp</span>
+        g++ -c program.cpp
+
+<span class="nf">mylib.o</span><span class="o">:</span> <span class="n">mylib</span>.<span class="n">cpp</span> <span class="n">mylib</span>.<span class="n">hpp</span>
+        g++ -c hylib.cpp
+</pre></div>
+<p>Попробуйте собрать этот проект командой <code>make</code> или <code>make hello</code>.
+Теперь измените любой из файлов <code>.cpp</code> и соберите проект снова. Обратите внимание на то, что во время повторной компиляции будет транслироваться только измененный файл.</p>
+<p>После запуска <code>make</code> попытается сразу получить цель <code>program</code>, но для ее создания необходимы файлы <code>program.o</code> и <code>mylib.o</code>, которых пока еще нет. Поэтому выполнение правила будет отложено и <code>make</code> станет искать правила, описывающие получение недостающих реквизитов. Как только все реквизиты будут получены, <code>make`вернется к выполнению отложенной цели. Отсюда следует, что `make</code> выполняет правила рекурсивно.</p>
+</div>
+<div class="section" id="id13">
+<h3><a class="toc-backref" href="#id36">Фиктивные цели</a></h3>
+<p>На самом деле в качестве make целей могут выступать не только реальные файлы. Все, кому приходилось собирать программы из исходных кодов, должны быть знакомы с двумя стандартными в мире UNIX командами:</p>
+<div class="highlight"><pre><span></span>$ make
+$ make install
+</pre></div>
+<p>Командой make производят компиляцию программы, командой <code>make install</code> — установку. Такой подход весьма удобен, поскольку все необходимое для сборки и развертывания приложения в целевой системе включено в один файл (забудем о скрипте <code>configure</code>). Обратите внимание на то, что в первом случае мы не указываем цель, а во втором целью является вовсе не создание файла <code>install</code>, а процесс установки приложения в систему. Проделывать такие фокусы нам позволяют так называемые фиктивные (phony) цели. Вот краткий список стандартных целей:</p>
+<blockquote>
+all — является стандартной целью по умолчанию. При вызове make ее можно явно не указывать;
+clean — очистить каталог от всех файлов полученных в результате компиляции;
+install — произвести инсталляцию;
+uninstall — и деинсталляцию соответственно.</blockquote>
+<p>Для того чтобы make не искал файлы с такими именами, их следует определить в <code>Makefile</code>, при помощи директивы <code>.PHONY</code>. Далее показан пример <code>Makefile</code> с целями <code>all</code>, <code>clean</code>, <code>install</code> и <code>uninstall</code>:</p>
+<div class="highlight"><pre><span></span><span class="nf">.PHONY</span><span class="o">:</span> <span class="n">all</span> <span class="n">clean</span> <span class="n">install</span> <span class="n">uninstall</span>
+
+<span class="nf">all</span><span class="o">:</span> <span class="n">program</span>
+
+<span class="nf">clean</span><span class="o">:</span>
+        rm -rf mylib *.o
+<span class="nf">program.o</span><span class="o">:</span> <span class="n">program</span>.<span class="n">cpp</span> <span class="n">mylib</span>.<span class="n">hpp</span>
+        gcc -c -o program.o program.cpp
+<span class="nf">mylib.o</span><span class="o">:</span> <span class="n">mylib</span>.<span class="n">cpp</span> <span class="n">mylib</span>.<span class="n">hpp</span>
+        gcc -c -o mylib.o mylib.cpp
+<span class="nf">program</span><span class="o">:</span> <span class="n">program</span>.<span class="n">o</span> <span class="n">mylib</span>.<span class="n">o</span>
+        gcc -o mylib program.o mylib.o
+<span class="nf">install</span><span class="o">:</span>
+        install ./program /usr/local/bin
+<span class="nf">uninstall</span><span class="o">:</span>
+        rm -rf /usr/local/bin/program
+</pre></div>
+<p>Теперь мы можем собрать нашу программу, произвести ее инсталлцию/деинсталляцию, а так же очистить рабочий каталог, используя для этого стандартные make цели.</p>
+<p>Обратите внимание на то, что в цели <code>all</code> не указаны команды; все что ей нужно — получить реквизит <code>program</code>. Зная о рекурсивной природе make, не сложно предположить, как будет работать этот скрипт. Также следует обратить особое внимание на то, что если файл <code>program</code> уже имеется (остался после предыдущей компиляции) и его реквизиты не были изменены, то команда <code>make</code> ничего не станет пересобирать. Это классические грабли make. Так, например, изменив заголовочный файл, случайно не включенный в список реквизитов (а надо включать!), можно получить долгие часы головной боли. Поэтому, чтобы гарантированно полностью пересобрать проект, нужно предварительно очистить рабочий каталог:</p>
+<div class="highlight"><pre><span></span>$ make clean
+$ make
+</pre></div>
+<p>P.P.S. Неплохая <a class="reference external" href="https://habrahabr.ru/post/155201/">статья</a> с описанием мейкфайлов.</p>
+</div>
+</div>
+
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+                <section id="extras" class="body">
+                </section><!-- /#extras -->
+            </div>
+        </div>
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Сайт построен с использованием <a href="http://getpelican.com/">Pelican</a>. За основу оформления взята тема от <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>. Исходные тексты программ, приведённые на этом сайте, распространяются под лицензией <a href="http://www.gnu.org/licenses/quick-guide-gplv3.en.html">GPLv3</a>, все остальные материалы сайта распространяются под лицензией <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.ru">CC-BY-SA</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">//<![CDATA[
+//  var code_blocks = Array.prototype.slice.call(document.getElementsByClassName('highlight'));
+//  var solutions = code_blocks.filter(function(e, i, z){
+//    return (e.parentElement.firstElementChild.tagName == 'H3' || e.parentElement.firstElementChild.tagName == 'H2') &&
+//           e.parentElement.firstElementChild.firstChild.text.startsWith('Упражнение') &&
+//           e.parentElement.lastElementChild == e
+//  })
+//  for (var i in solutions)
+//  {
+//  //    solutions[i].remove();
+//  //  }
+//]]>
+</script>
+</body>
+</html>
