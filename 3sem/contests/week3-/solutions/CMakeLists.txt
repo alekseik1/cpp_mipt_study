@@ -11,4 +11,5 @@
  add_executable(${n}-F F.cpp)
  add_executable(${n}-G G.cpp)
  add_executable(${n}-H H.cpp)
- #add_executable(${n}-J J.cpp)
+ add_executable(${n}-I I.cpp)
+ add_executable(${n}-J J.cpp)
