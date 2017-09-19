@@ -9,6 +9,6 @@
  add_executable(${n}-D D.cpp)
  add_executable(${n}-E E.cpp)
  add_executable(${n}-F F.cpp)
- #add_executable(${n}-G G.cpp)
+ add_executable(${n}-G G.cpp)
  #add_executable(${n}-H H.cpp)
  #add_executable(${n}-J J.cpp)
