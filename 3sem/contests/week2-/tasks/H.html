@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="/ejudge/jquery.min.js"></script>
+<script type="text/javascript" src="/ejudge/unpriv.js"></script>
+<script type="text/javascript">
+  var SID="d4f6d9232e959a9f";
+  var NEW_SRV_ACTION_JSON_USER_STATE=175;
+  var NEW_SRV_ACTION_VIEW_PROBLEM_SUMMARY=137;
+  var self_url="http://judge2.vdi.mipt.ru/cgi-bin/new-client";
+  var script_name="/cgi-bin/new-client";
+  var jsonState = { "h": 12, "m": 2, "s": 25, "d": 19, "o": 9, "y": 2017 };
+  var updateFailedMessage = "ОШИБКА ОБНОВЛЕНИЯ СТАТУСА!";
+  var testingInProgressMessage = "ИДЕТ ТЕСТИРОВАНИЕ...";
+  var testingCompleted = "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО";
+  var waitingTooLong = "ОБНОВЛЯЙТЕ СТРАНИЦУ ВРУЧНУЮ!";
+</script>
+<link rel="stylesheet" href="/ejudge/unpriv.css" type="text/css" />
+<link rel="stylesheet" href="/ejudge/unpriv3.css" type="text/css" />
+
+<title>Кожарин Алексей Сергеевич [C++14, контест 2 недели (группы 641, 642, 643)]: Submit a solution</title></head>
+<body onload="startClock()"><div id="main-cont"><div id="container"><div id="l12-col"><div id="l12">
+<div class="main_phrase">Кожарин Алексей Сергеевич [C++14, контест 2 недели (группы 641, 642, 643)]: Submit a solution</div>
+<div id="main-menu">
+<ul>
+
+<li><div class="contest_actions_item"><a class="menu" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=143">Настройки</a></div></li>
+
+
+<li><div class="contest_actions_item"><a class="menu" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=2">Инфо</a></div></li><li><div class="contest_actions_item"><a class="menu" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=137">Итог</a></div></li><li><div class="contest_actions_item"><a class="menu" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=140">Посылки</a></div></li><li><div class="contest_actions_item"><a class="menu" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=94">Положение участников</a></div></li><li><div class="contest_actions_item"><a class="menu" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=142">Сообщения</a></div></li>
+<li><div class="contest_actions_item"><a class="menu" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=74">Выйти из системы [642_aleksej_kozharin]</a></div></li>
+</ul>
+</div>
+</div></div>
+<div id="l11"><img src="/ejudge/logo3.png" alt="logo"/></div>
+<div id="l13">
+<div class="server_status_on" id="statusLine">
+<div id="currentTime">12:02:25</div> / <b>RUNNING</b> / <b>ДОРЕШИВАНИЕ</b><div id="reloadButton" style="visibility: hidden">/ <a class="menu" onclick="reloadPage()"><b>[ ОБНОВИТЬ ]</b></a></div><div id="statusString" style="visibility: hidden"></div></div>
+<br/>
+<table class="probNav">
+<tr id="probNavTopList"><td width="100%" class="nTopNavList"><ul class="nTopNavList"><li class="first-rad"><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=1">A</a></div></li><li><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=2">B</a></div></li><li><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=3">C</a></div></li><li><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=4">D</a></div></li><li><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=5">E</a></div></li><li><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=6">F</a></div></li><li><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=7">G</a></div></li><li id="nTopNavSelected"><div class="nProbCurrent"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=8">H</a></div></li><li><div class="nProbBad"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=9">I</a></div></li><li><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=10">J</a></div></li></ul></td></tr>
+<tr><td id="probNavTaskArea" valign="top"><div id="probNavTaskArea-ins">
+
+
+
+
+<h2>Задача H-Подсчет количества точек на плоскости</h2>
+
+<table class="line-table-wb">
+
+
+    <tr><td><b>Полный балл:</b></td><td><tt>400</tt></td></tr>
+
+    <tr><td><b>Штраф за посылку:</b></td><td><tt>1</tt></td></tr>
+
+
+
+
+
+
+    <tr><td><b>Ограничение времени:</b></td><td><tt>1 с</tt></td></tr>
+
+
+    <tr><td><b>Ограничение реального времени:</b></td><td><tt>1 с</tt></td></tr>
+
+
+    <tr><td><b>Ограничение памяти:</b></td><td><tt>64M</tt></td></tr>
+
+
+
+
+
+
+
+
+
+
+
+
+</table>
+
+<html>
+ <body>
+  <p>
+   Дан список точек плоскости с целочисленными координатами.
+  </p>
+  <p>
+   Необходимо определить номер координатной четверти K, в которой находится больше всего точек.
+  </p>
+  <p>
+   Точки, хотя бы одна из координат которых равна нулю, считаются не принадлежащими ни одной четверти и не рассматриваются.
+  </p>
+  <p>
+   Если одновременно в нескольких четвертях одинаковое и при этом максимальное количество точек, то вывести только первую по номеру.
+  </p>
+  <p>
+   <em>
+    Замечание:
+   </em>
+   в данной задаче можно обойтись без использования массива — использовать отдельные четыре счётчика.
+  </p>
+  <h3>
+   Формат входных данных
+  </h3>
+  <p>
+   В первой строке вводится одно целое положительное число – количество точек N.
+  </p>
+  <p>
+   Каждая из следующих N строк содержит координаты очередной точки – два целых числа (первое – координата x, второе – координата y).
+  </p>
+  <h3>
+   Формат выходных данных
+  </h3>
+  <p>
+   В одной строке выводятся номер координатной четверти K, в которой находится больше всего точек и количество точек в ней.
+  </p>
+  <h3>
+   Примеры
+  </h3>
+  <table class="example">
+   <thead>
+    <tr>
+     <td>
+      Ввод
+     </td>
+     <td>
+      Вывод
+     </td>
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td>
+      <pre>7
+-3 4
+1 2
+1 1
+0 4
+-2 -3
+-6 8
+-12 1</pre>
+     </td>
+     <td>
+      <pre>2 3</pre>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+  <br/>
+  <table class="example">
+   <thead>
+    <tr>
+     <td>
+      Ввод
+     </td>
+     <td>
+      Вывод
+     </td>
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td>
+      <pre>3
+-5 -5
+-5 -2
+1 1</pre>
+     </td>
+     <td>
+      <pre>3 2</pre>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+  <br/>
+ </body>
+</html><h2>Предыдущие решения этой задачи</h2>
+<table class="table"><tr><th class="b1">Номер решения</th><th class="b1">Время</th><th class="b1">Размер</th><th class="b1">Задача</th><th class="b1">Язык</th><th class="b1">Результат</th><th class="b1">Пройдено тестов</th><th class="b1">Баллы</th><th class="b1">Посмотреть исходный текст</th><th class="b1">Просмотреть протокол</th></tr>
+<tr>
+<td class="b1">274</td><td class="b1">1:47:15</td><td class="b1">1072</td><td class="b1">H</td><td class="b1">g++</td><td class="b1">OK</td><td class="b1">50</td><td class="b1"><b>400</b></td><td class="b1"><a href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=36&amp;run_id=274">Просмотр</a></td><td class="b1"><a href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=37&amp;run_id=274">Просмотр</a></td>
+</tr>
+</table>
+
+
+
+
+
+</div></td></tr>
+<tr id="probNavBottomList"><td width="100%" class="nBottomNavList"><ul class="nBottomNavList"><li id="first-rad"><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=1">A</a></div></li><li><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=2">B</a></div></li><li><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=3">C</a></div></li><li><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=4">D</a></div></li><li><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=5">E</a></div></li><li><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=6">F</a></div></li><li><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=7">G</a></div></li><li id="nBottomNavSelected"><div class="nProbCurrent"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=8">H</a></div></li><li><div class="nProbBad"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=9">I</a></div></li><li><div class="nProbOk"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=d4f6d9232e959a9f&amp;action=139&amp;prob_id=10">J</a></div></li></ul></td></tr></table>
+<div id="footer"><p class="ejudge_copyright"><a href="http://www.ejudge.ru">ejudge 3.5.2 #1 (2016-07-01 00:50:18)</a>.</p>
+<p class="ejudge_copyright">Copyright &copy; 2000-2016 Alexander Chernov.</p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
