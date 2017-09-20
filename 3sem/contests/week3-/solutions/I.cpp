@@ -16,9 +16,10 @@ int main() {
     sort(a, a + n);
     int res = 0;
     for(int i=0; i < n-1; i++) {
-        if(a[i+1] != a[i]) {
+        // Let's comment it for a better day
+        //if(a[i+1] != a[i]) {
             res += a[i+1] - a[i] - 1;
-        }
+        //}
     }
     cout << res;
     return 0;
