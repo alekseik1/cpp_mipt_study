@@ -10,7 +10,7 @@ using namespace std;
 int main() {
     int M, N, K;
     cin >> M >> N >> K;
-    double** buffer = (double**) malloc(M*N*sizeof(double));
+    double** buffer = (double**) malloc(M*N*sizeof(double*));
     if(buffer == NULL) {
         // Не удалось создать, уходим
         return -1;
@@ -19,13 +19,14 @@ int main() {
         *(buffer + i*sizeof(double*)) = (double*) malloc(N*sizeof(double));
     }
 
-    double** buffer1 = (double**) calloc(N*K, sizeof(double));
+
+    int** buffer1 = (int**) calloc(N*K, sizeof(int**));
     if(buffer1 == NULL) {
         // Не удалось создать, уходим
         return -1;
     }
     for(int i = 0; i < N; i++) {
-        *(buffer + i*sizeof(double*)) = (double*) calloc(K, sizeof(double));
+        *(buffer1 + i*sizeof(int*)) = (int*) calloc(K, sizeof(int));
     }
 
     double* buffer2 = new double[M];
@@ -50,6 +51,25 @@ int main() {
     }
 
     // Initialize second matrix
+    // Поехали
+    for(int i = 0; i < N; i++) {
+        for(int j = 0; j < K; j++) {
+            *(*(buffer1 + i*sizeof(int**)) + j*sizeof(int*)) = (i == j) ? 1 : 0;
+            // Тут то же самое, только я юзнул пафосный тернарный оператор
+        }
+    }
+    for(int i = 0; i < N; i++) {
+        for(int j = 0; j < K; j++) {
+            cout << *(*(buffer1 + i*sizeof(int**)) + j*sizeof(int*)) << " ";
+            // Вывожу
+        }
+        cout << "\n";
+    }
+
+    free(buffer);
+    free(buffer1);
+    buffer1 = NULL;
+    buffer = NULL;
 
     return 0;
 }
