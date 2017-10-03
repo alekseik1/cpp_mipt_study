@@ -2,10 +2,14 @@
 #include <algorithm>
 #include <iostream>
 
-template <typename T>
-typename T::size_type levenshtein_distance(const T & src, const T & dst) {
-    const typename T::size_type m = src.size();
-    const typename T::size_type n = dst.size();
+using namespace std;
+
+string::size_type levenshtein_distance(const string & src, const string & dst) {
+
+    const string::size_type m = src.size();
+    const string::size_type n = dst.size();
+
+    // Граничные случаи
     if (m == 0) {
         return n;
     }
@@ -13,20 +17,20 @@ typename T::size_type levenshtein_distance(const T & src, const T & dst) {
         return m;
     }
 
-    std::vector< std::vector<typename T::size_type> > matrix(m + 1);
+    vector<vector<string::size_type>> matrix(m + 1);
 
-    for (typename T::size_type i = 0; i <= m; ++i) {
+    for (string::size_type i = 0; i <= m; ++i) {
         matrix[i].resize(n + 1);
         matrix[i][0] = i;
     }
-    for (typename T::size_type i = 0; i <= n; ++i) {
+    for (string::size_type i = 0; i <= n; ++i) {
         matrix[0][i] = i;
     }
 
-    typename T::size_type above_cell, left_cell, diagonal_cell, cost;
+    string::size_type above_cell, left_cell, diagonal_cell, cost;
 
-    for (typename T::size_type i = 1; i <= m; ++i) {
-        for(typename T::size_type j = 1; j <= n; ++j) {
+    for (string::size_type i = 1; i <= m; ++i) {
+        for(string::size_type j = 1; j <= n; ++j) {
             cost = src[i - 1] == dst[j - 1] ? 0 : 1;
             above_cell = matrix[i - 1][j];
             left_cell = matrix[i][j - 1];
