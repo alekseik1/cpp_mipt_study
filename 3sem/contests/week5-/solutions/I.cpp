@@ -4,10 +4,10 @@
 
 using namespace std;
 
-string::size_type levenshtein_distance(const string & src, const string & dst) {
+int levenshtein_distance(const string& src, const string& dst) {
 
-    const string::size_type m = src.size();
-    const string::size_type n = dst.size();
+    const int m = src.size();
+    const int n = dst.size();
 
     // Граничные случаи
     if (m == 0) {
@@ -17,20 +17,20 @@ string::size_type levenshtein_distance(const string & src, const string & dst) {
         return m;
     }
 
-    vector<vector<string::size_type>> matrix(m + 1);
+    vector<vector<int>> matrix(m + 1);
 
-    for (string::size_type i = 0; i <= m; ++i) {
+    for (int i = 0; i <= m; ++i) {
         matrix[i].resize(n + 1);
         matrix[i][0] = i;
     }
-    for (string::size_type i = 0; i <= n; ++i) {
+    for (int i = 0; i <= n; ++i) {
         matrix[0][i] = i;
     }
 
-    string::size_type above_cell, left_cell, diagonal_cell, cost;
+    int above_cell, left_cell, diagonal_cell, cost;
 
-    for (string::size_type i = 1; i <= m; ++i) {
-        for(string::size_type j = 1; j <= n; ++j) {
+    for (int i = 1; i <= m; ++i) {
+        for(int j = 1; j <= n; ++j) {
             cost = src[i - 1] == dst[j - 1] ? 0 : 1;
             above_cell = matrix[i - 1][j];
             left_cell = matrix[i][j - 1];
