@@ -4,20 +4,28 @@
 
 #include <iostream>
 #include <algorithm>
+#include <sstream>
+#include <vector>
+
+using namespace std;
 
 int main() {
-    std::string s = "";
-    std::getline(std::cin, s);
-    std::size_t f1 = s.find(' ');
-    std::size_t f2 = s.find(' ', f1);
-    while(true) {
-        if(f2 - f1 <= 3) {
-            s.erase(f1, f2);
-        }
-        f1 = s.find(' ', f2);
-        if(f1 == std::string::npos) break;
-        f2 = s.find(' ', f1);
+    string s = "";
+    getline(cin, s);
+
+    stringstream ss(s);
+    string buf;
+    vector<string> words;
+    while(ss >> buf) {
+        words.push_back(buf);
     }
-    std::cout << s;
+    for(int i = 0; i < words.size(); i++) {
+        if(words[i].size() <= 3) {
+            words.at(i) = "";
+        }
+    }
+    for(auto& w : words) {
+        cout << w << " ";
+    }
     return 0;
 }
