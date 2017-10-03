@@ -31,11 +31,11 @@ int levenshtein_distance(const string& src, const string& dst) {
 
     for (int i = 1; i <= m; ++i) {
         for(int j = 1; j <= n; ++j) {
-            cost = src[i - 1] == dst[j - 1] ? 0 : 1;
+            cost = ( (src[i - 1] == dst[j - 1]) ? 0 : 1 );
             above_cell = matrix[i - 1][j];
             left_cell = matrix[i][j - 1];
             diagonal_cell = matrix[i - 1][j - 1];
-            matrix[i][j] = std::min(std::min(above_cell + 1, left_cell + 1), diagonal_cell + cost);
+            matrix[i][j] = min(min(above_cell + 1, left_cell + 1), diagonal_cell + cost);
         }
     }
 
@@ -43,10 +43,10 @@ int levenshtein_distance(const string& src, const string& dst) {
 }
 
 int main() {
-    std::string s1 = "";
-    std::string s2 = "";
-    std::getline(std::cin, s1);
-    std::getline(std::cin, s2);
+    string s1 = "";
+    string s2 = "";
+    getline(cin, s1);
+    getline(cin, s2);
     auto c = levenshtein_distance(s1, s2);
-    std::cout << c;
+    cout << c;
 }
