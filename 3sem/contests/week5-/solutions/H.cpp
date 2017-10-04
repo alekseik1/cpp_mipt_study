@@ -4,36 +4,41 @@
 
 #include <iostream>
 #include <algorithm>
+#include <sstream>
 
 using namespace std;
 
-string* move_right(string* s) {
-    char tmp = (*s)[0];
-    int l = (*s).size();
-    for(int i = 0; i < l; i++) {
-        (*s)[i] = (*s)[i + 1];
+bool isEqual(const string& s1, const string& s2) {
+    for(auto i = 0; i < s1.size(); i++) {
+        if(s1[i] != s2[i])
+            return false;
     }
-    (*s)[l-1] = tmp;
-    return s;
+    return true;
 }
 
 int main() {
-    string s = "";
     string s1 = "";
-    getline(cin, s);
+    string s2 = "";
     getline(cin, s1);
-    bool found = false;
-    string* curr = &s;
-    for(unsigned i = 0; i < s.size() - 1; i++) {
-        if(*curr == s1) {
-            found = true;
-            cout << i << endl;
+    getline(cin, s2);
+    string::size_type l = s1.size();
+
+    stringstream ss;
+    ss << s1 << s1;
+
+    s1 = ss.str();
+
+    int res = -1;
+    for(string::size_type i=0; i < l; i++) {
+        if(isEqual(s1.substr(i, l), s2)) {
+            res = i;
             break;
         }
-        curr = move_right(curr);
     }
-    if(!found) {
+    if(res == -1) {
         cout << -1 << endl;
+    } else {
+        cout << res << endl;
     }
 
     return 0;
