@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="/ejudge/jquery.min.js"></script>
+<script type="text/javascript" src="/ejudge/unpriv.js"></script>
+<script type="text/javascript">
+  var SID="63f5be0082722d98";
+  var NEW_SRV_ACTION_JSON_USER_STATE=175;
+  var NEW_SRV_ACTION_VIEW_PROBLEM_SUMMARY=137;
+  var self_url="http://93.175.29.65/cgi-bin/new-client";
+  var script_name="/cgi-bin/new-client";
+  var jsonState = { "h": 14, "m": 15, "s": 57, "d": 4, "o": 10, "y": 2017 };
+  var updateFailedMessage = "ОШИБКА ОБНОВЛЕНИЯ СТАТУСА!";
+  var testingInProgressMessage = "ИДЕТ ТЕСТИРОВАНИЕ...";
+  var testingCompleted = "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО";
+  var waitingTooLong = "ОБНОВЛЯЙТЕ СТРАНИЦУ ВРУЧНУЮ!";
+</script>
+<link rel="stylesheet" href="/ejudge/unpriv.css" type="text/css" />
+<link rel="stylesheet" href="/ejudge/unpriv3.css" type="text/css" />
+
+<title>Кожарин Алексей Сергеевич [C++14, контест 5 недели (группы 641-643)]: Submit a solution</title></head>
+<body onload="startClock()"><div id="main-cont"><div id="container"><div id="l12-col"><div id="l12">
+<div class="main_phrase">Кожарин Алексей Сергеевич [C++14, контест 5 недели (группы 641-643)]: Submit a solution</div>
+<div id="main-menu">
+<ul>
+
+<li><div class="contest_actions_item"><a class="menu" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=143">Настройки</a></div></li>
+
+
+<li><div class="contest_actions_item"><a class="menu" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=2">Инфо</a></div></li><li><div class="contest_actions_item"><a class="menu" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=137">Итог</a></div></li><li><div class="contest_actions_item"><a class="menu" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=140">Посылки</a></div></li><li><div class="contest_actions_item"><a class="menu" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=94">Положение участников</a></div></li><li><div class="contest_actions_item"><a class="menu" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=141">Отправить вопрос</a></div></li><li><div class="contest_actions_item"><a class="menu" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=142">Сообщения</a></div></li>
+<li><div class="contest_actions_item"><a class="menu" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=74">Выйти из системы [642_aleksej_kozharin]</a></div></li>
+</ul>
+</div>
+</div></div>
+<div id="l11"><img src="/ejudge/logo3.png" alt="logo"/></div>
+<div id="l13">
+<div class="server_status_on" id="statusLine">
+<div id="currentTime">14:15:57</div> / <b>RUNNING</b><div id="reloadButton" style="visibility: hidden">/ <a class="menu" onclick="reloadPage()"><b>[ ОБНОВИТЬ ]</b></a></div><div id="statusString" style="visibility: hidden"></div></div>
+<br/>
+<table class="probNav">
+<tr id="probNavTopList"><td width="100%" class="nTopNavList"><ul class="nTopNavList"><li class="first-rad"><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=1">A</a></div></li><li id="nTopNavSelected"><div class="nProbCurrent"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=2">B</a></div></li><li><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=3">C</a></div></li><li><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=4">D</a></div></li><li><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=5">E</a></div></li><li><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=6">F</a></div></li><li><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=7">G</a></div></li><li><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=8">H</a></div></li><li><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=9">I</a></div></li><li><div class="nProbBad"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=10">J</a></div></li></ul></td></tr>
+<tr><td id="probNavTaskArea" valign="top"><div id="probNavTaskArea-ins">
+
+
+
+
+<h2>Задача B-Подсчет количества слов в файле</h2>
+
+<table class="line-table-wb">
+
+
+    <tr><td><b>Полный балл:</b></td><td><tt>100</tt></td></tr>
+
+    <tr><td><b>Штраф за посылку:</b></td><td><tt>1</tt></td></tr>
+
+
+
+
+
+
+    <tr><td><b>Ограничение времени:</b></td><td><tt>1 с</tt></td></tr>
+
+
+    <tr><td><b>Ограничение реального времени:</b></td><td><tt>1 с</tt></td></tr>
+
+
+    <tr><td><b>Ограничение памяти:</b></td><td><tt>64M</tt></td></tr>
+
+
+
+
+
+
+
+
+
+
+
+
+</table>
+
+<html>
+ <body>
+  <p>
+   Посчитать количество слов.
+  </p>
+  <h3>
+   Формат входных данных
+  </h3>
+  <p>
+   На вход подается текст произвольной длинны. Слова разделяются пробелами и содержат только буквы английского алфавита.
+  </p>
+  <h3>
+   Формат выходных данных
+  </h3>
+  <p>
+   Выход: неотрицательное целое чисо C - количество слов в файле.
+  </p>
+  <h3>
+   Примеры
+  </h3>
+  <table class="example">
+   <thead>
+    <tr>
+     <td>
+      Ввод
+     </td>
+     <td>
+      Вывод
+     </td>
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td>
+      <pre>Hello, world</pre>
+     </td>
+     <td>
+      <pre>2</pre>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+  <br/>
+  <table class="example">
+   <thead>
+    <tr>
+     <td>
+      Ввод
+     </td>
+     <td>
+      Вывод
+     </td>
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td>
+      <pre>Mary had a little lamb</pre>
+     </td>
+     <td>
+      <pre>5</pre>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+  <br/>
+ </body>
+</html><h2>Предыдущие решения этой задачи</h2>
+<table class="table"><tr><th class="b1">Номер решения</th><th class="b1">Время</th><th class="b1">Размер</th><th class="b1">Задача</th><th class="b1">Язык</th><th class="b1">Результат</th><th class="b1">Пройдено тестов</th><th class="b1">Баллы</th><th class="b1">Посмотреть исходный текст</th><th class="b1">Просмотреть протокол</th></tr>
+<tr>
+<td class="b1">1</td><td class="b1">0:39:22</td><td class="b1">299</td><td class="b1">B</td><td class="b1">g++</td><td class="b1">OK</td><td class="b1">50</td><td class="b1"><b>100</b></td><td class="b1"><a href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=36&amp;run_id=1">Просмотр</a></td><td class="b1"><a href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=37&amp;run_id=1">Просмотр</a></td>
+</tr>
+</table>
+
+
+
+
+
+</div></td></tr>
+<tr id="probNavBottomList"><td width="100%" class="nBottomNavList"><ul class="nBottomNavList"><li id="first-rad"><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=1">A</a></div></li><li id="nBottomNavSelected"><div class="nProbCurrent"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=2">B</a></div></li><li><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=3">C</a></div></li><li><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=4">D</a></div></li><li><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=5">E</a></div></li><li><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=6">F</a></div></li><li><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=7">G</a></div></li><li><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=8">H</a></div></li><li><div class="nProbOk"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=9">I</a></div></li><li><div class="nProbBad"><a class="tab" href="http://93.175.29.65/cgi-bin/new-client?SID=63f5be0082722d98&amp;action=139&amp;prob_id=10">J</a></div></li></ul></td></tr></table>
+<div id="footer"><p class="ejudge_copyright"><a href="http://www.ejudge.ru">ejudge 3.5.2 #1 (2016-07-01 00:50:18)</a>.</p>
+<p class="ejudge_copyright">Copyright &copy; 2000-2016 Alexander Chernov.</p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
