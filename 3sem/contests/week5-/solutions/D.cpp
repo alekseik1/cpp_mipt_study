@@ -12,8 +12,8 @@ int main() {
     for(char& i : s) {
         res++;
         std::cout << i;
-        if(res % 5 == 0) {
-            std::cout << " ";
+        if(res % 5 == 0) {  // Каждое пятое слово
+            std::cout << " "; // Выводим пробел
         }
     }
 }
