@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+        <meta charset="utf-8" />
+        <title>Анализ графа статей из Википедии</title>
+        <link rel="stylesheet" href="http://judge.mipt.ru/mipt_cs_on_cpp/theme/css/main.css" />
+        <link rel="icon" type="image/png" href="http://judge.mipt.ru/mipt_cs_on_cpp/favicon.png" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <div id="wrap">
+            <header id="banner" class="body">
+                    <img src="http://judge.mipt.ru/mipt_cs_on_cpp/images/logo.png" class="logo" />
+                    <nav><ul>
+                        <li><a href="http://judge.mipt.ru/mipt_cs_on_cpp">Главная</a></li>
+                    </ul></nav>
+            </header><!-- /#banner -->
+            <div id="main"
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://judge.mipt.ru/mipt_cs_on_cpp/labs/lab6.html" rel="bookmark"
+           title="Permalink to Анализ графа статей из Википедии">Анализ графа статей из Википедии</a></h1>
+    </header>
+      <nav class="toc">
+      <div class="toc" id="">
+
+<ul class="simple">
+<li><a class="reference internal" href="#id3" id="id20">Описание работы</a></li>
+<li><a class="reference internal" href="#id4" id="id21">Работа с файлами С++</a></li>
+<li><a class="reference internal" href="#id5" id="id22">Национальные алфавиты в С++</a></li>
+<li><a class="reference internal" href="#id7" id="id23">Структура графа статей</a><ul>
+<li><a class="reference internal" href="#id8" id="id24">Формат файла с графом</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id9" id="id25">Способ хранения графа в памяти</a><ul>
+<li><a class="reference internal" href="#id10" id="id26">Компактный способ хранения графа</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id11" id="id27">Анализ графа статей</a><ul>
+<li><a class="reference internal" href="#o1" id="id28">Упражнение №1</a></li>
+<li><a class="reference internal" href="#o2" id="id29">Упражнение №2</a></li>
+<li><a class="reference internal" href="#o3" id="id30">Упражнение №3</a></li>
+<li><a class="reference internal" href="#o4" id="id31">Упражнение №4</a></li>
+</ul>
+</li>
+</ul>
+</div>
+      </nav>
+      <br/>
+      <br/>
+    
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id20">Описание работы</a></h2>
+<p>Данная работа посвящена обработке графа статей Википедии и рассчитана на достижение двух целей:</p>
+<ol class="arabic simple">
+<li>Применение полученных ранее знаний при работе с <em>реальными</em> данными.</li>
+<li>Осознание ограничений, налагаемых на программы, написанные на языке Python.</li>
+</ol>
+</div>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id21">Работа с файлами С++</a></h2>
+<p>Для работы с файловыми потоками в C++, необходимо подключить библиотеку <code>&lt;fstream&gt;</code>.  В данной библиотеке определены такие файловые потоки, как <code>ifstream</code> — поток, предназначенный для чтения из файла, <code>ofstream</code> — поток для записи и <code>fstream</code> — поток, позволяющий как читать из файла, так и записывать в него. Работа с файловыми потоками абсолютно аналогична работе с потоками <code>cin</code> и <code>cout</code>.</p>
+<p>Пример программы, копирующей файл <code>text.txt</code> в <code>copy.txt</code>:</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;fstream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">ifsteam</span> <span class="n">f_in</span><span class="p">(</span><span class="s">"text.txt"</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">ofstream</span> <span class="n">f_out</span><span class="p">(</span><span class="s">"copy.txt"</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">str_data</span><span class="p">;</span>
+
+  <span class="k">while</span> <span class="p">(</span> <span class="n">std</span><span class="o">::</span><span class="n">getline</span><span class="p">(</span><span class="n">f_in</span><span class="p">,</span> <span class="n">str_data</span><span class="p">)</span> <span class="p">){</span>
+    <span class="n">f_out</span> <span class="o">&lt;&lt;</span> <span class="n">str_data</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">f_in</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+  <span class="n">f_out</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="id5">
+<h2><a class="toc-backref" href="#id22">Национальные алфавиты в С++</a></h2>
+<p>Работа в <code>С++</code> с национальными алфавитами в консоли достаточно затруднительна. Существуют различные варианты:</p>
+<ol class="arabic simple">
+<li>Использовать национальную 8-битную кодировку (например KOI8-R);</li>
+<li>Использовать кодировку UTF-8;</li>
+<li>Использовать "широкие" строки;</li>
+</ol>
+<p>Широкие строки (<code>std::wstring</code>, <code>std::u16string</code>, <code>std::u32string</code>) — строки, в который один символ занимает не один (<code>char</code>) байт, а два (<code>wchar_t</code>, <code>char16_t</code>) или четыре (<code>char32_t</code>). Для инициализации начального значения некоторой строкой, перед ней необходимо использовать префикс <code>L</code> для <code>wchar_t</code> строк, <code>u</code> для <code>char16_t</code> строк и <code>U</code> для <code>char32_t</code> строк.</p>
+<p>Для вывода <code>std::wstring</code>, существует поток <code>std::wcout</code>, но посмотрите, как будет работать следующая программа:</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+
+  <span class="n">std</span><span class="o">::</span> <span class="n">wcout</span> <span class="o">&lt;&lt;</span> <span class="sa">L</span><span class="s">"¾"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>Такая программа выведет не один символ <code>¾</code>, а целых три — <code>3/4</code>. Дело в том, что заставить консоль нормально воспринимать такой вывод — отдельная задача, а использовать два потока вывода (<code>std::cout</code> и <code>std::wcout</code>)  в программе нельзя. Похожая ситуация с 8-битными кодировками.</p>
+<p>Поэтому наиболее универсальным методом для работы с национальными алфавитами — использование "широких" строк, для посимвольной работы, а перед выводом в <code>cout</code> --перекодировать в <code>UTF-8</code> строку. Устройство кодировки UTF-8 можно прочитать в <a class="reference external" href="https://ru.wikipedia.org/wiki/UTF-8">статье</a>. На основании изложенных там материалов можно написать функцию преобразования строки (<code>std::wstring</code>) к обычной (<code>std::string</code>), но уже закодированной в UTF-8:</p>
+<div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">utf16_to_utf8</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">str</span><span class="p">){</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">result</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>                   <span class="c1">// начальное значение для</span>
+                                               <span class="c1">// результирующей строки</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">){</span>      <span class="c1">// Проходим по всем символам</span>
+        <span class="kt">uint16_t</span> <span class="n">curr_char</span> <span class="o">=</span> <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">curr_char</span> <span class="o">&lt;</span> <span class="mh">0x80</span><span class="p">)</span>                  <span class="c1">// для кодирования в UTF-8 нужен один байт</span>
+        <span class="p">{</span>
+            <span class="n">result</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">curr_char</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">curr_char</span> <span class="o">&lt;</span> <span class="mh">0x800</span><span class="p">)</span>            <span class="c1">// два байта</span>
+        <span class="p">{</span>
+            <span class="n">result</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mh">0xC0</span> <span class="o">|</span> <span class="p">(</span><span class="n">curr_char</span> <span class="o">&gt;&gt;</span> <span class="mi">6</span><span class="p">));</span>
+            <span class="n">result</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mh">0x80</span> <span class="o">|</span> <span class="p">(</span><span class="n">curr_char</span> <span class="o">&amp;</span> <span class="mh">0x3F</span><span class="p">));</span>
+        <span class="p">}</span>
+        <span class="k">else</span>                                   <span class="c1">// три байта</span>
+        <span class="p">{</span>
+            <span class="n">result</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mh">0xC0</span> <span class="o">|</span> <span class="p">(</span><span class="n">curr_char</span> <span class="o">&gt;&gt;</span> <span class="mi">12</span><span class="p">));</span>
+            <span class="n">result</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mh">0x80</span> <span class="o">|</span> <span class="p">((</span><span class="n">curr_char</span> <span class="o">&gt;&gt;</span> <span class="mi">6</span> <span class="p">)</span><span class="o">&amp;</span> <span class="mh">0x3F</span><span class="p">));</span>
+            <span class="n">result</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mh">0x80</span> <span class="o">|</span> <span class="p">(</span><span class="n">curr_char</span> <span class="o">&amp;</span> <span class="mh">0x3F</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>                             <span class="c1">// возвращаем результат</span>
+<span class="p">}</span>
+</pre></div>
+<p>Пример программы:</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">utf16_to_utf8</span><span class="p">(</span><span class="sa">L</span><span class="s">"Привет, Мир!!!"</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>Стоит отметить, что обычно при работе с файлами в Linux системе, зачастую созданные файлы сохранются именно в кодировке UTF-8. В таком случае, следующая программа будет работать аналогично предыдущей:</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">str</span> <span class="o">=</span> <span class="s">"Привет, Мир!!!"</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>При этом <strong>важно</strong> знать, что длинна <code>str.length()</code> будет равна не <code>14</code> а <code>23</code> (зависит от компилятора). То есть, если Вам дана UTF-8 строка (например, прочитали из файла) и её необходимо  посимвольно обработать (например заменить все буквы <code>ё</code> на <code>е</code>), тогда преобразуйте её в "двухбайтную" (или "четырёхбайтную") строку, проведите все необходимые преобразования, а перед выводом преобразуйте назад в UTF-8. Преобразование из UTF-8 в выглядит следующим образом:</p>
+<div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">utf8_to_utf16</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">str</span><span class="p">){</span>
+    <span class="kt">uint8_t</span> <span class="n">first_byte</span><span class="p">,</span> <span class="n">addition_byte</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">result</span> <span class="o">=</span> <span class="sa">L</span><span class="s">""</span><span class="p">;</span>          <span class="c1">// строка с результатом работы функции</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">()){</span>           <span class="c1">// Пока не пройдём все символы</span>
+        <span class="n">first_byte</span> <span class="o">=</span> <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>            <span class="c1">// Запоминаем первый байт текущего символа</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">first_byte</span><span class="p">);</span>   <span class="c1">// и помещаем в строку результата</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">first_byte</span> <span class="o">&amp;</span> <span class="mh">0x80</span><span class="p">){</span>         <span class="c1">// если кодировка символа занимает больше одного байта,</span>
+            <span class="n">first_byte</span> <span class="o">=</span> <span class="n">first_byte</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">;</span><span class="c1">// то удалем первую единицу сдвигом</span>
+        <span class="p">}</span>
+
+        <span class="kt">uint32_t</span> <span class="n">cl_int</span> <span class="o">=</span> <span class="mh">0x3F</span><span class="p">;</span>         <span class="c1">// маска для "затирания" начальные единицы</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">first_byte</span> <span class="o">&amp;</span> <span class="mh">0x80</span><span class="p">){</span>      <span class="c1">// пока не удалим все начальные единицы в 'first_byte'</span>
+            <span class="n">addition_byte</span> <span class="o">=</span> <span class="n">str</span><span class="p">[</span><span class="o">++</span><span class="n">i</span><span class="p">];</span>   <span class="c1">// Считываем очередной байт кодировки</span>
+
+<span class="c1">// Изменяем последний символ строки с результатом</span>
+            <span class="kt">int</span> <span class="n">last</span> <span class="o">=</span> <span class="n">result</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="c1">// затираем первую единицу и дописываем 6 последних бит дополнительного байта</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">last</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">result</span><span class="p">[</span><span class="n">last</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">cl_int</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">6</span> <span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">addition_byte</span> <span class="o">&amp;</span> <span class="mh">0x3F</span><span class="p">);</span>
+
+            <span class="n">cl_int</span> <span class="o">=</span> <span class="p">(</span><span class="n">cl_int</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">|</span> <span class="mh">0xFF</span><span class="p">;</span>
+            <span class="n">first_byte</span> <span class="o">=</span> <span class="n">first_byte</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">;</span><span class="c1">// удаляем начальную единицу в 'first_byte'</span>
+        <span class="p">}</span>
+        <span class="o">++</span><span class="n">i</span><span class="p">;</span> <span class="c1">//следующий символ</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span> <span class="c1">// возвращаем результат</span>
+<span class="p">}</span>
+</pre></div>
+<p>P.S. Аналогичные преобразования можно делать при помощи <code>#include &lt;codecvt&gt;</code>. Для работы UTF-8 вывода в консоли windows — набрать <code>chcp 65001</code> или <code>mode con cp select=65001</code>.</p>
+</div>
+<div class="section" id="id7">
+<h2><a class="toc-backref" href="#id23">Структура графа статей</a></h2>
+<p>Граф статей Википедии является ориентированным и имеет следующую структуру:</p>
+<ul class="simple">
+<li>вершинами графа являются статьи;</li>
+<li>ребро соединяет вершины <code>A</code> и <code>B</code>, если в статье <code>A</code> есть ссылка на статью <code>B</code>.</li>
+</ul>
+<p>При этом фатически ссылки бывают двух типов: обычные ссылки в тексте статьи и ссылки из <em>статей с перенаправлением</em>. На
+рисунке ниже приведён пример такого графа:</p>
+<img alt="" src="http://judge.mipt.ru/mipt_cs_on_cpp/images/lab6/wiki_graph_example.png" style="width: 100%;"/>
+<p>Красным цветом отмечена <em>статья с перенаправлением</em> — если открыть эту статью в браузере, то вместо адреса
+<em>https://ru.wikipedia.org/wiki/Питон</em> в адресной строке браузера мы увидим <em>https://ru.wikipedia.org/wiki/Питоны</em>.
+Именно в этом и заключается смысл <em>статей с перенаправлением</em> — они перенаправляют на другую статью. Поэтому
+вершины графа, соответствующие таким статьям, имеют ровно одно ребро.</p>
+<div class="section" id="id8">
+<h3><a class="toc-backref" href="#id24">Формат файла с графом</a></h3>
+<p>В данной работе граф описывается при помощи текстового файла:</p>
+<div class="highlight"><pre><span></span>&lt;n_pages=Количество статей&gt; &lt;n_links=Количество ссылок&gt;
+&lt;Название статьи с номером 0&gt;
+&lt;Размер статьи в байтах&gt; &lt;Флаг перенаправления&gt; &lt;n₀=Количество ссылок из статьи&gt;
+&lt;Номер статьи, на которую ссылается статья с номером 0&gt;
+…
+&lt;Номер статьи, на которую ссылается статья с номером 0&gt;
+&lt;Название статьи с номером 1&gt;
+&lt;Размер статьи в байтах&gt; &lt;Флаг перенаправления&gt; &lt;n₁=Количество ссылок из статьи&gt;
+&lt;Номер статьи, на которую ссылается статья с номером 1&gt;
+…
+&lt;Номер статьи, на которую ссылается статья с номером 1&gt;
+…
+&lt;Название статьи с номером m-1&gt;
+&lt;Размер статьи в байтах&gt; &lt;Флаг перенаправления&gt; &lt;nₘ₋₁=Количество ссылок из статьи&gt;
+&lt;Номер статьи, на которую ссылается статья с номером m-1&gt;
+…
+&lt;Номер статьи, на которую ссылается статья с номером m-1&gt;
+</pre></div>
+<p>При этом Σnᵢ=n.</p>
+<p>Таким образом, пример графа статей, рассмотренный выше, описывается следующим файлом (указаны произвольные размеры
+статей):</p>
+<div class="highlight"><pre><span></span>9 8
+Питон
+1 1 1
+1
+Питоны
+7 0 0
+Snake_(игра)
+9 0 0
+Охраняемый_природный_район_Питон
+9 0 0
+Питон_(Эна)
+12 0 0
+Монти_Пайтон
+99 0 0
+Python
+45 0 0
+Жаргон
+23 0 0
+Питон_(значения)
+53 0 7
+1
+2
+3
+4
+5
+6
+7
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h2><a class="toc-backref" href="#id25">Способ хранения графа в памяти</a></h2>
+<div class="section" id="id10">
+<h3><a class="toc-backref" href="#id26">Компактный способ хранения графа</a></h3>
+<p>Теперь перейдём к вопросу о том, каким образом можно представить граф в памяти компьютера без использования списков,
+словарей и множеств: для этого достаточно двух массивов. Такой способ хранения называется <strong>CSR</strong> (Compressed Sparse
+Row) и используется во многих библиотеках, предназначенных для работы с графами (например, METIS). Рассмотрим процесс
+построения этих массивов на примере графа, изображённого ниже:</p>
+<img alt="" class="align-center" src="http://judge.mipt.ru/mipt_cs_on_cpp/images/lab6/csr_sample_graph.png"/>
+<p>Сначала выпишем все рёбра, отсортировав их по номеру вершины, <strong>из</strong> которой исходит ребро, и пронумеровав строки:</p>
+<div class="highlight"><pre><span></span>(0)   0 --&gt; 1
+(1)   0 --&gt; 2
+(2)   0 --&gt; 3
+(3)   0 --&gt; 4
+(4)   0 --&gt; 5
+(5)   1 --&gt; 4
+(6)   2 --&gt; 1
+(7)   3 --&gt; 2
+(8)   5 --&gt; 1
+(9)   5 --&gt; 2
+</pre></div>
+<p>Полученный правый столбец — это содержимое первого массива. Этот массив хранит номера вершин, <strong>в</strong> которые приходит
+ребро. Теперь для каждой из пяти вершин выпишем количество рёбер, исходящих из этой вершины:</p>
+<div class="highlight"><pre><span></span>(0) 5
+(1) 1
+(2) 1
+(3) 1
+(4) 0
+(5) 2
+</pre></div>
+<p>Теперь построим второй массив  по следующему правилу:</p>
+<ul class="simple">
+<li>a₀ = 0</li>
+<li>aᵢ = aᵢ₋₁ + &lt;количество рёбер, исходящих из вершины с номером i-1&gt; для 1 ≤ i ≤ m, где m — количество вершин
+в графе.</li>
+</ul>
+<p>Таким образом мы построили два массива. Массив <code>offset</code> содержит индексы в массиве <code>edges</code>, с которых начинаются рёбра,
+исходящие из соответствующей вершины. Массив <code>edges</code> содержит номера вершин, в которые приходит ребро. Т.е. из вершины
+<code>k</code> исходят <code>offset[k+1]-offset[k]</code> рёбер в вершины с индексами <code>edges[offset[k]:offset[k+1]]</code>.</p>
+<div class="highlight"><pre><span></span><span class="kt">uint32_t</span> <span class="o">*</span><span class="n">edges</span><span class="p">,</span> <span class="o">*</span><span class="n">offset</span><span class="p">;</span>
+<span class="n">edges</span> <span class="o">=</span> <span class="n">new</span> <span class="kt">uint32_t</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="n">offset</span> <span class="o">=</span> <span class="n">new</span> <span class="kt">uint32_t</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>
+
+<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">i</span><span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">}){</span>
+    <span class="n">edges</span><span class="p">[</span><span class="n">j</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">i</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">}){</span>
+    <span class="n">offset</span><span class="p">[</span><span class="n">j</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="mi">6</span> <span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">){</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">utf16_to_utf8</span><span class="p">(</span><span class="sa">L</span><span class="s">"Рёбра из вершины "</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">j</span> <span class="o">&lt;&lt;</span> <span class="s">": "</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">offset</span><span class="p">[</span><span class="n">j</span><span class="p">];</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">offset</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span> <span class="o">++</span><span class="n">i</span><span class="p">){</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>результат работы:</p>
+<div class="highlight"><pre><span></span>Рёбра из вершины <span class="m">0</span>: <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span>
+Рёбра из вершины <span class="m">1</span>: <span class="m">4</span>
+Рёбра из вершины <span class="m">2</span>: <span class="m">1</span>
+Рёбра из вершины <span class="m">3</span>: <span class="m">2</span>
+Рёбра из вершины <span class="m">4</span>:
+Рёбра из вершины <span class="m">5</span>: <span class="m">1</span> <span class="m">2</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id11">
+<h2><a class="toc-backref" href="#id27">Анализ графа статей</a></h2>
+<p>Перейдём непосредственно к практике. Конечная цель работы — получить некоторые статистические данные по графу статей
+Википедии.</p>
+<p>Перед началом выполнения упражнений сделайте форк <a class="reference external" href="https://github.com/mipt-cs/wiki-stats-cpp">репозитория</a> с заготовкой для работы. Или скачайте его <a class="reference external" href="../extra/lab6/wiki-stats-cpp.zip">здесь</a>.</p>
+<div class="section" id="o1">
+<h3><a class="toc-backref" href="#id28">Упражнение №1</a></h3>
+<p>Реализуйте метод <code>WikiGraph.load_from_file</code> для загрузки графа из текстового файла. Для хранения используйте способ,
+описанный ранее. В качестве входного файла с описанием графа используйте файл <code>wiki_small.txt</code> из репозитория.</p>
+</div>
+<div class="section" id="o2">
+<h3><a class="toc-backref" href="#id29">Упражнение №2</a></h3>
+<p>Реализуйте все оставшиеся методы класса <code>WikiGraph</code>.</p>
+</div>
+<div class="section" id="o3">
+<h3><a class="toc-backref" href="#id30">Упражнение №3</a></h3>
+<p>При помощи реализованных методов определите следующее:</p>
+<ul class="simple">
+<li>путь, по которому можно добраться от статьи <a class="reference external" href="https://ru.wikipedia.org/wiki/Python">Python</a> до статьи <a class="reference external" href="https://ru.wikipedia.org/wiki/Список_файловых_систем">Список_файловых_систем</a>;</li>
+<li>количество статей с перенаправлением;</li>
+<li>минимальное количество ссылок из статьи;</li>
+<li>количество статей с минимальным количеством ссылок;</li>
+<li>максимальное количество ссылок из статьи;</li>
+<li>количество статей с максимальным количеством ссылок;</li>
+<li>статья с наибольшим количеством ссылок;</li>
+<li>среднее количество ссылок в статье;</li>
+<li>минимальное количество ссылок на статью (перенаправление не считается внешней ссылкой);</li>
+<li>количество статей с минимальным количеством внешних ссылок;</li>
+<li>максимальное количество ссылок на статью;</li>
+<li>количество статей с максимальным количеством внешних ссылок;</li>
+<li>статья с наибольшим количеством внешних ссылок;</li>
+<li>среднее количество внешних ссылок на статью;</li>
+<li>минимальное количество перенаправлений на статью;</li>
+<li>количество статей с минимальным количеством внешних перенаправлений;</li>
+<li>максимальное количество перенаправлений на статью;</li>
+<li>количество статей с максимальным количеством внешних перенаправлений;</li>
+<li>статья с наибольшим количеством внешних перенаправлений;</li>
+<li>среднее количество внешних перенаправлений на статью.</li>
+</ul>
+<p>Примерно так должны выглядеть результаты работы вашей программы:</p>
+<div class="highlight"><pre><span></span>Загружаю граф из файла: wiki_small.txt
+Граф загружен
+Запускаем поиск в ширину
+Поиск закончен. Найден путь:
+Python
+UNIX
+Список_файловых_систем
+Количество статей с перенаправлением: 50 (4.13%)
+Минимальное количество ссылок из статьи: 0
+Количество статей с минимальным количеством ссылок: 3
+Максимальное количество ссылок из статьи: 356
+Количество статей с максимальным количеством ссылок: 1
+Статья с наибольшим количеством ссылок: Python
+Среднее количество ссылок в статье: 34.34 (ср. откл. 32.55)
+Минимальное количество ссылок на статью: 0
+Количество статей с минимальным количеством внешних ссылок: 152
+Максимальное количество ссылок на статью: 1000
+Количество статей с максимальным количеством внешних ссылок: 1
+Статья с наибольшим количеством внешних ссылок: Python
+Среднее количество внешних ссылок на статью: 32.92 (ср. откл. 68.47)
+Минимальное количество перенаправлений на статью: 0
+Количество статей с минимальным количеством внешних перенаправлений: 1171
+Максимальное количество перенаправлений на статью: 7
+Количество статей с максимальным количеством внешних перенаправлений: 1
+Статья с наибольшим количеством внешних перенаправлений: Python
+Среднее количество внешних перенаправлений на статью: 0.04 (ср. откл. 0.28)
+</pre></div>
+</div>
+<div class="section" id="o4">
+<h3><a class="toc-backref" href="#id31">Упражнение №4</a></h3>
+<p>Скачайте <a class="reference external" href="ftp://10.55.163.88/pub/wiki.txt.gz">отсюда</a> (или <a class="reference external" href="https://www.dropbox.com/s/5977miarjdqzcgk/wiki.txt.gz">отсюда</a>) полный граф статей Википедии в папку репозитория. Распакуйте его при помощи команды:
+<code>gzip -dc wiki.txt.gz &gt; wiki.txt</code>. Запустите свою программу, передав в качестве входного файла <code>wiki.txt</code>.</p>
+<ol class="arabic simple">
+<li>Получите статистические данные из упражнения №3.</li>
+<li>Найдите путь, по которому можно добраться от статьи <a class="reference external" href="https://ru.wikipedia.org/wiki/Python">Python</a> до статьи <a class="reference external" href="https://ru.wikipedia.org/wiki/Боль">Боль</a>.</li>
+</ol>
+</div>
+</div>
+
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+                <section id="extras" class="body">
+                </section><!-- /#extras -->
+            </div>
+        </div>
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Сайт построен с использованием <a href="http://getpelican.com/">Pelican</a>. За основу оформления взята тема от <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>. Исходные тексты программ, приведённые на этом сайте, распространяются под лицензией <a href="http://www.gnu.org/licenses/quick-guide-gplv3.en.html">GPLv3</a>, все остальные материалы сайта распространяются под лицензией <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.ru">CC-BY-SA</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">//<![CDATA[
+//  var code_blocks = Array.prototype.slice.call(document.getElementsByClassName('highlight'));
+//  var solutions = code_blocks.filter(function(e, i, z){
+//    return (e.parentElement.firstElementChild.tagName == 'H3' || e.parentElement.firstElementChild.tagName == 'H2') &&
+//           e.parentElement.firstElementChild.firstChild.text.startsWith('Упражнение') &&
+//           e.parentElement.lastElementChild == e
+//  })
+//  for (var i in solutions)
+//  {
+//  //    solutions[i].remove();
+//  //  }
+//]]>
+</script>
+</body>
+</html>
