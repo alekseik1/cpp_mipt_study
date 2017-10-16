@@ -15,6 +15,7 @@ git clone https://github.com/alekseik1/cpp_mipt_study
 Нас несколько, и мы стараемся держать друг друга в любви и согласии. Вот список тех, кто сделал этот проект возможным:
 
 - [alekseik1](http://github.com/alekseik1)
+- [valshal](https://github.com/valshal)
 - Это место пустует. Оно ждет вас в лице своего героя!
 
 ###### Я хочу помочь проекту, что мне делать?
