@@ -1,67 +1,54 @@
-//
-// Created by aleksei on 17.10.17.
-//
-
 #include <iostream>
 #include <algorithm>
 #include <fstream>
 
-#define INF 1000000
-
 using namespace std;
 
-void printMatrix(int** matrix, int numberOfVert) {
-    for(int i = 0; i < numberOfVert; i++) {
-        for(int j = 0; j < numberOfVert; j++) {
-            if(matrix[i][j] == INF) {
-                cout << "INF" << " ";
-            }
-            else {
-                cout << matrix[i][j] << " ";
-            }
-        }
-        cout << endl;
-    }
-}
-
-void FloydWarshall(int **matrix, int numberOfVert) {
-    for(int k = 0; k < numberOfVert; k++) {
-        for(int i = 0; i < numberOfVert; i++) {
-            for(int j = 0; j < numberOfVert; j++) {
-                if(matrix[i][j] == INF) continue;
-                matrix[i][j] = min(matrix[i][j], matrix[i][k] + matrix[k][j]);
-            }
-        }
-    }
-}
-
 int main() {
-    int numberOfVert, start, stop;
-    cin >> numberOfVert >> start >> stop;
-
-    // На пафосе аллоцируем память. Как бы segmentation fault не словить :|
-    int **matrix = (int**) malloc(sizeof(int) * numberOfVert);
-    for(int i = 0; i < numberOfVert; i++) {
-        matrix[i] = (int *) malloc(sizeof(int) * numberOfVert);
+    int N;
+    std::cin >> N;
+    int src, dest;
+    std::cin >> src >> dest;
+    // Костыльно уменьшаем на один
+    src--;
+    dest--;
+    int** Mass = new int*[N];
+    for (int i = 0; i < N; i++) {
+        Mass[i] = new int[N];
     }
 
-    //Считываем матрицу весов ребер
-    for(int i = 0; i < numberOfVert; i++) {
-        for(int j = 0; j < numberOfVert; j++) {
-            int tmp = 0;
-            cin >> tmp;
-            if(tmp != 0) {
-                matrix[i][j] = tmp;
-            }
-            else {
-                matrix[i][j] = INF;
+    // Ввод
+    for (int length = 0; length < N; length++) {
+        for (int width = 0; width < N; width++) {
+            std::cin >> Mass[length][width];
+        }
+    }
+
+    // Флойд-Уоршелл
+    for (int k = 0; k < N; k++) {
+        for (int length = 0; length < N; length++) {
+            for (int width = 0; width < N; width++) {
+                if (Mass[length][k] == -1 || Mass[k][width] == - 1) {   // Если пути нет
+                    continue;
+                }
+                else {
+                    if(Mass[length][width] == -1) {
+                        Mass[length][width] = Mass[length][k] + Mass[k][width];
+                    }
+                    else {
+                        Mass[length][width] = min(Mass[length][width], Mass[length][k] + Mass[k][width]);
+                    }
+                }
+
             }
         }
     }
 
-    FloydWarshall(matrix, numberOfVert);
-    int res = matrix[start-1][stop-1];
-    cout << ((res >= INF) ? -1 : res);
+    std::cout << Mass[src][dest];
 
+    for (int count = 0; count < N; count++) {
+        delete[] Mass[count];
+    }
+    delete[] Mass;
     return 0;
 }
