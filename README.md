@@ -16,6 +16,7 @@ git clone https://github.com/alekseik1/cpp_mipt_study
 
 - [alekseik1](http://github.com/alekseik1)
 - [valshal](https://github.com/valshal)
+- [Urnguk](https://github.com/Urnguk)
 - Это место пустует. Оно ждет вас в лице своего героя!
 
 ###### Я хочу помочь проекту, что мне делать?
