@@ -1,76 +1,64 @@
-//
-// Created by aleksei on 17.10.17.
-//
-
 #include <iostream>
+
 using namespace std;
 
-class Graf{
-public:
-    int n;
-    int** M;
-
-    Graf(int noV, int noE){
-        n = noV;
-        M = new int*[noV];
-        for(int i=0; i<noV; i++){
-            M[i] = new int[noV];
-        }
-
-        for (int i=0; i<n; i++)
-            for (int j=0; j<n; j++)
-                M[i][j]=0;
-
-        int v1, v2;
-        for (int i=0; i<noE; i++){
-            cin >> v1 >> v2;
-            M[v1][v2] = M[v2][v1] = 1;
-        }
-    }
-
-    void print(){
-        for (int i=0; i<n; i++){
-            for (int j=0; j<n; j++){
-                cout << M[i][j] << ' ';
+void dfs(int** Colour, int* Visited, int N, int start) {
+    Visited[start] = 1;
+    for (int i = 0; i < N; i++) {
+        if (Colour[start][i] == 1) {
+            if (Visited[i] == 0) {
+                dfs(Colour, Visited, N, i);
             }
-            cout << '\n';
         }
-    }
-
-    void del(){
-        for (int i=0; i<n; i++)
-            delete[] M[i];
-        delete []M;
-    }
-};
-
-void goDeep(Graf& G, int v, bool* visited, int& k){
-    visited[v] = 1;
-    for(int i=0; i<G.n; i++){
-        if(G.M[v][i]==1 && visited[i]==0)
-            goDeep(G, i, visited, k);
     }
 }
 
 int main(){
-    int noV, noE;
-    cin >> noV >> noE;
-    Graf G = Graf(noV, noE);
-    bool visited[noV];
-    for (int i=0; i<noV; i++)
-        visited[i]=0;
-    int k = 0;
-    goDeep(G, 0, visited, k);
-    cout << k;
-    int res = 0;
-    for(int j = 0; j < noV; j++) {
-        if(!visited[noV-j]) res++;
+    bool hasUnvisited = false;
+    int numberOfVertex, numberOfPaths;
+    cin >> numberOfVertex >> numberOfPaths;
+    int a, b;
+    int** Mass = new int*[numberOfVertex];
+    int* Visit = new int[numberOfVertex];
+
+
+
+    for (int i = 0; i < numberOfVertex; i++) {
+        Mass[i] = new int[numberOfVertex];
+        Visit[i] = 0;
     }
-    if(res == 1) {
-        cout << "YES";
-    } else {
-        cout << "NO";
+
+    for (int i = 0; i < numberOfVertex; i++) {
+        for (int j = 0; j < numberOfVertex; j++) {
+            Mass[i][j] = 0;
+        }
     }
-    G.del();
+
+    // Ввод
+    for (int i = 0; i < numberOfPaths; i++) {
+        cin >> a >> b;
+        Mass[a][b] = Mass[b][a] = 1;
+    }
+
+    dfs(Mass, Visit, numberOfVertex, 0);
+
+    for (int i = 0; i < numberOfVertex; i++) {
+        if (Visit[i] == 0) {
+            std::cout << "NO";
+            hasUnvisited = true;
+            break;
+        }
+    }
+
+    if (!hasUnvisited) {
+        std::cout << "YES";
+    }
+
+    // Memory cleanup
+    for (int i = 0; i < numberOfVertex; i++) {
+        delete[] Mass[i];
+    }
+    delete[] Mass;
+    delete[] Visit;
     return 0;
 }
