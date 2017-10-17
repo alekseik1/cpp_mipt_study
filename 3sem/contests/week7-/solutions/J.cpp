@@ -60,7 +60,6 @@ int main() {
     }
 
     FloydWarshall(matrix, numberOfVert);
-    printMatrix(matrix, numberOfVert);
     int res = matrix[start-1][stop-1];
     cout << ((res >= INF) ? -1 : res);
 
