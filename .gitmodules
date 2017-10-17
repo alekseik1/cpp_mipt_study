@@ -4,3 +4,6 @@
 [submodule "3sem/contributors/valshal"]
 	path = 3sem/contributors/valshal
 	url = https://github.com/valshal/cppShare
+[submodule "3sem/contributors/urnguk/control_week_7"]
+	path = 3sem/contributors/urnguk/control_week_7
+	url = https://github.com/Urnguk/control_week_7
