@@ -11,11 +11,19 @@ int main() {
     for(int i = 90; i < 100; ++i) {
         list_insert_back(intList, i);
     }
+
     list_insert(intList, -1, intList.size/2);
     list_print(intList, std::cout);
+
     std::cout << "\nAfter swap:\n";
     list_swap(intList, 0, intList.size-1);
     list_print(intList, std::cout);
+
+    int n = 1;
+    std::cout << "\nAfter delete number " << n << " :\n";
+    list_remove(intList, n);
+    list_print(intList, std::cout);
+
     std::cout << std::endl;
     list_destroy(intList);
 }
