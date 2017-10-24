@@ -13,6 +13,9 @@ int main() {
     }
     list_insert(intList, -1, intList.size/2);
     list_print(intList, std::cout);
+    std::cout << "\nAfter swap:\n";
+    list_swap(intList, 0, intList.size-1);
+    list_print(intList, std::cout);
     std::cout << std::endl;
     list_destroy(intList);
 }
