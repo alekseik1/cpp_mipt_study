@@ -71,7 +71,7 @@ void list_insert(List<DataType>& l, const DataType &value,  int pos)
     {
         list_insert(l, value);
         return;
-    } else if(pos == l.size) // Вставляем в конец, если pos == l.size (я нумерую ноды листа с нуля и этого вам советую
+    } else if(pos == l.size) // Вставляем в конец, если pos == l.size (я нумерую ноды листа с нуля и этого вам советую)
     {
         list_insert_back(l, value);
         return;
