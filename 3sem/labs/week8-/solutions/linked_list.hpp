@@ -88,6 +88,8 @@ void list_insert(List<DataType>& l, const DataType &value,  int pos)    // Вс�
     newNode->data = value;
     newNode->next = node->next;
     node->next = newNode;
+    // Йа-Йа, увеличиваем длину списка
+    l.size += 1;
 }
 
 template<typename DataType>
