@@ -13,5 +13,10 @@ project(week4)
  project(week5)
  add_subdirectory(contests/week5-/solutions)
 
+add_subdirectory(labs/week6-/solutions/wiki-stats-cpp)
+
  project(week7)
  add_subdirectory(contests/week7-/solutions)
+
+ project(week8)
+ add_subdirectory(labs/week8-/solutions)
