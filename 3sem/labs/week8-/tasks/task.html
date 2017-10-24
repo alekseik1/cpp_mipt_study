@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+        <meta charset="utf-8" />
+        <title>Шаблоны. Списки. Итераторы.</title>
+        <link rel="stylesheet" href="http://judge.mipt.ru/mipt_cs_on_cpp/theme/css/main.css" />
+        <link rel="icon" type="image/png" href="http://judge.mipt.ru/mipt_cs_on_cpp/favicon.png" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <div id="wrap">
+            <header id="banner" class="body">
+                    <img src="http://judge.mipt.ru/mipt_cs_on_cpp/images/logo.png" class="logo" />
+                    <nav><ul>
+                        <li><a href="http://judge.mipt.ru/mipt_cs_on_cpp">Главная</a></li>
+                    </ul></nav>
+            </header><!-- /#banner -->
+            <div id="main"
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://judge.mipt.ru/mipt_cs_on_cpp/labs/lab8.html" rel="bookmark"
+           title="Permalink to Шаблоны. Списки. Итераторы.">Шаблоны. Списки. Итераторы.</a></h1>
+    </header>
+      <nav class="toc">
+      <div class="toc" id="">
+
+<ul class="simple">
+<li><a class="reference internal" href="#id3" id="id11">Шаблоны</a></li>
+<li><a class="reference internal" href="#id4" id="id12">Односвязанный список</a><ul>
+<li><a class="reference internal" href="#id5" id="id13">Задание</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8" id="id14">Итераторы</a></li>
+<li><a class="reference internal" href="#id9" id="id15">Двусвязный линейный список</a><ul>
+<li><a class="reference internal" href="#id10" id="id16">Задание</a></li>
+</ul>
+</li>
+</ul>
+</div>
+      </nav>
+      <br/>
+      <br/>
+    
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id11">Шаблоны</a></h2>
+<p>Шаблоны - это расширение языка (в данном случае расширение языка C++ по отношению к языку C), позволяющее автоматизировать работу программиста. С шаблонами уменьшается количество написанного кода, если нужно реализовать аналогичный функционал для различных исходных типов. Например, есть функция, и она должна работать для параметров разного типа. Конечно, можно написать несколько разных функций, или воспользоваться перезагрузкой функций, но шаблоны предоставляют альтернативный путь. Т. е. для функции (или класса) имеется некий формализованный код (шаблон), в который передаются типы, и компилятор на основе этого сам строит рабочий код.</p>
+<p>Рассмотрим применение шаблонов на примере функции <code>max</code>. На языке C ее можно реализовать при помощи директивы <code>#define</code> препроцессора</p>
+<div class="highlight"><pre><span></span><span class="cp">#define max(a,b)    ((a)&gt;(b) ? (a) : (b))</span>
+</pre></div>
+<p>Теперь везде, где нужно найти большое из двух значений можно использовать определенный выше макрос:</p>
+<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">z</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span> <span class="c1">// z = 2</span>
+</pre></div>
+<p>При использовании макросов следует избегать передачи выражений в качестве аргументов, иначе возможно непредсказуемое поведение. Скомпилируйте код, приведенный ниже и попробуйте обьяснить полученные результаты:</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="cp">#define max(a,b)    ((a)&gt;(b) ? (a) : (b))</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">z</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="o">++</span><span class="p">,</span> <span class="n">y</span><span class="o">++</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="sc">' '</span> <span class="o">&lt;&lt;</span> <span class="n">y</span> <span class="o">&lt;&lt;</span> <span class="sc">' '</span> <span class="o">&lt;&lt;</span> <span class="n">z</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>Шаблоны в C++ - это инструкции, согласно которым создаются локальные версии шаблонированной функции (или класса/структуры) для определенного набора параметров и типов данных.</p>
+<p>С использованием шаблонов определение max будет выглядеть так:</p>
+<div class="highlight"><pre><span></span><span class="n">template</span> <span class="o">&lt;</span><span class="kr">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="n">T</span> <span class="o">&amp;</span> <span class="n">max</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>каждое использование шаблона в коде с новым типом вызовет генерацию компилятором функции с заданным типом. Например:</p>
+<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">xi</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">yi</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">zi</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">);</span> <span class="c1">// будет сгенерирована и скомпилирвоана функция max(const int &amp; a, const int &amp; b)</span>
+
+<span class="kt">float</span> <span class="n">xf</span> <span class="o">=</span> <span class="mf">1.0f</span><span class="p">;</span>
+<span class="kt">float</span> <span class="n">yf</span> <span class="o">=</span> <span class="mf">2.0f</span><span class="p">;</span>
+<span class="kt">float</span> <span class="n">zf</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">xf</span><span class="p">,</span> <span class="n">yf</span><span class="p">);</span> <span class="c1">// будет сгенерирована и скомпилирована функция max(const float &amp; a, const float &amp; b)</span>
+</pre></div>
+<p>Использование шаблонов позволяет сократить обьем написанного кода в случае когда одни и те же алгоритмы нужно применить для разных типов данных.</p>
+<p>Шаблоны также применяются и при создании классов. Допустим, в программе нужно реализовать два односвязных списка - для строк и целых чисел.</p>
+<p>В первом случае каждый узел будет будет описываться структурой</p>
+<div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">tNode</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">data</span><span class="p">;</span>
+    <span class="n">tNode</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+<p>во втором</p>
+<div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">tNode</span> <span class="p">{</span>
+   <span class="kt">int</span> <span class="n">data</span><span class="p">;</span>
+   <span class="n">tNode</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+<p>очевидно, что алгоритмы работы над элементами списка не зависят от типа хранимых значений (в данном случае типа поля <code>data</code>). Поэтому структуру <code>tNode</code> можно описать в виде шаблона:</p>
+<div class="highlight"><pre><span></span><span class="n">template</span><span class="o">&lt;</span><span class="kr">typename</span> <span class="n">DataType</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="n">tNode</span> <span class="p">{</span>
+    <span class="n">DataType</span> <span class="n">data</span><span class="p">;</span>
+    <span class="n">tNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="n">next</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+<p>Обьявление односвязного списка будет выглядеть так:</p>
+<div class="highlight"><pre><span></span> <span class="n">template</span><span class="o">&lt;</span><span class="kr">typename</span> <span class="n">DataType</span><span class="o">&gt;</span>
+ <span class="k">struct</span> <span class="n">List</span> <span class="p">{</span>
+    <span class="n">tNode</span><span class="o">&lt;</span><span class="n">DataType</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">begin</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">size</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+<p>соотвественно функции, выполняющие различные действия над элементами списка тоже должны быть обьявлены как шаблоны:</p>
+<div class="highlight"><pre><span></span><span class="n">template</span><span class="o">&lt;</span><span class="kr">typename</span> <span class="n">DataType</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">list_init</span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">DataType</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">lst</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">lst</span><span class="p">.</span><span class="n">begin</span> <span class="o">=</span> <span class="n">nullptr</span><span class="p">;</span>
+    <span class="n">lst</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>Обьявление переменных будет выглядеть следующим образом:</p>
+<div class="highlight"><pre><span></span><span class="n">List</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">stringList</span><span class="p">;</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">intList</span><span class="p">;</span>
+</pre></div>
+<p>На стадии компиляции из шаблонов будут сгенерированы структуры <code>tNode</code> и <code>List</code> соотвествующие типам <code>std:string</code> и <code>int</code>.</p>
+</div>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id12">Односвязанный список</a></h2>
+<p>Структура <code>List</code>, обьявленая выше, содержит указатель на первый элемент списка <code>begin</code> и кол-во элементво в списке - <code>size</code>. Данная реализация позволяет достаточно просто добавлять элементы в начало списка, поскольку указатель на первый элемент  известен (поле <code>begin</code>). Но чтобы добавить элемент в конец, нужно циклом пробежать по всему списку, пока не будет найден последний элемент.
+Другими словами, данная реализация позволяет за <code>O(1)</code> операций вставлять элементы в начало и вычислять длину списка (поскольку кол-во элементов хранится в переменной <code>size</code>), но при добавлении в конец уже потребуется <code>O(n)</code>.</p>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id13">Задание</a></h3>
+<ul class="simple">
+<li>Скачайте <a class="reference external" href="../extra/lab8/linked_list.hpp">заголовочный файл</a> и <a class="reference external" href="../extra/lab8/list_app.cpp">пример его использования</a> . Скомпилируйте и запустите программу.</li>
+</ul>
+<ul class="simple">
+<li>Добавьте поле <code>end</code> в структуру <code>List</code>, модифицируйте функции, работающие со списком чтобы они корректно заполняли значение этого поля.</li>
+<li>Реализуйте функцию <code>list_insert_back</code>, вставляющую элементы в конец списка. Добавьте цикл, который вставляет числа от 90 до 100 в конец списка.</li>
+<li>Реализуйте функцию <code>list_insert(List&lt;DataType&gt; &amp; l, int i)</code>, вставляющую элемент в <code>i</code> позицию списка. Вставьте значение -1 в серидину списка.</li>
+</ul>
+<img alt="" src="http://judge.mipt.ru/mipt_cs_on_cpp/images/lab8/insert.png" style="width: 50%;"/>
+<ul>
+<li><p class="first">Реализуйте функцию bool <code>list_swap(List&lt;DataType&gt; &amp; l, int i, int j)`</code> меняющую местами <code>i</code> и <code>j</code> элементы списка и возвращаующую <code>true</code>. Если <code>i</code> или <code>j</code> выходят за границы списка, функция должна возвращать <code>false</code> и не менять содержимое списка. При этом нужно учесть, что возможны два варианта:</p>
+<blockquote>
+<ul class="simple">
+<li>заменяемые узлы являются соседями</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p><img alt="swap_img" src="http://judge.mipt.ru/mipt_cs_on_cpp/images/lab8/swap.png" style="width: 50%;"/></p>
+<blockquote>
+<ul class="simple">
+<li>заменяемые узлы не являются соседями, то есть между ними имеется хотя бы один элемент</li>
+</ul>
+</blockquote>
+<p><img alt="swap_1_img" src="http://judge.mipt.ru/mipt_cs_on_cpp/images/lab8/swap1.png" style="width: 75%;"/></p>
+<ul class="simple">
+<li>Реализуйте функцию <code>bool list_remove(List&lt;DataType&gt; &amp; l, int i)`</code> удаляющую <code>i</code> элемент списка и возвращающую <code>true</code>. Если <code>i</code> выходит за границы списка, то функция должна возвращать <code>false</code> и не менять содержимое списка. Удалите все четные числа из списка.</li>
+</ul>
+<img alt="" src="http://judge.mipt.ru/mipt_cs_on_cpp/images/lab8/remove.png" style="width: 37%;"/>
+<ul class="simple">
+<li>Реализуйте функцию <code>void list_reverse(List&lt;DataType&gt; &amp; l)</code> которая располагает элементы исходного списка в обратном порядке. Выведите на экран сначаал исходный список, а потом перевернутый.</li>
+<li>Реализуйте функцию <code>void list_sort(List&lt;DataType&gt; &amp; l)</code> которая сортирует элементы исходного списка в порядке возрастания используя сортировку пузырьком. Выведите на экран содержимое отсортированного списка.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id8">
+<h2><a class="toc-backref" href="#id14">Итераторы</a></h2>
+<p>Главное предназначение итераторов заключается в предоставлении возможности пользователю обращаться к любому элементу контейнера при сокрытии внутренней структуры контейнера от пользователя. Это позволяет контейнеру хранить элементы любым способом при допустимости работы пользователя с ним как с простой последовательностью или списком.</p>
+<p>Итератор похож на указатель своими основными операциями: он указывает на отдельный элемент коллекции объектов (предоставляет доступ к элементу) и содержит функции для перехода к другому элементу списка (следующему или предыдущему). Контейнер, который реализует поддержку итераторов, должен предоставлять первый элемент списка, а также возможность проверить, перебраны ли все элементы контейнера (является ли итератор конечным). В зависимости от используемого языка и цели, итераторы могут поддерживать дополнительные операции или определять различные варианты поведения.</p>
+<p>Рассмотрим реализацию простейшего итератора для списка</p>
+<div class="highlight"><pre><span></span> <span class="n">template</span><span class="o">&lt;</span><span class="kr">typename</span> <span class="n">DataType</span><span class="o">&gt;</span>
+ <span class="k">struct</span> <span class="n">ListIterator</span> <span class="p">{</span>
+    <span class="n">tNode</span><span class="o">&lt;</span><span class="n">DataType</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">current</span><span class="p">;</span>  <span class="c1">// Указатель на текущий элемент</span>
+ <span class="p">};</span>
+
+<span class="c1">// Функция инициализиции итератора</span>
+<span class="n">template</span><span class="o">&lt;</span><span class="kr">typename</span> <span class="n">DataType</span><span class="o">&gt;</span>
+<span class="n">ListIterator</span><span class="o">&lt;</span><span class="n">DataType</span><span class="o">&gt;</span> <span class="n">list_iter_init</span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">DataType</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">lst</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ListIterator</span><span class="o">&lt;</span><span class="n">DataType</span><span class="o">&gt;</span> <span class="n">it</span><span class="p">;</span>
+    <span class="n">it</span><span class="p">.</span><span class="n">current</span> <span class="o">=</span> <span class="n">lst</span><span class="p">.</span><span class="n">begin</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">it</span><span class="p">;</span>
+ <span class="p">}</span>
+
+ <span class="c1">// Возвращает true если текущий элемент итератора не последний</span>
+ <span class="n">template</span><span class="o">&lt;</span><span class="kr">typename</span> <span class="n">DataType</span><span class="o">&gt;</span>
+ <span class="kt">bool</span> <span class="n">list_iter_has_next</span><span class="p">(</span><span class="n">ListIterator</span><span class="o">&lt;</span><span class="n">DataType</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+     <span class="k">return</span> <span class="n">it</span><span class="p">.</span><span class="n">current</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">;</span>
+ <span class="p">}</span>
+
+  <span class="c1">// Возвращает значение текущего элемента списка и перескакивает на следующий</span>
+ <span class="n">template</span><span class="o">&lt;</span><span class="kr">typename</span> <span class="n">DataType</span><span class="o">&gt;</span>
+ <span class="n">DataType</span> <span class="o">*</span> <span class="n">list_iter_next</span><span class="p">(</span><span class="n">ListIterator</span><span class="o">&lt;</span><span class="n">DataType</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">it</span><span class="p">.</span><span class="n">current</span> <span class="p">)</span> <span class="p">{</span>
+         <span class="n">DataType</span> <span class="o">*</span> <span class="n">ptr</span> <span class="o">=</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="n">current</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span>
+         <span class="n">it</span><span class="p">.</span><span class="n">current</span> <span class="o">=</span> <span class="n">it</span><span class="p">.</span><span class="n">current</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+         <span class="k">return</span> <span class="n">ptr</span><span class="p">;</span>
+     <span class="p">}</span>
+     <span class="k">return</span> <span class="n">nullptr</span><span class="p">;</span>
+ <span class="p">}</span>
+</pre></div>
+<p>И пример использования:</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+    <span class="n">List</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">intList</span><span class="p">;</span>
+
+    <span class="n">list_init</span><span class="p">(</span><span class="n">intList</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+       <span class="n">list_insert</span><span class="p">(</span><span class="n">intList</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">ListIterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">list_iter_init</span><span class="p">(</span><span class="n">intList</span><span class="p">);</span>
+
+    <span class="k">while</span><span class="p">(</span><span class="n">list_iter_has_next</span><span class="p">(</span><span class="n">iter</span><span class="p">))</span> <span class="p">{</span>
+       <span class="kt">int</span> <span class="o">*</span> <span class="n">v</span> <span class="o">=</span> <span class="n">list_iter_next</span><span class="p">(</span><span class="n">iter</span><span class="p">);</span>
+       <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">v</span> <span class="o">&lt;&lt;</span> <span class="sc">' '</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="id9">
+<h2><a class="toc-backref" href="#id15">Двусвязный линейный список</a></h2>
+<p>Двусвязный линейный список - список, в котором каждый элемент хранит указатель как на следующий так и на предыдущий:</p>
+<div class="highlight"><pre><span></span><span class="n">template</span><span class="o">&lt;</span><span class="kr">typename</span> <span class="n">DataType</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="n">tNode2</span> <span class="p">{</span>
+    <span class="n">DataType</span> <span class="n">data</span><span class="p">;</span>
+    <span class="n">tNode</span><span class="o">&lt;</span><span class="n">DataType</span><span class="o">&gt;*</span> <span class="n">next</span><span class="p">;</span>
+    <span class="n">tNode</span><span class="o">&lt;</span><span class="n">DataType</span><span class="o">&gt;*</span> <span class="n">prev</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>Из декларации <code>tNode2</code> следует , что каждый элемент занимает в памяти больше места по сравнению с односвязанным, и каждая операция изменения списка требует большего количества действий, поскольку нужно изменять значения двух указателей - <code>prev</code> и <code>next</code>. Использование двусвязных списков оправдано, когда требуется перемещаться от текущего элемента в обеих направлениях.
+Описание шаблона двусвязного списка:</p>
+<div class="highlight"><pre><span></span><span class="n">template</span><span class="o">&lt;</span><span class="kr">typename</span> <span class="n">DataType</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="n">List2</span> <span class="p">{</span>
+    <span class="n">tNode2</span><span class="o">&lt;</span><span class="n">DataType</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">begin</span><span class="p">;</span>
+    <span class="n">tNode2</span><span class="o">&lt;</span><span class="n">DataType</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">end</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">size</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+<p>и соотвественно итератора:</p>
+<div class="highlight"><pre><span></span><span class="n">template</span><span class="o">&lt;</span><span class="kr">typename</span> <span class="n">DataType</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="n">List2Iterator</span> <span class="p">{</span>
+    <span class="n">tNode2</span><span class="o">&lt;</span><span class="n">DataType</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">current</span><span class="p">;</span>  <span class="c1">// Указатель на текущий элемент</span>
+<span class="p">};</span>
+</pre></div>
+<p>для итератора двусвязного списка по аналогии с <code>list_iter_has_next</code> и <code>list_iter_next</code> можно реализовать функции <code>list_iter_has_prev</code> и <code>list_iter_prev</code>, позволяющие перемещаться по списку в обратном направлении.</p>
+<div class="section" id="id10">
+<h3><a class="toc-backref" href="#id16">Задание</a></h3>
+<p>Реализуйте следующие шаблоны для двусвязного списка, и пример их использования для списка состоящиего из <code>int</code>'ов:</p>
+<ul class="simple">
+<li><code>void list_init(List2&lt;DataType) &amp; lst)</code></li>
+<li><code>void list_insert(List2&lt;DataType&gt; &amp; lst, const DataType &amp; v)</code></li>
+<li><code>void list_print(List2&lt;DataType&gt; &amp; lst)</code></li>
+<li><code>void list_print_inverse(List2&lt;DataType&gt; &amp; lst)</code></li>
+<li><code>void list_destroy(List2&lt;DataType&gt; &amp; lst)</code></li>
+<li><code>void list_remove(List2&lt;DataType&gt; &amp; lst, int i)</code></li>
+</ul>
+<p>Реализуйте следующие шаблоны для итератора двусвязного списка:</p>
+<ul class="simple">
+<li><code>bool list_iter_has_prev(List2&lt;DataType&gt; &amp; lst)</code></li>
+<li><code>DataType * list_iter_prev(List2&lt;DataType&gt; &amp; lst)</code></li>
+</ul>
+</div>
+</div>
+
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+                <section id="extras" class="body">
+                </section><!-- /#extras -->
+            </div>
+        </div>
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Сайт построен с использованием <a href="http://getpelican.com/">Pelican</a>. За основу оформления взята тема от <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>. Исходные тексты программ, приведённые на этом сайте, распространяются под лицензией <a href="http://www.gnu.org/licenses/quick-guide-gplv3.en.html">GPLv3</a>, все остальные материалы сайта распространяются под лицензией <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.ru">CC-BY-SA</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">//<![CDATA[
+//  var code_blocks = Array.prototype.slice.call(document.getElementsByClassName('highlight'));
+//  var solutions = code_blocks.filter(function(e, i, z){
+//    return (e.parentElement.firstElementChild.tagName == 'H3' || e.parentElement.firstElementChild.tagName == 'H2') &&
+//           e.parentElement.firstElementChild.firstChild.text.startsWith('Упражнение') &&
+//           e.parentElement.lastElementChild == e
+//  })
+//  for (var i in solutions)
+//  {
+//  //    solutions[i].remove();
+//  //  }
+//]]>
+</script>
+</body>
+</html>
