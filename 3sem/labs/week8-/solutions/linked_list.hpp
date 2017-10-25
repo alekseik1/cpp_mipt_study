@@ -217,6 +217,8 @@ void list_print(const List<DataType> &lst, std::ostream &out)
 template<typename DataType>
 void list_sort(List<DataType> &l)   // Сортировка дураком (она проще всего).
 {
+    if(l.begin == nullptr)  // Плохой ввод
+        return;
     tNode<DataType> *p = l.begin;
     tNode<DataType> *prev;
     int i = 0;
@@ -234,6 +236,24 @@ void list_sort(List<DataType> &l)   // Сортировка дураком (он
         }
         i++;
     }
+}
+
+template<typename DataType>
+void list_reverse(List<DataType> &l)
+{
+    if(l.begin == nullptr)  // Плохой ввод
+        return;
+    tNode<DataType> *p = l.begin;
+    tNode<DataType> *allNodes[l.size];
+    for(int i = 0; i < l.size; i++) {
+        allNodes[i] = p;
+        p = p->next;
+    }
+    for(int i = l.size - 1; i > 0; i--) {
+        allNodes[i]->next = allNodes[i-1];
+    }
+    allNodes[0]->next = nullptr;
+    l.begin = allNodes[l.size - 1];
 }
 
 template<typename DataType>
