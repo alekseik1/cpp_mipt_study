@@ -203,6 +203,7 @@ bool list_remove(List<DataType>& l, int pos)  // Удаляет элемент �
     }
     l.size -= 1;        // Не забываем уменьшить длину списка
 }
+
 template<typename DataType>
 void list_print(const List<DataType> &lst, std::ostream &out)
 {
@@ -210,6 +211,28 @@ void list_print(const List<DataType> &lst, std::ostream &out)
     for(; p; p = p->next)
     {
         out << p->data << '\t';
+    }
+}
+
+template<typename DataType>
+void list_sort(List<DataType> &l)   // Сортировка дураком (она проще всего).
+{
+    tNode<DataType> *p = l.begin;
+    tNode<DataType> *prev;
+    int i = 0;
+
+    while(p) {
+        prev = p;
+        p = p->next;
+        if(p == nullptr)
+            return;
+        if(p->data < prev->data) {
+            list_swap(l, i, i+1);
+            p = l.begin;
+            prev = nullptr;
+            i = -1;
+        }
+        i++;
     }
 }
 

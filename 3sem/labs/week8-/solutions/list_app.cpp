@@ -24,6 +24,12 @@ int main() {
     list_remove(intList, n);
     list_print(intList, std::cout);
 
-    std::cout << std::endl;
+    std::cout << "\nAfter reverse:\n";
+    list_reverse(intList);
+    list_print(intList, std::cout);
+
+    std::cout << "\nAfter sort:\n";
+    list_sort(intList);
+    list_print(intList, std::cout);
     list_destroy(intList);
 }
