@@ -19,16 +19,16 @@ int main()
         if(tmp_input > 0)
             nums.push_back(tmp_input);
         else {
-            if (nums.size() == 0)
+            if (nums.empty())
                 continue;
             if (-tmp_input < nums.at(nums.size() - 1))
                 nums.at(nums.size() - 1) += tmp_input;
-            else if (nums.size() != 0)
+            else if (!nums.empty())
                 nums.pop_back();
         }
     } while(true);
 
-    if(nums.size() != 0)
+    if(!nums.empty())
         cout << nums.size() << " " << nums.at(nums.size() - 1) << endl;
     else
         cout << 0 << " " << -1 << endl;
