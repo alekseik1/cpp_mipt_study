@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="/ejudge/jquery.min.js"></script>
+<script type="text/javascript" src="/ejudge/unpriv.js"></script>
+<script type="text/javascript">
+  var SID="c9fb9ef4be20f714";
+  var NEW_SRV_ACTION_JSON_USER_STATE=175;
+  var NEW_SRV_ACTION_VIEW_PROBLEM_SUMMARY=137;
+  var self_url="http://judge2.vdi.mipt.ru/cgi-bin/new-client";
+  var script_name="/cgi-bin/new-client";
+  var jsonState = { "h": 16, "m": 34, "s": 55, "d": 1, "o": 11, "y": 2017 };
+  var updateFailedMessage = "ОШИБКА ОБНОВЛЕНИЯ СТАТУСА!";
+  var testingInProgressMessage = "ИДЁТ ТЕСТИРОВАНИЕ...";
+  var testingCompleted = "ТЕСТИРОВАНИЕ ЗАВЕРШЕНО";
+  var waitingTooLong = "ОБНОВЛЯЙТЕ СТРАНИЦУ ВРУЧНУЮ!";
+</script>
+<link rel="stylesheet" href="/ejudge/unpriv.css" type="text/css" />
+<link rel="stylesheet" href="/ejudge/unpriv3.css" type="text/css" />
+
+<title>Демьянов Георгий Сергеевич [C++14, контест 9 недели (группы 641-643)]: Сдать решение</title></head>
+<body onload="startClock()"><div id="main-cont"><div id="container"><div id="l12-col"><div id="l12">
+<div class="main_phrase">Демьянов Георгий Сергеевич [C++14, контест 9 недели (группы 641-643)]: Сдать решение</div>
+<div id="main-menu">
+<ul>
+
+<li><div class="contest_actions_item"><a class="menu" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=143">Настройки</a></div></li>
+
+
+<li><div class="contest_actions_item"><a class="menu" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=2">Инфо</a></div></li><li><div class="contest_actions_item"><a class="menu" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=137">Итог</a></div></li><li><div class="contest_actions_item"><a class="menu" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=140">Посылки</a></div></li><li><div class="contest_actions_item"><a class="menu" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=94">Положение участников</a></div></li><li><div class="contest_actions_item"><a class="menu" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=141">Отправить вопрос</a></div></li><li><div class="contest_actions_item"><a class="menu" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=142">Сообщения</a></div></li>
+<li><div class="contest_actions_item"><a class="menu" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=74">Выйти из системы [642_georgij_demjanov]</a></div></li>
+</ul>
+</div>
+</div></div>
+<div id="l11"><img src="/ejudge/logo3.png" alt="logo"/></div>
+<div id="l13">
+<div class="server_status_on" id="statusLine">
+<div id="currentTime">16:34:55</div> / <b>RUNNING</b><div id="reloadButton" style="visibility: hidden">/ <a class="menu" onclick="reloadPage()"><b>[ ОБНОВИТЬ ]</b></a></div><div id="statusString" style="visibility: hidden"></div></div>
+<br/>
+<table class="probNav">
+<tr id="probNavTopList"><td width="100%" class="nTopNavList"><ul class="nTopNavList"><li class="first-rad"><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=1">A</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=2">B</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=3">C</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=4">D</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=5">E</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=6">F</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=7">G</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=8">H</a></div></li><li id="nTopNavSelected"><div class="nProbCurrent"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=9">I</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=10">J</a></div></li></ul></td></tr>
+<tr><td id="probNavTaskArea" valign="top"><div id="probNavTaskArea-ins">
+
+
+
+
+<h2>Сдать решение задачи I-Дерево - сбалансированность</h2>
+
+<table class="line-table-wb">
+
+
+    <tr><td><b>Полный балл:</b></td><td><tt>400</tt></td></tr>
+
+    <tr><td><b>Штраф за посылку:</b></td><td><tt>1</tt></td></tr>
+
+
+
+
+
+
+    <tr><td><b>Ограничение времени:</b></td><td><tt>1 с</tt></td></tr>
+
+
+    <tr><td><b>Ограничение реального времени:</b></td><td><tt>1 с</tt></td></tr>
+
+
+    <tr><td><b>Ограничение памяти:</b></td><td><tt>64M</tt></td></tr>
+
+
+
+
+
+
+
+
+
+
+
+
+</table>
+
+<html>
+ <body>
+  <p>
+   Реализуйте бинарное дерево поиска для целых чисел. Программа получает на вход последовательность различных натуральных чисел и строит из них дерево. Элементы в деревья добавляются в соответствии с результатом поиска их места. Балансировка дерева не производится.
+  </p>
+  <p>
+   Дерево называется сбалансированным, если для любой его вершины высота левого и правого поддерева для этой вершины различаются не более чем на 1. Определите, является ли дерево сбалансированным.
+  </p>
+  <h3>
+   Формат входных данных
+  </h3>
+  <p>
+   На вход программа получает последовательность натуральных чисел меньших 10000.
+  </p>
+  <h3>
+   Формат выходных данных
+  </h3>
+  <p>
+   YES - если дерево является сбалансированным, NO - в противном случае.
+  </p>
+  <h3>
+   Примеры
+  </h3>
+  <table class="example">
+   <thead>
+    <tr>
+     <td>
+      Ввод
+     </td>
+     <td>
+      Вывод
+     </td>
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td>
+      <pre>5 15 18</pre>
+     </td>
+     <td>
+      <pre>NO</pre>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+  <br/>
+  <table class="example">
+   <thead>
+    <tr>
+     <td>
+      Ввод
+     </td>
+     <td>
+      Вывод
+     </td>
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td>
+      <pre>6 12</pre>
+     </td>
+     <td>
+      <pre>YES</pre>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+  <br/>
+  <table class="example">
+   <thead>
+    <tr>
+     <td>
+      Ввод
+     </td>
+     <td>
+      Вывод
+     </td>
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td>
+      <pre>6 30 17 4 14 22</pre>
+     </td>
+     <td>
+      <pre>NO</pre>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+  <br/>
+ </body>
+</html><form method="post" enctype="multipart/form-data" action="http://judge2.vdi.mipt.ru/cgi-bin/new-client"><input type="hidden" name="SID" value="c9fb9ef4be20f714"/><input type="hidden" name="prob_id" value="9" />
+<table class="b0">
+<tr><td class="b0">Язык:</td><td class="b0"><select name="lang_id"><option value=""></option><option value="3">g++ - GNU C++ 4.8.2</option><option value="29">g++-vg - GNU C++ (valgrind) 4.8.3</option><option value="52">clang++ - clang C++ 3.3</option></select></td></tr>
+<tr><td colspan="2" class="b0"><textarea name="text_form" rows="20" cols="60"></textarea></td></tr>
+<tr><td class="b0">Файл</td><td class="b0"><input type="file" name="file"/></td></tr>
+<tr><td class="b0">Отправить!</td><td class="b0"><input type="submit" name="action_40" value="Отправить!" /></td></tr></table></form>
+
+
+
+
+
+</div></td></tr>
+<tr id="probNavBottomList"><td width="100%" class="nBottomNavList"><ul class="nBottomNavList"><li id="first-rad"><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=1">A</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=2">B</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=3">C</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=4">D</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=5">E</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=6">F</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=7">G</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=8">H</a></div></li><li id="nBottomNavSelected"><div class="nProbCurrent"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=9">I</a></div></li><li><div class="nProbEmpty"><a class="tab" href="http://judge2.vdi.mipt.ru/cgi-bin/new-client?SID=c9fb9ef4be20f714&amp;action=139&amp;prob_id=10">J</a></div></li></ul></td></tr></table>
+<div id="footer"><p class="ejudge_copyright"><a href="http://www.ejudge.ru">ejudge 3.7.1 #4 (2017-10-24 00:39:47)</a>.</p>
+<p class="ejudge_copyright">Copyright &copy; 2000-2017 Alexander Chernov.</p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
