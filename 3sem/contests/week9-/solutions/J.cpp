@@ -14,6 +14,8 @@
 template<typename T>
 class Graph {
 private:
+
+    bool _is_orientated;
     /// Вершины графа. Произвольный тип
     std::vector<T> _nodes;
     /// Словарь вида {вершина : вектор_из( пара(куда, стоимость) )}
@@ -32,6 +34,16 @@ private:
     }
 
 public:
+
+    explicit Graph(bool is_or=false) {
+        _is_orientated = is_or;
+    }
+
+    bool is_orientated()
+    {
+        return _is_orientated;
+    }
+
     /*!
      @brief Делает ребро между двумя вершинами с заданным весом.
      @warning Заметьте, что связь делается и в том случае, если вершины уже связаны ребром.
@@ -39,17 +51,19 @@ public:
      @param destination Вершина, куда идет ребро.
      @param weight Вес ребра.
      */
-    void make_connection(const T& source, const T& destination, int weight, bool can_have_dual=false)
-    {
-        _paths_from[source].push_back(
-                std::pair<T, int>(destination, weight)  // Добавляем дорогу туда
-        );
-        _paths_from[destination].push_back(
-                std::pair<T, int>(source, weight)       // И обратно
-        );
-        _orient_paths_from[source].push_back(
-                std::pair<T, int>(destination, weight)  // Для орграфа создаем путь только в одну сторону
-        );
+    void make_connection(const T& source, const T& destination, int weight) {
+        if (!_is_orientated) {
+            _paths_from[source].push_back(
+                    std::pair<T, int>(destination, weight)  // Добавляем дорогу туда
+            );
+            _paths_from[destination].push_back(
+                    std::pair<T, int>(source, weight)       // И обратно
+            );
+        } else {
+            _orient_paths_from[source].push_back(
+                    std::pair<T, int>(destination, weight)  // Для орграфа создаем путь только в одну сторону
+            );
+        }
     }
 
     /*!
@@ -81,9 +95,9 @@ public:
      * @param source Вершина, из который искать ребра
      * @return Вектор из пар[pair] (вершина, вес)
      */
-    std::vector<std::pair<T, int>> get_nodes_from(const T& source, bool is_orientated=false)
+    std::vector<std::pair<T, int>> get_nodes_from(const T& source)
     {
-        if(!is_orientated) {
+        if(!_is_orientated) {
             if (_paths_from.find(source) != _paths_from.end())
                 return _paths_from[source];
             else
@@ -101,10 +115,10 @@ public:
     * @param source Вершина, в которую искать ребра
     * @return Вектор из пар[pair] (вершина, вес)
     */
-    std::vector<std::pair<T, int>> get_nodes_to(const T& destination, bool is_orientated = false)
+    std::vector<std::pair<T, int>> get_nodes_to(const T& destination)
     {
         std::vector<std::pair<T, int>> result;
-        if(!is_orientated) {
+        if(!_is_orientated) {
             for(T& Node : _nodes) {     // Для каждой из нод
                 for(std::pair<T, int>& pair : _paths_from[Node]) {   // Для всех пар этой ноды
                     if(pair.first == destination) {  // Если пара ведет в destination
@@ -127,7 +141,7 @@ public:
 
 int main()
 {
-    Graph<int> g = Graph<int>();
+    Graph<int> g = Graph<int>(true);
     g.add_node(2);
     g.add_node(1);
     g.add_node(3);
@@ -137,6 +151,6 @@ int main()
     for(auto& x : g.get_nodes_from(1))
         std::cout << "Path to " << x.first << " with weight " << x.second << "\n";
     std::cout << "=====\n";
-    for(auto& y : g.get_nodes_to(1, true))
+    for(auto& y : g.get_nodes_to(1))
         std::cout << "Path from " << y.first << " with weight " << y.second << "\n";
 }
