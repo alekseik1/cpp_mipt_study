@@ -210,7 +210,7 @@ public:
 
                 for (size_t j = 0; j < _orient_paths_from[_nodes[v]].size(); ++j) {
                     T to1 = (_orient_paths_from[_nodes[v]])[j].first;
-                    int to = 0;
+                    int to = _indexof(_nodes, to1);
                     int len = (_orient_paths_from[_nodes[v]])[j].second;
                     if (d[v] + len < d[to]) {
                         d[to] = d[v] + len;
