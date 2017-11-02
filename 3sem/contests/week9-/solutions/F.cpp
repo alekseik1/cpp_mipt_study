@@ -13,7 +13,7 @@ bool contains(std::vector<T> v, T value)
     return std::find(v.begin(), v.end(), value) != v.end();
 }
 
-void dfs(std::vector<std::vector<int>> &g, const int start, std::vector<bool> &used){
+void dfs(std::map<int, std::vector<int>> &g, const int start, std::vector<bool> &used){
     //std::cout << start << " "; // Действие над вершиной
     used[start] = true;
     for (int x : g[start])
@@ -25,11 +25,7 @@ bool isConnected(std::map<int, std::vector<int>> matrix_, const int size, const 
     std::vector<bool> used;
     for(int i = 0; i < size; i++)
         used.push_back(false);
-    std::vector<std::vector<int>> matr;
-    for(int i = 0; i < size; i++) {
-        matr.push_back(matrix_[i]);
-    }
-    dfs(matr, start, used);
+    dfs(matrix_, start, used);
     return std::count(used.begin(), used.end(), true) == size;
 }
 
