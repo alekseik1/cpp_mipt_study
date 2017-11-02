@@ -39,6 +39,10 @@ public:
         _is_orientated = is_or;
     }
 
+    /*!
+     * Геттер ориентированности
+     * @return Возвращает true, если граф является ориентированным
+     */
     bool is_orientated()
     {
         return _is_orientated;
@@ -85,6 +89,12 @@ public:
         return true;
     }
 
+    /*!
+    * @brief Добавляет вершину в граф.
+    * Можно передавать списки связей, а можно этого не делать.
+    * @param _Node Объект вершины
+    * @return Возвращает true, если непустая вершина была добавлена, false в противном случае (если что-то пошло не так)
+    */
     bool add_node(const T& _Node)
     {
         return add_node(_Node, _empty_pair_array());
