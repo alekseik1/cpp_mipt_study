@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 
 /*!
@@ -31,6 +32,11 @@ private:
     bool _contains(const std::vector<T>& v, const T& value)
     {
         return std::find(v.begin(), v.end(), value) != v.end();
+    }
+
+    int _indexof(const std::vector<T>& v, const T& value)
+    {
+        return std::find(v.begin(), v.end(), value) - v.begin();
     }
 
 public:
@@ -79,8 +85,6 @@ public:
      */
     bool add_node(const T& _Node, const std::vector<std::pair<T, int>>& edges) // По-умолчанию передаем пустой вектор
     {
-        if(_Node == NULL)
-            return false;
         _nodes.push_back(_Node);
         for(std::pair<T, int> pair : edges) // Для каждой пары
         {
@@ -147,20 +151,98 @@ public:
         }
         return result;
     }
+
+    /*!
+     * @brief Дейкстра без восстановления пути
+     * @param source Вершина, с которой начинать
+     * @return Возвращает map<T, int> - словарь вида (вершина1, стоимость)
+     */
+    std::map<T, int> get_shortest_weights_from(const T& source)
+    {
+        std::sort(_nodes.begin(), _nodes.end());    // Костыльная сортировка
+        if(!_is_orientated) {
+            int s = _indexof(_nodes, source);
+            const int INF = 1000000000;
+            unsigned long n = _nodes.size();
+            std::vector<T> d(n, INF), p(n);
+            d[s] = 0;
+            std::vector<char> u(n);        // Тут должен быть вектор из bool, но вектор из char работает быстрее. WTF??
+            for (unsigned i = 0; i < n; ++i) {
+                int v = -1;
+                for (unsigned j = 0; j < n; ++j)
+                    if (!u[j] && (v == -1 || d[j] < d[v]))
+                        v = j;
+                if (d[v] == INF)
+                    break;
+                u[v] = true;
+
+                for (size_t j = 0; j < _paths_from[v].size(); ++j) {
+                    T to = (_paths_from[v])[j].first;
+                    int len = (_paths_from[v])[j].second;
+                    if (d[v] + len < d[to]) {
+                        d[to] = d[v] + len;
+                        p[to] = v;
+                    }
+                }
+            }
+            std::map<T, int> result;
+            for(unsigned i = 0; i < d.size(); i++)
+            {
+                result[_nodes[i]] = d[i];
+            }
+            return result;
+        } else {
+            int s = _indexof(_nodes, source);
+            const int INF = 1000000000;
+            unsigned long n = _nodes.size();
+            std::vector<T> d(n, INF), p(n);
+            d[s] = 0;
+            std::vector<char> u(n);        // Тут должен быть вектор из bool, но вектор из char работает быстрее. WTF??
+            for (unsigned i = 0; i < n; ++i) {
+                int v = -1;
+                for (unsigned j = 0; j < n; ++j)
+                    if (!u[j] && (v == -1 || d[j] < d[v]))
+                        v = j;
+                if (d[v] == INF)
+                    break;
+                u[v] = true;
+
+                for (size_t j = 0; j < _orient_paths_from[v].size(); ++j) {
+                    T to = (_orient_paths_from[v])[j].first;
+                    int len = (_orient_paths_from[v])[j].second;
+                    if (d[v] + len < d[to]) {
+                        d[to] = d[v] + len;
+                        p[to] = v;
+                    }
+                }
+            }
+            std::map<T, int> result;
+            for(unsigned i = 0; i < d.size(); i++)
+            {
+                result[_nodes[i]] = d[i];
+            }
+            return result;
+        }
+    }
 };
 
 int main()
 {
-    Graph<int> g = Graph<int>(true);
+    Graph<int> g = Graph<int>();
     g.add_node(2);
-    g.add_node(1);
+    g.add_node(0);
     g.add_node(3);
-    g.make_connection(1, 2, 5);
-    g.make_connection(1, 3, 2);
-    g.make_connection(3, 1, 4);
-    for(auto& x : g.get_nodes_from(1))
+    g.add_node(1);
+    g.make_connection(0, 1, 5);
+    g.make_connection(0, 2, 2);
+    g.make_connection(0, 3, 1);
+    std::cout << "Getting nodes from 1:\n";
+    for(auto& x : g.get_nodes_from(0))
         std::cout << "Path to " << x.first << " with weight " << x.second << "\n";
     std::cout << "=====\n";
-    for(auto& y : g.get_nodes_to(1))
+    std::cout << "Getting nodes to 1:\n";
+    for(auto& y : g.get_nodes_to(0))
         std::cout << "Path from " << y.first << " with weight " << y.second << "\n";
+    for(auto& x: g.get_shortest_weights_from(0))
+        std::cout << "Shortest path to " << x.first << " is " << x.second << "\n";
 }
