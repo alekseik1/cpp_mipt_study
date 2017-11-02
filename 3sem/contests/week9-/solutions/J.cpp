@@ -26,7 +26,7 @@ private:
         return std::vector<std::pair<T, int>>();
     };
 
-    bool _contains(std::vector<T> v, T value)
+    bool _contains(const std::vector<T>& v, const T& value)
     {
         return std::find(v.begin(), v.end(), value) != v.end();
     }
@@ -39,7 +39,7 @@ public:
      @param destination Вершина, куда идет ребро.
      @param weight Вес ребра.
      */
-    void make_connection(T source, T destination, int weight)
+    void make_connection(const T& source, const T& destination, int weight, bool can_have_dual=false)
     {
         _paths_from[source].push_back(
                 std::pair<T, int>(destination, weight)  // Добавляем дорогу туда
