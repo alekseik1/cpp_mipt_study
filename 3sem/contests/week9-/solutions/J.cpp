@@ -164,7 +164,7 @@ public:
             int s = _indexof(_nodes, source);
             const int INF = 1000000000;
             unsigned long n = _nodes.size();
-            std::vector<T> d(n, INF), p(n);
+            std::vector<int> d(n, INF), p(n);
             d[s] = 0;
             std::vector<char> u(n);        // Тут должен быть вектор из bool, но вектор из char работает быстрее. WTF??
             for (unsigned i = 0; i < n; ++i) {
@@ -176,9 +176,10 @@ public:
                     break;
                 u[v] = true;
 
-                for (size_t j = 0; j < _paths_from[v].size(); ++j) {
-                    T to = (_paths_from[v])[j].first;
-                    int len = (_paths_from[v])[j].second;
+                for (size_t j = 0; j < _paths_from[_nodes[v]].size(); ++j) {
+                    T to1 = (_paths_from[_nodes[v]])[j].first;
+                    int to = _indexof(_nodes, to1);
+                    int len = (_paths_from[_nodes[v]])[j].second;
                     if (d[v] + len < d[to]) {
                         d[to] = d[v] + len;
                         p[to] = v;
@@ -195,7 +196,7 @@ public:
             int s = _indexof(_nodes, source);
             const int INF = 1000000000;
             unsigned long n = _nodes.size();
-            std::vector<T> d(n, INF), p(n);
+            std::vector<int> d(n, INF), p(n);
             d[s] = 0;
             std::vector<char> u(n);        // Тут должен быть вектор из bool, но вектор из char работает быстрее. WTF??
             for (unsigned i = 0; i < n; ++i) {
@@ -207,9 +208,10 @@ public:
                     break;
                 u[v] = true;
 
-                for (size_t j = 0; j < _orient_paths_from[v].size(); ++j) {
-                    T to = (_orient_paths_from[v])[j].first;
-                    int len = (_orient_paths_from[v])[j].second;
+                for (size_t j = 0; j < _orient_paths_from[_nodes[v]].size(); ++j) {
+                    T to1 = (_orient_paths_from[_nodes[v]])[j].first;
+                    int to = 0;
+                    int len = (_orient_paths_from[_nodes[v]])[j].second;
                     if (d[v] + len < d[to]) {
                         d[to] = d[v] + len;
                         p[to] = v;
@@ -228,21 +230,23 @@ public:
 
 int main()
 {
-    Graph<int> g = Graph<int>();
-    g.add_node(2);
-    g.add_node(0);
-    g.add_node(3);
-    g.add_node(1);
-    g.make_connection(0, 1, 5);
-    g.make_connection(0, 2, 2);
-    g.make_connection(0, 3, 1);
+    Graph<std::string> g = Graph<std::string>();
+    std::string s1 = std::string("Lexa");
+    std::string s2 = std::string("Petyx");
+    std::string s3 = std::string("Serega");
+
+    g.add_node(s1);
+    g.add_node(s2);
+    g.add_node(s3);
+    g.make_connection(s1, s2, 5);
+    g.make_connection(s1, s3, 2);
     std::cout << "Getting nodes from 1:\n";
-    for(auto& x : g.get_nodes_from(0))
+    for(auto& x : g.get_nodes_from(s1))
         std::cout << "Path to " << x.first << " with weight " << x.second << "\n";
     std::cout << "=====\n";
     std::cout << "Getting nodes to 1:\n";
-    for(auto& y : g.get_nodes_to(0))
+    for(auto& y : g.get_nodes_to(s1))
         std::cout << "Path from " << y.first << " with weight " << y.second << "\n";
-    for(auto& x: g.get_shortest_weights_from(0))
+    for(auto& x: g.get_shortest_weights_from(s1))
         std::cout << "Shortest path to " << x.first << " is " << x.second << "\n";
 }
