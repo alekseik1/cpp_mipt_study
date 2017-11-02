@@ -7,12 +7,6 @@
 #include <algorithm>
 #include <map>
 
-template<typename T>
-bool contains(std::vector<T> v, T value)
-{
-    return std::find(v.begin(), v.end(), value) != v.end();
-}
-
 void dfs(std::map<int, std::vector<int>> &g, const int start, std::vector<bool> &used){
     //std::cout << start << " "; // Действие над вершиной
     used[start] = true;
