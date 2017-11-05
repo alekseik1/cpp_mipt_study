@@ -19,7 +19,7 @@ private:
     bool _is_orientated;
     /// Вершины графа. Произвольный тип
     std::vector<T> _nodes;
-    /// Словарь вида {вершина : вектор_из( пара(куда, стоимость) )}
+    /// Словарь вида {вершина : вектор( пара(куда, стоимость) )}
     std::map<T, std::vector<std::pair<T, int>>> _paths_from;
     // Пара - это кортеж
     /// Та же матрица смежности, но для орграфа (я буду заполнять обе)
@@ -44,6 +44,73 @@ private:
         path.push_back(_nodes[start]);
         std::reverse (path.begin(), path.end());
         return path;
+    }
+
+    /// Переменные длин путей и самих путей из Дейкстры. Названия взял у Стаса, не ругайтесь
+    std::vector<int> _dijkstra_d;
+    std::vector<int> _dijkstra_p;
+
+    void _dijkstra_from(const T &source) {
+        std::sort(_nodes.begin(), _nodes.end());    // Костыльная сортировка
+        if (!_is_orientated) {
+            int s = _indexof(_nodes, source);
+            const int INF = 1000000000;
+            unsigned long n = _nodes.size();
+            std::vector<int> d(n, INF), p(n);
+            d[s] = 0;
+            std::vector<char> u(n);        // Тут должен быть вектор из bool, но вектор из char работает быстрее. WTF??
+            for (unsigned i = 0; i < n; ++i) {
+                int v = -1;
+                for (unsigned j = 0; j < n; ++j)
+                    if (!u[j] && (v == -1 || d[j] < d[v]))
+                        v = j;
+                if (d[v] == INF)
+                    break;
+                u[v] = true;
+
+                for (size_t j = 0; j < _paths_from[_nodes[v]].size(); ++j) {
+                    T to1 = (_paths_from[_nodes[v]])[j].first;
+                    int to = _indexof(_nodes, to1);
+                    int len = (_paths_from[_nodes[v]])[j].second;
+                    if (d[v] + len < d[to]) {
+                        d[to] = d[v] + len;
+                        p[to] = v;
+                    }
+                }
+            }
+
+            _dijkstra_d = d;
+            _dijkstra_p = p;
+        } else {
+            int s = _indexof(_nodes, source);
+            const int INF = 1000000000;
+            unsigned long n = _nodes.size();
+            std::vector<int> d(n, INF), p(n);
+            d[s] = 0;
+            std::vector<char> u(n);        // Тут должен быть вектор из bool, но вектор из char работает быстрее. WTF??
+            for (unsigned i = 0; i < n; ++i) {
+                int v = -1;
+                for (unsigned j = 0; j < n; ++j)
+                    if (!u[j] && (v == -1 || d[j] < d[v]))
+                        v = j;
+                if (d[v] == INF)
+                    break;
+                u[v] = true;
+
+                for (size_t j = 0; j < _orient_paths_from[_nodes[v]].size(); ++j) {
+                    T to1 = (_orient_paths_from[_nodes[v]])[j].first;
+                    int to = _indexof(_nodes, to1);
+                    int len = (_orient_paths_from[_nodes[v]])[j].second;
+                    if (d[v] + len < d[to]) {
+                        d[to] = d[v] + len;
+                        p[to] = v;
+                    }
+                }
+            }
+
+            _dijkstra_d = d;
+            _dijkstra_p = p;
+        }
     }
 
 public:
@@ -161,70 +228,12 @@ public:
      * @return Возвращает map<T, int> - словарь вида (вершина1, стоимость)
      */
     std::map<T, int> get_shortest_weights_from(const T &source) {
-        std::sort(_nodes.begin(), _nodes.end());    // Костыльная сортировка
-        if (!_is_orientated) {
-            int s = _indexof(_nodes, source);
-            const int INF = 1000000000;
-            unsigned long n = _nodes.size();
-            std::vector<int> d(n, INF), p(n);
-            d[s] = 0;
-            std::vector<char> u(n);        // Тут должен быть вектор из bool, но вектор из char работает быстрее. WTF??
-            for (unsigned i = 0; i < n; ++i) {
-                int v = -1;
-                for (unsigned j = 0; j < n; ++j)
-                    if (!u[j] && (v == -1 || d[j] < d[v]))
-                        v = j;
-                if (d[v] == INF)
-                    break;
-                u[v] = true;
-
-                for (size_t j = 0; j < _paths_from[_nodes[v]].size(); ++j) {
-                    T to1 = (_paths_from[_nodes[v]])[j].first;
-                    int to = _indexof(_nodes, to1);
-                    int len = (_paths_from[_nodes[v]])[j].second;
-                    if (d[v] + len < d[to]) {
-                        d[to] = d[v] + len;
-                        p[to] = v;
-                    }
-                }
-            }
-            std::map<T, int> result;
-            for (unsigned i = 0; i < d.size(); i++) {
-                result[_nodes[i]] = d[i];
-            }
-            return result;
-        } else {
-            int s = _indexof(_nodes, source);
-            const int INF = 1000000000;
-            unsigned long n = _nodes.size();
-            std::vector<int> d(n, INF), p(n);
-            d[s] = 0;
-            std::vector<char> u(n);        // Тут должен быть вектор из bool, но вектор из char работает быстрее. WTF??
-            for (unsigned i = 0; i < n; ++i) {
-                int v = -1;
-                for (unsigned j = 0; j < n; ++j)
-                    if (!u[j] && (v == -1 || d[j] < d[v]))
-                        v = j;
-                if (d[v] == INF)
-                    break;
-                u[v] = true;
-
-                for (size_t j = 0; j < _orient_paths_from[_nodes[v]].size(); ++j) {
-                    T to1 = (_orient_paths_from[_nodes[v]])[j].first;
-                    int to = _indexof(_nodes, to1);
-                    int len = (_orient_paths_from[_nodes[v]])[j].second;
-                    if (d[v] + len < d[to]) {
-                        d[to] = d[v] + len;
-                        p[to] = v;
-                    }
-                }
-            }
-            std::map<T, int> result;
-            for (unsigned i = 0; i < d.size(); i++) {
-                result[_nodes[i]] = d[i];
-            }
-            return result;
+        _dijkstra_from(source);
+        std::map<T, int> result;
+        for(unsigned i = 0; i < _dijkstra_d.size(); i++) {
+            result[_nodes[i]] = _dijkstra_d[i];
         }
+        return result;
     }
 
     /*!
@@ -233,7 +242,21 @@ public:
      * @return Возвращает суммарный вес пути, либо -1, если заданный путь имеет разрывы
      */
     int get_path_weight(std::vector<T> path) {
-        // TODO: Реализуй меня
+        int res = 0;
+        bool _is_found = false;
+        for(int i = 0; i < path.size() - 1; i++) {
+            const std::vector<std::pair<T, int>> p = _paths_from[path[i]];
+            for(std::pair<T, int> pair : p) {
+                if(pair.first == path[i+1]) {
+                    res += pair.second;
+                    _is_found = true;
+                }
+            }
+            if(!_is_found)
+                return -1;
+            _is_found = false;
+        }
+        return res;
     }
 
     /*!
@@ -243,76 +266,11 @@ public:
      * @return Возвращает vector<T> - пары вида (вектор_пути, суммарный вес) )
      */
     std::vector<T> get_shortest_paths_between(const T &source, const T &destination) {
-        std::sort(_nodes.begin(), _nodes.end());    // Костыльная сортировка
-        if (!_is_orientated) {
-            int s = _indexof(_nodes, source);
-            const int INF = 1000000000;
-            unsigned long n = _nodes.size();
-            std::vector<int> d(n, INF), p(n);
-            d[s] = 0;
-            std::vector<char> u(n);        // Тут должен быть вектор из bool, но вектор из char работает быстрее. WTF??
-            for (unsigned i = 0; i < n; ++i) {
-                int v = -1;
-                for (unsigned j = 0; j < n; ++j)
-                    if (!u[j] && (v == -1 || d[j] < d[v]))
-                        v = j;
-                if (d[v] == INF)
-                    break;
-                u[v] = true;
-
-                for (size_t j = 0; j < _paths_from[_nodes[v]].size(); ++j) {
-                    T to1 = (_paths_from[_nodes[v]])[j].first;
-                    int to = _indexof(_nodes, to1);
-                    int len = (_paths_from[_nodes[v]])[j].second;
-                    if (d[v] + len < d[to]) {
-                        d[to] = d[v] + len;
-                        p[to] = v;
-                    }
-                }
-            }
-            std::map<T, int> result;
-            for (unsigned i = 0; i < d.size(); i++) {
-                result[_nodes[i]] = d[i];
-            }
-
-            int sourse_ind = _indexof(_nodes, source);
-            int dest_ind = _indexof(_nodes, destination);
-            return _recoverPath(dest_ind, sourse_ind, p);
-        } else {
-            int s = _indexof(_nodes, source);
-            const int INF = 1000000000;
-            unsigned long n = _nodes.size();
-            std::vector<int> d(n, INF), p(n);
-            d[s] = 0;
-            std::vector<char> u(n);        // Тут должен быть вектор из bool, но вектор из char работает быстрее. WTF??
-            for (unsigned i = 0; i < n; ++i) {
-                int v = -1;
-                for (unsigned j = 0; j < n; ++j)
-                    if (!u[j] && (v == -1 || d[j] < d[v]))
-                        v = j;
-                if (d[v] == INF)
-                    break;
-                u[v] = true;
-
-                for (size_t j = 0; j < _orient_paths_from[_nodes[v]].size(); ++j) {
-                    T to1 = (_orient_paths_from[_nodes[v]])[j].first;
-                    int to = _indexof(_nodes, to1);
-                    int len = (_orient_paths_from[_nodes[v]])[j].second;
-                    if (d[v] + len < d[to]) {
-                        d[to] = d[v] + len;
-                        p[to] = v;
-                    }
-                }
-            }
-            std::map<T, int> result;
-            for (unsigned i = 0; i < d.size(); i++) {
-                result[_nodes[i]] = d[i];
-            }
-
-            int sourse_ind = _indexof(_nodes, source);
-            int dest_ind = _indexof(_nodes, destination);
-            return _recoverPath(dest_ind, sourse_ind, p);
-        }
+        // TODO: Сделать проверку на то, был ли Дейкстра уже задействован
+        _dijkstra_from(source);
+        int sourse_ind = _indexof(_nodes, source);
+        int dest_ind = _indexof(_nodes, destination);
+        return _recoverPath(dest_ind, sourse_ind, _dijkstra_p);
     }
 };
 
@@ -340,4 +298,9 @@ int main()
         std::cout << "Shortest path to " << x.first.second << " with number " << x.first.first << " with weight " << x.second << "\n";
     for(auto& x: g.get_shortest_paths_between(s1, s2))
         std::cout << "GOTO " << x.second << " ";
+    std::vector<std::pair<int, std::string>> path1;
+    path1.push_back(s1);
+    path1.push_back(s3);
+    //path1.push_back(s3);
+    std::cout << "\nfor path s1, s3 weight is " << g.get_path_weight(path1) << "\n";
 }
