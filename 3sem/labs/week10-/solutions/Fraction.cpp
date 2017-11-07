@@ -65,6 +65,14 @@ public:
     }
 
     bool operator==(const Fraction &a) { return compareTo(a) == 0; }
+
+    bool operator<(const Fraction &a) { return compareTo(a) < 0; }
+
+    bool operator>(const Fraction &a) { return compareTo(a) > 0; }
+
+    bool operator<=(const Fraction &a) { return compareTo(a) <= 0; }
+
+    bool operator>=(const Fraction&a) { return compareTo(a) >= 0; }
 };
 
 std::ostream &operator<<(std::ostream &stream, const Fraction& a) {
@@ -80,5 +88,6 @@ Fraction power(const Fraction &fraction, int power) {
 int main(int argc, char **argv) {
     Fraction a(-4, 7), b(1, 3), c(0, 4);
     std::cout << c << " " << a * c << std::endl;
-    std::cout << (a < b) << " " << power(Fraction(1, 4), -1) << std::endl;
+    //std::cout << (a < b) << " " << power(Fraction(1, 4), -1) << std::endl;
+    std::cout << (a < b) << std::endl;
 }
