@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+        <meta charset="utf-8" />
+        <title>Перегрузка операторов в С++</title>
+        <link rel="stylesheet" href="http://judge.mipt.ru/mipt_cs_on_cpp/theme/css/main.css" />
+        <link rel="icon" type="image/png" href="http://judge.mipt.ru/mipt_cs_on_cpp/favicon.png" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <div id="wrap">
+            <header id="banner" class="body">
+                    <img src="http://judge.mipt.ru/mipt_cs_on_cpp/images/logo.png" class="logo" />
+                    <nav><ul>
+                        <li><a href="http://judge.mipt.ru/mipt_cs_on_cpp">Главная</a></li>
+                    </ul></nav>
+            </header><!-- /#banner -->
+            <div id="main"
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://judge.mipt.ru/mipt_cs_on_cpp/labs/lab10.html" rel="bookmark"
+           title="Permalink to Перегрузка операторов в С++">Перегрузка операторов в С++</a></h1>
+    </header>
+      <nav class="toc">
+      <div class="toc" id="">
+
+<ul class="simple">
+<li><a class="reference internal" href="#id3" id="id6">Введение</a></li>
+<li><a class="reference internal" href="#id4" id="id7">Два способа перегрузки операторов</a></li>
+<li><a class="reference internal" href="#id5" id="id8">Правила перегрузки операций</a></li>
+<li><a class="reference internal" href="#fraction" id="id9">Класс Fraction</a><ul>
+<li><a class="reference internal" href="#o1" id="id10">Упражнение №1</a></li>
+<li><a class="reference internal" href="#o2" id="id11">Упражнение №2</a></li>
+<li><a class="reference internal" href="#o3" id="id12">Упражнение №3</a></li>
+</ul>
+</li>
+</ul>
+</div>
+      </nav>
+      <br/>
+      <br/>
+    
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id6">Введение</a></h2>
+<p>С++ позволяет организовать перегрузку операций. Механизм перегрузки операций позволяет обеспечить более традиционную и удобную запись действий над объектами. Для перегрузки встроенных операторов используется ключевое слова operator.
+Синтаксически перегрузка операций осуществляется следующим образом:</p>
+<div class="highlight"><pre><span></span><span class="err">тип</span> <span class="n">operator</span> <span class="err">@</span> <span class="p">(</span><span class="err">список</span><span class="n">_параметров</span><span class="o">-</span><span class="err">операндов</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="c1">// ... тело функции ...</span>
+<span class="p">}</span>
+</pre></div>
+<p>где @ — знак перегружаемой операции (-, +, *  и т. д.),
+тип — тип возвращаемого значения.
+Операторы бывают бинарные (например, a+b) и унарные (например, i++).</p>
+<p>Рассмотрим следующий код:</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="n">class</span> <span class="n">Point2D</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+
+        <span class="nl">public</span><span class="p">:</span>
+                <span class="n">Point2D</span><span class="p">()</span> <span class="o">:</span> <span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">y</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{}</span>
+                <span class="n">Point2D</span><span class="p">(</span> <span class="kt">int</span> <span class="n">_x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_y</span> <span class="p">)</span> <span class="o">:</span> <span class="n">x</span><span class="p">(</span><span class="n">_x</span><span class="p">),</span> <span class="n">y</span><span class="p">(</span><span class="n">_y</span><span class="p">)</span> <span class="p">{}</span>
+                <span class="n">Point2D</span> <span class="n">operator</span><span class="o">+</span><span class="p">(</span><span class="k">const</span> <span class="n">Point2D</span> <span class="o">&amp;</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">Point2D</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">t</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="n">t</span><span class="p">.</span><span class="n">y</span><span class="p">);</span> <span class="p">}</span>
+                <span class="n">Point2D</span> <span class="n">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">Point2D</span> <span class="o">&amp;</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">x</span><span class="p">;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">y</span><span class="p">;</span> <span class="k">return</span> <span class="o">*</span><span class="n">this</span><span class="p">;</span> <span class="p">}</span>
+                <span class="kt">void</span> <span class="n">show</span> <span class="p">()</span> <span class="p">{</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="s">", "</span> <span class="o">&lt;&lt;</span> <span class="n">y</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">Point2D</span> <span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">c</span><span class="p">;</span>
+        <span class="n">a</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+        <span class="n">b</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">;</span>
+        <span class="n">c</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">+</span><span class="n">c</span><span class="p">;</span>
+        <span class="n">c</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+        <span class="n">c</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+        <span class="n">b</span><span class="p">.</span><span class="n">show</span> <span class="p">();</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>Эта программа выводит на экран следующие числа:</p>
+<div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+<span class="mi">10</span><span class="p">,</span> <span class="mi">10</span>
+<span class="mi">11</span><span class="p">,</span> <span class="mi">12</span>
+<span class="mi">22</span><span class="p">,</span> <span class="mi">24</span>
+<span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+<span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+</pre></div>
+<p>обе функции-опе­ратора имеют только по одному параметру, несмотря на то, что они перегружают бинарный оператор. Это связано с тем, что при перегрузке бинарного оператора с использованием функции класса ей передается явным образом только один аргумент. Вторым аргументом служит ука­затель this, который передается ей неявно. Так, в строке</p>
+<div class="highlight"><pre><span></span><span class="n">Point2D</span> <span class="n">operator</span><span class="o">+</span><span class="p">(</span><span class="k">const</span> <span class="n">Point2D</span> <span class="o">&amp;</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">Point2D</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">t</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="n">t</span><span class="p">.</span><span class="n">y</span><span class="p">);</span> <span class="p">};</span>
+</pre></div>
+<p>х соответствует this-&gt;x, где х ассоциировано с объектом, который вызывает функцию-оператор. Во всех случаях именно объект слева от знака операции вызывает функцию-оператор. Объект, стоящий справа от знака операции, передается функции.</p>
+<div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="err">эквивалентно</span> <span class="err">вызову</span> <span class="n">a</span><span class="p">.</span><span class="n">operator</span><span class="o">+</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+<p>При перегрузке унарной операции функция-оператор не имеет параметров, а при перегрузке бинарной операции функция-оператор имеет один параметр. (Нельзя перегрузить триадный опе­ратор ?:.) Во всех случаях объект, активизирующий функцию-оператор, передается неявным об­разом с помощью указателя this.</p>
+<p>Чтобы понять, как работает перегрузка операторов, тщательно проанализируем, как работа­ет предыдущая программа, начиная с перегруженного оператора +. Когда два объекта типа Point2D подвергаются воздействию оператора +, значения их соответствующих координат скла­дываются, как это показано в функции operator+(), ассоциированной с данным классом. Обра­тим, однако, внимание, что функция не модифицирует значений операндов. Вместо этого она возвращает объект Point2D, содержащий результат выполнения операции. Чтобы понять, почему оператор + не изменяет содержимого объектов, можно представить себе стандартный арифметический оператор +, примененный следующим образом: 10 + 12. Результатом этой опе­рации является 22, однако ни 10 ни 12 от этого не изменились. Хотя не существует правила о том, что перегруженный оператор не может изменять значений своих операндов, обычно име­ет смысл следовать ему. Если вернуться к данному примеру, то нежелательно, чтобы оператор + изменял содержание операндов.</p>
+<p>Другим ключевым моментом перегрузки оператора сложения служит то, что он возвращает объект типа Point2D. Хотя функция может иметь в качестве значения любой допустимый тип язы­ка С++, тот факт, что она возвращает объект типа Point2D, позволяет использовать оператор + в более сложных выражениях, таких, как a+b+с. Здесь а+b создает результат типа Point2D. Это значение затем прибавляется к с. Если бы значением суммы а+b было значение другого типа, то мы не могли бы затем прибавить его к с.</p>
+<p>В противоположность оператору +, оператор присваивания модифицирует свои аргументы. (В этом, кроме всего прочего, и заключается смысл присваивания.) Поскольку функция operator=() вызывается объектом, стоящим слева от знака равенства, то именно этот объект модифицируется при выполнении операции присваивания. Однако даже оператор присваивания обязан возвра­щать значение, поскольку как в С++, так и в С оператор присваивания порождает величину, стоящую с правой стороны равенства. Так, для того, чтобы выражение следующего вида</p>
+<div class="highlight"><pre><span></span><span class="err">а</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="err">с</span> <span class="o">=</span> <span class="n">d</span><span class="p">;</span>
+</pre></div>
+<p>было допустимым, необходимо, чтобы оператор operator=() возвращал объект, на который ука­зывает указатель this и который будет объектом, стоящим с левой стороны оператора присваива­ния. Если сделать таким образом, то можно выполнить множественное присваивание.</p>
+<p>Можно перегрузить унарные операторы, такие как ++ или --. Как уже говорилось ранее, при перегрузке унарного оператора с использованием функци класса, эта функция-член не имеет аргументов. Вместо этого операция выполняется над объектом, осуществляющим вызов функции-оператора путем неявной передачи указателя this. Добавим оператор инкремента для объекта типа Point2D:</p>
+<div class="highlight"><pre><span></span><span class="n">Point2D</span> <span class="o">&amp;</span> <span class="n">operator</span><span class="o">++</span> <span class="p">()</span> <span class="p">{</span> <span class="n">x</span><span class="o">++</span><span class="p">;</span> <span class="n">y</span><span class="o">++</span><span class="p">;</span> <span class="k">return</span> <span class="o">*</span><span class="n">this</span><span class="p">;</span> <span class="p">}</span>
+<span class="n">Point2D</span> <span class="n">operator</span><span class="o">++</span> <span class="p">(</span><span class="kt">int</span> <span class="n">d</span><span class="p">)</span> <span class="p">{</span> <span class="n">Point2D</span> <span class="n">p</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span> <span class="o">++</span><span class="p">(</span><span class="o">*</span><span class="n">this</span><span class="p">);</span> <span class="k">return</span> <span class="n">p</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+<p>Если ++ предшествует операнду, то вызывается функция operator++() (префиксный оператор). Если же ++ следует за операндом, то тогда вызывается функция operator++(int d), где d принимает значение 0 (постфиксный оператор). Правилом хорошего тона считается использование префиксного оператора в постфиксном.</p>
+</div>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id7">Два способа перегрузки операторов</a></h2>
+<p>Функция-оператор может быть другом класса (friend), а не только его функцией. Поскольку функции-друзья не являются функциями класса, они не могут иметь неявный аргумент this. Поэтому при использовании дружественной функции-оператора оба операнда пе­редаются функции при перегрузке бинарных операторов, а при перегрузке унарных операторов передается один операнд.
+Следующие операторы не могут использовать перегрузку с помощью функций-друзей: =, (), [], и -&gt;. Остальные операторы могут быть перегружены как с помощью функций-классов, так с помощью функций-друзей.
+В качестве примера ниже рассматрим мо­дифицированную версия класса Point2D, в которой оператор + перегружен с помощью дружественной функции:</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="n">class</span> <span class="n">Point2D</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+
+        <span class="n">friend</span> <span class="n">Point2D</span> <span class="n">operator</span><span class="o">+</span><span class="p">(</span><span class="k">const</span> <span class="n">Point2D</span> <span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Point2D</span> <span class="o">&amp;</span> <span class="n">b</span><span class="p">);</span>
+
+        <span class="nl">public</span><span class="p">:</span>
+                <span class="n">Point2D</span><span class="p">()</span> <span class="o">:</span> <span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">y</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{}</span>
+                <span class="n">Point2D</span><span class="p">(</span> <span class="kt">int</span> <span class="n">_x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_y</span> <span class="p">)</span> <span class="o">:</span> <span class="n">x</span><span class="p">(</span><span class="n">_x</span><span class="p">),</span> <span class="n">y</span><span class="p">(</span><span class="n">_y</span><span class="p">)</span> <span class="p">{}</span>
+                <span class="n">Point2D</span> <span class="n">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">Point2D</span> <span class="o">&amp;</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">x</span><span class="p">;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">y</span><span class="p">;</span> <span class="k">return</span> <span class="o">*</span><span class="n">this</span><span class="p">;</span> <span class="p">}</span>
+                <span class="kt">void</span> <span class="n">show</span> <span class="p">()</span> <span class="p">{</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="s">", "</span> <span class="o">&lt;&lt;</span> <span class="n">y</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="n">Point2D</span> <span class="n">operator</span><span class="o">+</span><span class="p">(</span><span class="k">const</span> <span class="n">Point2D</span> <span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Point2D</span> <span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">Point2D</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">x</span><span class="o">+</span><span class="n">b</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">y</span><span class="o">+</span><span class="n">b</span><span class="p">.</span><span class="n">y</span><span class="p">);</span> <span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">Point2D</span> <span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">c</span><span class="p">;</span>
+        <span class="n">a</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+        <span class="n">b</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">;</span>
+        <span class="n">c</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">+</span><span class="n">c</span><span class="p">;</span>
+        <span class="n">c</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+        <span class="n">c</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+        <span class="n">b</span><span class="p">.</span><span class="n">show</span> <span class="p">();</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>В данном случае оба операнда передаются функции operator+(). Левый опе­ранд передается в переменной a, а правый — в переменной b.</p>
+<p>Во многих случаях использование функций-друзей вместо функций-класса не дает выигрыша при перегрузке операторов. Однако имеется одна ситуация, в которой необходимо использо­вать дружественные функции. Как известно, указатель на объект, вызывающий функцию-оператор, передается в указателе this. В случае бинарных операторов левый объект вызывает эту фун­кцию. Такой способ работает до тех пор, пока левый объект определяет заданную операцию. Предположим, что для объекта X определены операции присваивания и сложения, так что следующий код</p>
+<div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// будет работать</span>
+</pre></div>
+<p>является корректным. Поскольку объект X находится с левой стороны оператора+, то он вызы­вает оператор-функцию, перегружающую операцию сложения, которая по предположению спо­собна добавить целое число к определенному элементу объекта О. Однако следующая инструкция не является корректной:</p>
+<div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">X</span><span class="p">;</span> <span class="c1">// не будет работать</span>
+</pre></div>
+<p>Причина, по которой эта инструкция не будет выполняться, заключена в том, что слева от опера­тора + теперь стоит целое число, являющееся встроенным типом и не имеет функции, кото­рая могла бы осуществить сложение с объектом X. Для решения данной проблемы необходимо определить два оператора сложения:</p>
+<div class="highlight"><pre><span></span><span class="n">X</span> <span class="n">operator</span><span class="o">+</span><span class="p">(</span><span class="n">X</span> <span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">i</span><span class="p">);</span>
+<span class="n">X</span> <span class="n">operator</span><span class="o">+</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">X</span> <span class="o">&amp;</span> <span class="n">x</span><span class="p">);</span>
+</pre></div>
+<p>В зависимости от порядка операндов в выражении будет вызываться подходящий оператор.</p>
+</div>
+<div class="section" id="id5">
+<h2><a class="toc-backref" href="#id8">Правила перегрузки операций</a></h2>
+<p>Язык C++ не допускает определения для операций нового лексического символа, кроме уже определенных в языке. Например, нельзя определить в качестве знака операции @.
+Не допускается перегрузка операций для встроенных типов данных. Нельзя, например, переопределить операцию сложения целых чисел:</p>
+<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">operator</span> <span class="o">+</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">int</span> <span class="n">j</span><span class="p">);</span>
+</pre></div>
+<ul class="simple">
+<li>Нельзя переопределить приоритет операции.</li>
+<li>Нельзя изменить синтаксис операции в выражении. Например, если некоторая операция определена как унарная, то ее нельзя определить как бинарную. Если для операции используется префиксная форма записи, то ее нельзя переопределить в постфиксную. Например, !а нельзя переопределить как а!</li>
+<li>Перегружать можно только операции, для которых хотя бы один аргумент представляет тип данных, определенный пользователем. Функция-операция должна быть определена либо как функция-член класса, либо как внешняя функция, но дружественная классу.</li>
+</ul>
+<p>Следующие операторы могут быть переопределены:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%"/>
+<col width="10%"/>
+<col width="10%"/>
+<col width="11%"/>
+<col width="11%"/>
+<col width="10%"/>
+<col width="10%"/>
+<col width="10%"/>
+<col width="10%"/>
+<col width="10%"/>
+</colgroup>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">+</tt></td>
+<td><tt class="docutils literal">*</tt></td>
+<td><tt class="docutils literal">/</tt></td>
+<td><tt class="docutils literal">%</tt></td>
+<td><tt class="docutils literal">^</tt></td>
+<td><tt class="docutils literal">&amp;</tt></td>
+<td><tt class="docutils literal">\</tt></td>
+<td><tt class="docutils literal">|</tt></td>
+<td><tt class="docutils literal">~</tt></td>
+<td><tt class="docutils literal">!</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">=</tt></td>
+<td><tt class="docutils literal">&lt;</tt></td>
+<td><tt class="docutils literal">&gt;</tt></td>
+<td><tt class="docutils literal">+=</tt></td>
+<td><tt class="docutils literal"><span class="pre">-=</span></tt></td>
+<td><tt class="docutils literal">*=</tt></td>
+<td><tt class="docutils literal">/=</tt></td>
+<td><tt class="docutils literal">%=</tt></td>
+<td><tt class="docutils literal">^=</tt></td>
+<td><tt class="docutils literal">&amp;=</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">|=</tt></td>
+<td><tt class="docutils literal">&lt;&lt;</tt></td>
+<td><tt class="docutils literal">&gt;&gt;</tt></td>
+<td><tt class="docutils literal">&gt;&gt;=</tt></td>
+<td><tt class="docutils literal">&lt;&lt;=</tt></td>
+<td><tt class="docutils literal">==</tt></td>
+<td><tt class="docutils literal">!=</tt></td>
+<td><tt class="docutils literal">&lt;=</tt></td>
+<td><tt class="docutils literal">&gt;=</tt></td>
+<td><tt class="docutils literal">&amp;&amp;</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">||</tt></td>
+<td><tt class="docutils literal">++</tt></td>
+<td><tt class="docutils literal"><span class="pre">--</span></tt></td>
+<td><tt class="docutils literal">[]</tt></td>
+<td><tt class="docutils literal">()</tt></td>
+<td>new</td>
+<td>delete</td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="fraction">
+<h2><a class="toc-backref" href="#id9">Класс Fraction</a></h2>
+<p>Рассмотрим класс Fraction, реализующий базовый функционал над дробями:</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdexcept&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;cstdlib&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp"></span>
+
+<span class="n">class</span> <span class="n">Fraction</span> <span class="p">{</span>
+        <span class="nl">private</span><span class="p">:</span>
+                <span class="kt">int</span> <span class="n">numerator</span><span class="p">;</span>
+                <span class="kt">int</span> <span class="n">denominator</span><span class="p">;</span>
+
+                <span class="kt">void</span> <span class="nf">simplify</span><span class="p">()</span> <span class="p">{</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">denominator</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                                <span class="n">numerator</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+                                <span class="n">denominator</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+                        <span class="p">}</span>
+                        <span class="k">if</span> <span class="p">(</span> <span class="n">abs</span><span class="p">(</span><span class="n">numerator</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+                        <span class="kt">int</span> <span class="n">gcd</span> <span class="o">=</span> <span class="n">getGCD</span><span class="p">(</span> <span class="n">abs</span><span class="p">(</span><span class="n">numerator</span><span class="p">),</span> <span class="n">denominator</span> <span class="p">);</span>
+                        <span class="n">numerator</span> <span class="o">/=</span> <span class="n">gcd</span><span class="p">;</span>
+                        <span class="n">denominator</span> <span class="o">/=</span> <span class="n">gcd</span><span class="p">;</span>
+                <span class="p">}</span>
+        <span class="nl">public</span><span class="p">:</span>
+                <span class="n">Fraction</span><span class="p">(</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">d</span> <span class="p">)</span> <span class="o">:</span> <span class="n">numerator</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">denominator</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="n">simplify</span><span class="p">();</span>
+                <span class="p">}</span>
+
+                <span class="n">Fraction</span><span class="p">()</span> <span class="o">:</span> <span class="n">numerator</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">denominator</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{}</span>
+                <span class="n">Fraction</span><span class="p">(</span> <span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">other</span> <span class="p">)</span> <span class="o">:</span> <span class="n">numerator</span><span class="p">(</span> <span class="n">other</span><span class="p">.</span><span class="n">getNumerator</span><span class="p">()</span> <span class="p">),</span> <span class="n">denominator</span><span class="p">(</span> <span class="n">other</span><span class="p">.</span><span class="n">getDenominator</span><span class="p">()</span> <span class="p">)</span> <span class="p">{}</span>
+
+                <span class="n">Fraction</span><span class="p">(</span> <span class="kt">int</span> <span class="n">value</span> <span class="p">)</span> <span class="o">:</span> <span class="n">numerator</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">denominator</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{}</span>
+
+                <span class="kt">int</span> <span class="n">getNumerator</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">numerator</span><span class="p">;</span> <span class="p">}</span>
+                <span class="kt">int</span> <span class="n">getDenominator</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">denominator</span><span class="p">;</span> <span class="p">}</span>
+
+                <span class="kt">double</span> <span class="n">getValue</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+                        <span class="k">return</span> <span class="n">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">getNumerator</span><span class="p">())</span> <span class="o">/</span> <span class="n">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">getDenominator</span><span class="p">());</span>
+                <span class="p">}</span>
+
+                <span class="kt">int</span> <span class="n">compareTo</span><span class="p">(</span> <span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">other</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+                        <span class="k">return</span> <span class="n">getNumerator</span><span class="p">()</span> <span class="o">*</span> <span class="n">other</span><span class="p">.</span><span class="n">getDenominator</span><span class="p">()</span> <span class="o">-</span> <span class="n">getDenominator</span><span class="p">()</span> <span class="o">*</span> <span class="n">other</span><span class="p">.</span><span class="n">getNumerator</span><span class="p">();</span>
+                <span class="p">}</span>
+
+                <span class="kt">int</span> <span class="n">getGCD</span><span class="p">(</span> <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span> <span class="p">)</span> <span class="p">{</span>
+                        <span class="k">while</span><span class="p">(</span> <span class="n">a</span> <span class="o">!=</span> <span class="n">b</span> <span class="p">)</span> <span class="p">{</span>
+                                <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="n">a</span> <span class="o">-=</span> <span class="n">b</span><span class="p">;</span> <span class="k">else</span> <span class="n">b</span> <span class="o">-=</span> <span class="n">a</span><span class="p">;</span>
+                        <span class="p">}</span>
+                        <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+                <span class="p">}</span>
+
+                <span class="n">Fraction</span> <span class="n">operator</span><span class="o">-</span><span class="p">()</span> <span class="p">{</span>
+                        <span class="k">return</span> <span class="n">Fraction</span><span class="p">(</span><span class="o">-</span><span class="n">getNumerator</span><span class="p">(),</span> <span class="n">getDenominator</span><span class="p">());</span>
+                <span class="p">}</span>
+
+                <span class="n">Fraction</span> <span class="n">operator</span><span class="o">+</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="kt">int</span> <span class="n">commonDenominator</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">getDenominator</span><span class="p">()</span> <span class="o">*</span> <span class="n">getDenominator</span><span class="p">();</span>
+                        <span class="kt">int</span> <span class="n">commonNumerator</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">getNumerator</span><span class="p">()</span> <span class="o">*</span> <span class="n">getDenominator</span><span class="p">()</span> <span class="o">+</span> <span class="n">getNumerator</span><span class="p">()</span> <span class="o">*</span> <span class="n">a</span><span class="p">.</span><span class="n">getDenominator</span><span class="p">();</span>
+                        <span class="k">return</span> <span class="nf">Fraction</span><span class="p">(</span><span class="n">commonNumerator</span><span class="p">,</span> <span class="n">commonDenominator</span><span class="p">);</span>
+                <span class="p">}</span>
+
+                <span class="n">Fraction</span> <span class="n">operator</span><span class="o">*</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="k">return</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">getNumerator</span><span class="p">()</span> <span class="o">*</span> <span class="n">a</span><span class="p">.</span><span class="n">getNumerator</span><span class="p">(),</span> <span class="n">getDenominator</span><span class="p">()</span> <span class="o">*</span> <span class="n">a</span><span class="p">.</span><span class="n">getDenominator</span><span class="p">());</span>
+                <span class="p">}</span>
+
+                <span class="n">Fraction</span> <span class="n">operator</span><span class="o">/</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="k">return</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">getNumerator</span><span class="p">()</span> <span class="o">*</span> <span class="n">a</span><span class="p">.</span><span class="n">getDenominator</span><span class="p">(),</span> <span class="n">getDenominator</span><span class="p">()</span> <span class="o">*</span> <span class="n">a</span><span class="p">.</span><span class="n">getNumerator</span><span class="p">());</span>
+                <span class="p">}</span>
+
+                <span class="kt">bool</span> <span class="n">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">compareTo</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span> <span class="k">const</span> <span class="n">Fraction</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">stream</span> <span class="o">&lt;&lt;</span> <span class="n">a</span><span class="p">.</span><span class="n">getNumerator</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">"/"</span> <span class="o">&lt;&lt;</span> <span class="n">a</span><span class="p">.</span><span class="n">getDenominator</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">Fraction</span> <span class="n">power</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">fraction</span><span class="p">,</span> <span class="kt">int</span> <span class="n">power</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">power</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span>
+                        <span class="n">Fraction</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">pow</span><span class="p">(</span><span class="n">fraction</span><span class="p">.</span><span class="n">getDenominator</span><span class="p">(),</span> <span class="o">-</span><span class="n">power</span><span class="p">),</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">pow</span><span class="p">(</span><span class="n">fraction</span><span class="p">.</span><span class="n">getNumerator</span><span class="p">(),</span> <span class="o">-</span><span class="n">power</span><span class="p">))</span> <span class="o">:</span>
+                        <span class="n">Fraction</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">pow</span><span class="p">(</span><span class="n">fraction</span><span class="p">.</span><span class="n">getNumerator</span><span class="p">(),</span> <span class="n">power</span><span class="p">),</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">pow</span><span class="p">(</span><span class="n">fraction</span><span class="p">.</span><span class="n">getDenominator</span><span class="p">(),</span> <span class="n">power</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Fraction</span> <span class="n">a</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">c</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">*</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span> <span class="o">&lt;&lt;</span> <span class="n">power</span><span class="p">(</span><span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>Скопируйте и запустите код, приведенный выше, и убедитесь, что он работает корректно.</p>
+<div class="section" id="o1">
+<h3><a class="toc-backref" href="#id10">Упражнение №1</a></h3>
+<p>Реализуйте следующие операторы для класса Fraction:</p>
+<div class="highlight"><pre><span></span><span class="kt">bool</span> <span class="n">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">)</span>
+<span class="kt">bool</span> <span class="n">operator</span><span class="o">&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">)</span>
+<span class="kt">bool</span> <span class="n">operator</span><span class="o">&lt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">)</span>
+<span class="kt">bool</span> <span class="n">operator</span><span class="o">&gt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="o2">
+<h3><a class="toc-backref" href="#id11">Упражнение №2</a></h3>
+<p>Реализуйте оператор</p>
+<div class="highlight"><pre><span></span><span class="n">Fraction</span> <span class="n">operator</span><span class="o">-</span><span class="p">(</span><span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+<p>не обращаясь явно к полям numerator и denominator</p>
+</div>
+<div class="section" id="o3">
+<h3><a class="toc-backref" href="#id12">Упражнение №3</a></h3>
+<p>Реализуйте основные арифметические операторы (+,-,*,/) для Fraction и int.</p>
+</div>
+</div>
+
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+                <section id="extras" class="body">
+                </section><!-- /#extras -->
+            </div>
+        </div>
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Сайт построен с использованием <a href="http://getpelican.com/">Pelican</a>. За основу оформления взята тема от <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>. Исходные тексты программ, приведённые на этом сайте, распространяются под лицензией <a href="http://www.gnu.org/licenses/quick-guide-gplv3.en.html">GPLv3</a>, все остальные материалы сайта распространяются под лицензией <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.ru">CC-BY-SA</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">//<![CDATA[
+//  var code_blocks = Array.prototype.slice.call(document.getElementsByClassName('highlight'));
+//  var solutions = code_blocks.filter(function(e, i, z){
+//    return (e.parentElement.firstElementChild.tagName == 'H3' || e.parentElement.firstElementChild.tagName == 'H2') &&
+//           e.parentElement.firstElementChild.firstChild.text.startsWith('Упражнение') &&
+//           e.parentElement.lastElementChild == e
+//  })
+//  for (var i in solutions)
+//  {
+//  //    solutions[i].remove();
+//  //  }
+//]]>
+</script>
+</body>
+</html>
