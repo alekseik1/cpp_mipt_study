@@ -73,7 +73,51 @@ public:
     bool operator<=(const Fraction &a) { return compareTo(a) <= 0; }
 
     bool operator>=(const Fraction&a) { return compareTo(a) >= 0; }
+
+    Fraction operator-(Fraction &a) {
+        return *(this) + (-a);
+    }
+
+    friend Fraction operator+(const Fraction &a, const Fraction &b);
+    friend Fraction operator-(const Fraction &a, const Fraction &b);
+    friend Fraction operator*(const Fraction &a, const Fraction &b);
+    friend Fraction operator/(const Fraction &a, const Fraction &b);
+
 };
+
+Fraction operator+(Fraction& _a, int _b) {
+    return Fraction(_b, 1) + _a;
+}
+
+Fraction operator+(int _a, Fraction& _b) {
+    return Fraction(_a, 1) + _b;
+}
+
+Fraction operator-(Fraction& _a, int _b) {
+    return Fraction(_b, 1) - _a;
+}
+
+Fraction operator-(int _a, Fraction& _b) {
+    return Fraction(_a, 1) - _b;
+}
+
+Fraction operator*(Fraction& _a, int _b) {
+    return Fraction(_b, 1) * _a;
+}
+
+Fraction operator*(int _a, Fraction& _b) {
+    return Fraction(_a, 1) * _b;
+}
+
+Fraction operator/(Fraction& _a, int _b) {
+    return Fraction(_b, 1) / _a;
+}
+
+Fraction operator/(int _a, Fraction& _b) {
+    return Fraction(_a, 1) / _b;
+}
+
+
 
 std::ostream &operator<<(std::ostream &stream, const Fraction& a) {
     return stream << a.getNumerator() << "/" << a.getDenominator();
@@ -88,6 +132,9 @@ Fraction power(const Fraction &fraction, int power) {
 int main(int argc, char **argv) {
     Fraction a(-4, 7), b(1, 3), c(0, 4);
     std::cout << c << " " << a * c << std::endl;
-    //std::cout << (a < b) << " " << power(Fraction(1, 4), -1) << std::endl;
-    std::cout << (a < b) << std::endl;
+    std::cout << (a < b) << " " << power(Fraction(1, 4), -1) << std::endl;
+    std::cout << a / b << std::endl;
+    std::cout << a + 1 << std::endl;
+    std::cout << 1 + a << std::endl;
+    std::cout << 2 / a << std::endl;
 }
