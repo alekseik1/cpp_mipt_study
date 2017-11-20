@@ -33,6 +33,10 @@ public:
             std::cout << "Hero suffers..." << std::endl;
         }
     }
+
+    void addScores(int a) noexcept { scores += a; }
+
+    int getScores() const noexcept { return scores; }
 };
 
 #endif // HERO_H_INCLUDED
