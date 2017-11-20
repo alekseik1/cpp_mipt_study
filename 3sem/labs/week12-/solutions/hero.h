@@ -16,12 +16,25 @@ public:
     Hero(int health = default_health, int aForce = default_attackForce)
         :Unit(health, aForce), scores(0)
     {}
-    void attack (Dragon &drago)
+    void attack (Dragon &drago) noexcept
     {
         std::string q = drago.generateQuestion();
-        std::cout << "question: " << q;
+        std::cout << "Question: " << q;
+
+        // Ввод ответа с учетом неадекватного пользователя
         int answer;
-        std::cin >> answer;
+        for (std::string line; std::getline(std::cin, line); )
+        {
+            std::istringstream iss(line);
+
+            if (!(iss >> answer >> std::ws && iss.get() == EOF)) // Плохой ввод
+            {
+                std::cout << "Sorry, did not understand, please try again:";
+                std::cout << "Question: " << q;
+                continue;
+            } else { break; } // Хороший ввод
+        }
+
         if (drago.checkAnswer(answer))
         {
             drago.getDamage(attackForce);
