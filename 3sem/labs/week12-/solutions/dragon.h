@@ -3,40 +3,16 @@
 
 #include <string>
 #include <sstream>
+#include "Enemy.hpp"
 
-class Dragon: public Unit
-{
-protected:
-    int my_answer;
-    std::string my_color;
-public:
-    static const int c_killScores = 100;
-
-    Dragon(std::string color, int start_health, int _attackForce)
-        :Unit(start_health, _attackForce), my_color(color)
-    {}
-
-    virtual std::string generateQuestion() = 0;
-
-    bool checkAnswer(int answer) const noexcept
-    {
-        return answer == my_answer;
-    }
-    std::string color() const noexcept
-    {
-        return my_color;
-    }
-};
-
-class GreenDragon: public Dragon
+class GreenDragon: public Enemy
 {
     static const int c_greenDragonHealth = 50;
     static const int c_greenDragonAttackForce = 5;
 public:
 
     GreenDragon()
-        :Dragon("Green", c_greenDragonHealth,
-                 c_greenDragonAttackForce)
+            : Enemy("Green Dragon", c_greenDragonHealth, c_greenDragonAttackForce)
     {}
 
     std::string generateQuestion() noexcept
@@ -51,15 +27,14 @@ public:
     }
 };
 
-class RedDragon: public Dragon
+class RedDragon: public Enemy
 {
     static const int c_redDragonHealth = 50;
     static const int c_redDragonAttackForce = 5;
 public:
 
     RedDragon()
-            :Dragon("Red", c_redDragonHealth,
-                    c_redDragonAttackForce)
+            : Enemy("Red Dragon", c_redDragonHealth, c_redDragonAttackForce)
     {}
 
     std::string generateQuestion() noexcept
@@ -74,15 +49,14 @@ public:
     }
 };
 
-class BlackDragon: public Dragon
+class BlackDragon: public Enemy
 {
     static const int c_blackDragonHealth = 50;
     static const int c_blackDragonAttackForce = 5;
 public:
 
     BlackDragon()
-            :Dragon("Black", c_blackDragonHealth,
-                    c_blackDragonAttackForce)
+            : Enemy("Black Dragon", c_blackDragonHealth, c_blackDragonAttackForce)
     {}
 
     std::string generateQuestion() noexcept

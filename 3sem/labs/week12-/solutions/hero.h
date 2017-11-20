@@ -16,9 +16,9 @@ public:
     Hero(int health = default_health, int aForce = default_attackForce)
         :Unit(health, aForce), scores(0)
     {}
-    void attack (Dragon &drago) noexcept
+    void attack (Enemy &enemy) noexcept
     {
-        std::string q = drago.generateQuestion();
+        std::string q = enemy.generateQuestion();
         std::cout << "Question: " << q;
 
         // Ввод ответа с учетом неадекватного пользователя
@@ -29,20 +29,20 @@ public:
 
             if (!(iss >> answer >> std::ws && iss.get() == EOF)) // Плохой ввод
             {
-                std::cout << "Sorry, did not understand, please try again:";
+                std::cout << "Sorry, did not understand, please try again. ";
                 std::cout << "Question: " << q;
                 continue;
             } else { break; } // Хороший ввод
         }
 
-        if (drago.checkAnswer(answer))
+        if (enemy.checkAnswer(answer))
         {
-            drago.getDamage(attackForce);
-            std::cout << "Hit you, dragon!" << std::endl;
+            enemy.getDamage(attackForce);
+            std::cout << "Hit you, enemy!" << std::endl;
         }
         else
         {
-            getDamage(drago.attackForce);
+            getDamage(enemy.attackForce);
             std::cout << "Hero suffers..." << std::endl;
         }
     }
