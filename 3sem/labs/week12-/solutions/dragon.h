@@ -16,7 +16,7 @@ public:
         :Unit(start_health, _attackForce), my_color(color)
     {}
 
-    std::string generateQuestion();
+    virtual std::string generateQuestion() = 0;
 
     bool checkAnswer(int answer) const
     {
