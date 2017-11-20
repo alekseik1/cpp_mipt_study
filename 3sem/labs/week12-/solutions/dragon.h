@@ -18,11 +18,11 @@ public:
 
     virtual std::string generateQuestion() = 0;
 
-    bool checkAnswer(int answer) const
+    bool checkAnswer(int answer) const noexcept
     {
         return answer == my_answer;
     }
-    std::string color() const
+    std::string color() const noexcept
     {
         return my_color;
     }
@@ -38,7 +38,8 @@ public:
         :Dragon("Green", c_greenDragonHealth,
                  c_greenDragonAttackForce)
     {}
-    std::string generateQuestion()
+
+    std::string generateQuestion() noexcept
     {
         int left = 1 + rand()%100;
         int right = 1 + rand()%100;
@@ -60,7 +61,8 @@ public:
             :Dragon("Red", c_redDragonHealth,
                     c_redDragonAttackForce)
     {}
-    std::string generateQuestion()
+
+    std::string generateQuestion() noexcept
     {
         int left = 1 + rand()%100;
         int right = 1 + rand()%100;
@@ -82,7 +84,8 @@ public:
             :Dragon("Black", c_blackDragonHealth,
                     c_blackDragonAttackForce)
     {}
-    std::string generateQuestion()
+
+    std::string generateQuestion() noexcept
     {
         int left = 1 + rand()%100;
         int right = 1 + rand()%100;
