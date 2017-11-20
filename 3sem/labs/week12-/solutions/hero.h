@@ -4,7 +4,6 @@
 #include <string>
 #include <iostream>
 
-#include "dragon.h"
 
 class Hero: public Unit
 {

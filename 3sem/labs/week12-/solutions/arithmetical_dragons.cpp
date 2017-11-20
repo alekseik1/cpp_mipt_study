@@ -4,8 +4,10 @@
 #include <list>
 
 #include "unit.h"
-#include "hero.h"
+#include "Enemy.hpp"
+#include "Troll.hpp"
 #include "dragon.h"
+#include "hero.h"
 
 using namespace std;
 
@@ -19,6 +21,7 @@ void showHealth(const Hero &hero, const Enemy &enemy)
 list<Enemy*> generateEnemyList()
 {
     list<Enemy*> competitors;
+    competitors.push_back(new BlueTroll());
     competitors.push_back(new GreenDragon());
     competitors.push_back(new RedDragon());
     competitors.push_back(new BlackDragon());
