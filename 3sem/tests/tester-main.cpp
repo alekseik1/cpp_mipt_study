@@ -7,7 +7,4 @@
 
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-
-#include "week11-test.hpp"
-
 #endif
