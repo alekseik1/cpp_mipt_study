@@ -30,5 +30,7 @@ project(week10)
 project(week11)
  add_subdirectory(contests/week11-/solutions)
 
+add_subdirectory(labs/week12-/solutions)
+
  # Tests
  add_subdirectory(tests)
