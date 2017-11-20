@@ -28,9 +28,24 @@ public:
         std::bitset<7> left = std::bitset<7>(my_answer);
 
         std::stringstream question;
-        question << "Answer = " << my_answer << " " << left.to_string() << " to decimal " << ": ";
+        question << left.to_string() << " from bin to decimal " << ": ";
         return question.str();
     }
 };
+
+class YellowTroll: public Troll {
+public:
+    YellowTroll()
+            : Troll("Yellow troll") {}
+
+    std::string generateQuestion() {
+        my_answer = 1 + rand()%100;
+
+        std::stringstream question;
+        question << std::hex << my_answer << " from hex to decimal " << ": ";
+        return question.str();
+    }
+};
+
 
 #endif //WEEK11_TROLL_HPP

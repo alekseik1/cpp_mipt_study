@@ -21,9 +21,10 @@ void showHealth(const Hero &hero, const Enemy &enemy)
 list<Enemy*> generateEnemyList()
 {
     list<Enemy*> competitors;
-    competitors.push_back(new BlueTroll());
     competitors.push_back(new GreenDragon());
+    competitors.push_back(new YellowTroll());
     competitors.push_back(new RedDragon());
+    competitors.push_back(new BlueTroll());
     competitors.push_back(new BlackDragon());
 
     return competitors;
