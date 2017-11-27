@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 2.8)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 
+################################
+# GTest
+################################
+ADD_SUBDIRECTORY (gtest)
+enable_testing()
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+
 project(week2)
  add_subdirectory(contests/week2-/solutions)
 
@@ -31,6 +38,7 @@ project(week11)
  add_subdirectory(contests/week11-/solutions)
 
 add_subdirectory(labs/week12-/solutions)
+add_subdirectory(labs/week13-/solutions)
 
  # Tests
  add_subdirectory(tests)
