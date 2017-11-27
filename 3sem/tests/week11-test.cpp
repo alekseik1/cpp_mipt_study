@@ -20,7 +20,7 @@ TEST_CASE("11-B", "[11-B]") {
 
         c.addElement(2, "Test1");
         c.printStructures();
-        INFO("Test with (2, 'Test1')")
+        WARN("Test with (2, 'Test1')");
         CHECK(buffer.str() == "2 Test1\n");
 
         c.addElement(3, "TestTest");
