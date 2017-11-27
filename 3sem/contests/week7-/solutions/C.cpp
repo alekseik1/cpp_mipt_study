@@ -16,3 +16,7 @@ void SortArray(int array[], const int& size) {
         }
     }
 }
+
+int main() {
+    return 0;
+}

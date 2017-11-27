@@ -10,10 +10,10 @@ int findMin(int& a, int& b, int& c) {
     return min_c;
 }
 
-/*
+
 int main() {
     int a, b,c;
     cin >> a >> b >> c;
     cout << findMin(a, b, c);
     return 0;
-}*/
+}
