@@ -51,15 +51,28 @@ vector3d vector3d::operator-(const vector3d &other) const {
     return *this + (-other);
 }
 
+/**
+ * Длина вектора
+ * @return Возвращает длину вектора (E2-метрика)
+ */
 double vector3d::length() {
     return sqrt(*this**this);
 }
 
+/**
+ * Нормализация без изменения исходнго вектора.
+ * @return Возращает исходный вектор, поделенный на его длину
+ */
 vector3d vector3d::normalize() {
     double ro = length();
     return {x/ro, y/ro, z/ro};
 }
 
+/**
+ * Векторное умножение векторов.
+ * @param other Другой вектор
+ * @return Возвращает объекст vector3d - результат умножения левого вектора на правый
+ */
 vector3d vector3d::operator^(const vector3d &other) const {
     return {y*other.z - other.y*z, -(x*other.z - z*other.x), x*other.y-y*other.x};
 }
