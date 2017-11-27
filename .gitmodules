@@ -7,3 +7,6 @@
 [submodule "3sem/contributors/urnguk/control_week_7"]
 	path = 3sem/contributors/urnguk/control_week_7
 	url = https://github.com/Urnguk/control_week_7
+[submodule "3sem/gtest"]
+	path = 3sem/gtest
+	url = https://github.com/google/googletest
