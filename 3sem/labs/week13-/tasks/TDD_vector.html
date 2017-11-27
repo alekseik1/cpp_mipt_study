@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+        <meta charset="utf-8" />
+        <title>TDD: класс вектора</title>
+        <link rel="stylesheet" href="http://judge.mipt.ru/mipt_cs_on_cpp/theme/css/main.css" />
+        <link rel="icon" type="image/png" href="http://judge.mipt.ru/mipt_cs_on_cpp/favicon.png" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <div id="wrap">
+            <header id="banner" class="body">
+                    <img src="http://judge.mipt.ru/mipt_cs_on_cpp/images/logo.png" class="logo" />
+                    <nav><ul>
+                        <li><a href="http://judge.mipt.ru/mipt_cs_on_cpp">Главная</a></li>
+                    </ul></nav>
+            </header><!-- /#banner -->
+            <div id="main"
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://judge.mipt.ru/mipt_cs_on_cpp/labs/lab13.html" rel="bookmark"
+           title="Permalink to TDD: класс вектора">TDD: класс вектора</a></h1>
+    </header>
+      <nav class="toc">
+      <div class="toc" id="">
+
+<ul class="simple">
+<li><a class="reference internal" href="#id2" id="id14">Тестирование: зачем оно нужно?</a></li>
+<li><a class="reference internal" href="#id3" id="id15">Модульное тестирование</a></li>
+<li><a class="reference internal" href="#id4" id="id16">Разработка через тестирование</a></li>
+<li><a class="reference internal" href="#google-test" id="id17">Библиотека Google Test</a></li>
+<li><a class="reference internal" href="#id9" id="id18">Класс вектора</a></li>
+</ul>
+</div>
+      </nav>
+      <br/>
+      <br/>
+    
+<div class="section" id="id2">
+<h2><a class="toc-backref" href="#id14">Тестирование: зачем оно нужно?</a></h2>
+<p>После того как программа написана, возникает вполне закономерный вопрос: работает ли она? И если работает,
+то работает ли она именно так, как от неё этого ожидают?</p>
+<p>Для ответа на эти, в общем-то простые на первый взгляд вопросы, программы подвергаются <strong>тестированию</strong>. По сути
+тестирование — это процесс исследования работы программы с целью установить, соответствует ли она предъявляемым
+требованиям.</p>
+<p>Существует достаточное количество различных видов и методик тестирования: модульное, интеграционное, регрессионное и т.д.
+Мы же рассмотрим только самый простой из них — <strong>модульное тестирование</strong> (<strong>unit testing</strong>).</p>
+</div>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id15">Модульное тестирование</a></h2>
+<p>Как следует из названия, основная задача модульного тестирования — проверить корректность функционирования отдельных
+модулей. При этом под модулем понимается <strong>не</strong> модуль в терминах языка программирования, а некоторый законченный
+фрагмент программы: обычно, это функция или класс.</p>
+<p>Рассмотрим в качестве примера одну из задач, встречавшихся ранее: написать функцию, заменяющую в строке все вхождения
+<code>'h'</code> кроме первого и последнего на на <code>'H'</code>. Одно из решений может выглядеть так:</p>
+<div class="highlight"><pre><span></span><span class="c1"># Пример программы специально приведён на языке Python, потому что на C++ он выглядит слегка пугающе</span>
+<span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'h'</span><span class="p">,</span> <span class="s1">'H'</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">'h'</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'H'</span><span class="p">,</span> <span class="s1">'h'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+<p>И, казалось бы, это вполне правильное решение: сначала мы заменяем все <code>'h'</code> кроме последней на <code>'H'</code>, а затем заменяем
+обратно первую <code>'H'</code> на <code>'h'</code>. Но на самом деле такое решение работает, но не во всех случаях:</p>
+<div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">replace</span><span class="p">(</span><span class="s1">'aaa'</span><span class="p">)</span>
+<span class="go">'aaa'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">replace</span><span class="p">(</span><span class="s1">'aaha'</span><span class="p">)</span>
+<span class="go">'aaha'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">replace</span><span class="p">(</span><span class="s1">'aahha'</span><span class="p">)</span>
+<span class="go">'aahha'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">replace</span><span class="p">(</span><span class="s1">'aahhha'</span><span class="p">)</span>
+<span class="go">'aahHha'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">replace</span><span class="p">(</span><span class="s1">'Haahhha'</span><span class="p">)</span>
+<span class="go">'haaHHha'</span>
+</pre></div>
+<p>Вот и ошибка: в последнем случае мы получили <code>'haaHHha'</code> вместо <code>'HaahHha'</code>. Это и есть несоответствие программы
+предъявляемым к ней требованиям: на некоторых (вполне конкретных) входных данных она работает некорректно.</p>
+<p>Выполненные нами проверки являются <strong>ручным</strong> тестирование: т.е. выполняются непосредственно человеком. В этой работе
+мы напишем тесты, которые будут выполняться автоматически.</p>
+</div>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id16">Разработка через тестирование</a></h2>
+<p>Одним из распросстранённых подходов к написанию программ вляется подход под названием <strong>«Test-driven development»</strong>
+(TDD, разработка через тестирование). Суть этого подхода заключается в том, что <strong>перед</strong> непосредственным написанием
+функциональных частей программы пишутся тесты, которые фиксируют интерфейс взаимодействия, а также описывают ожидаемое
+поведение. После того, как написаны тесты, начинается процесс написания основной программы, которая считается законченной, когда все тесты успешно  пройдены.</p>
+<p>В качестве примера рассмотрим следующий фрагмент:</p>
+<div class="highlight"><pre><span></span><span class="n">vector3d</span> <span class="n">v1</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+<span class="n">vector3d</span> <span class="n">v2</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+
+<span class="kt">bool</span> <span class="n">test1</span> <span class="o">=</span> <span class="p">(</span><span class="n">v1</span> <span class="o">==</span> <span class="n">v2</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="p">(</span><span class="n">v1</span> <span class="o">!=</span> <span class="n">v2</span><span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">test1</span><span class="p">);</span>
+
+<span class="n">vector3d</span> <span class="n">v3</span> <span class="o">=</span> <span class="n">v1</span> <span class="o">+</span> <span class="n">v2</span><span class="p">;</span>
+<span class="kt">bool</span> <span class="n">test2</span> <span class="o">=</span> <span class="n">v3</span> <span class="o">==</span> <span class="n">vector3d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">test2</span><span class="p">);</span>
+
+<span class="n">vector3d</span> <span class="n">v4</span> <span class="o">=</span> <span class="n">v1</span> <span class="o">-</span> <span class="n">v2</span><span class="p">;</span>
+<span class="kt">bool</span> <span class="n">test3</span> <span class="o">=</span> <span class="n">v3</span> <span class="o">==</span> <span class="n">vector3d</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">test3</span><span class="p">);</span>
+
+<span class="n">vector3d</span> <span class="n">v5</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="n">test4</span> <span class="o">=</span> <span class="n">v5</span> <span class="o">==</span> <span class="n">vector3d</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">test4</span><span class="p">);</span>
+</pre></div>
+<p>Несмотря на то, что мы пока даже не знаем, что из себя представляет класс <code>vector3d</code>, мы уже можем сделать достаточно большое количество выводов о нём:</p>
+<div class="highlight"><pre><span></span><span class="c1">// 0. Класс представляет собой реализацию трёхмерного вектора</span>
+
+<span class="c1">// 1. Класс имеет конструктор, который принимает три параметра</span>
+<span class="n">vector3d</span> <span class="n">v1</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+<span class="n">vector3d</span> <span class="n">v2</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+
+<span class="c1">// 2. Для класса определены операторы == и != для проверки равенства и неравенства векторов</span>
+<span class="kt">bool</span> <span class="n">test1</span> <span class="o">=</span> <span class="p">(</span><span class="n">v1</span> <span class="o">==</span> <span class="n">v2</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="p">(</span><span class="n">v1</span> <span class="o">!=</span> <span class="n">v2</span><span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">test1</span><span class="p">);</span>
+
+<span class="c1">// 3. Для класса определены операторы + и - для выполнения векторного сложения и вычитания</span>
+<span class="n">vector3d</span> <span class="n">v3</span> <span class="o">=</span> <span class="n">v1</span> <span class="o">+</span> <span class="n">v2</span><span class="p">;</span>
+<span class="kt">bool</span> <span class="n">test2</span> <span class="o">=</span> <span class="n">v3</span> <span class="o">==</span> <span class="n">vector3d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">test2</span><span class="p">);</span>
+
+<span class="n">vector3d</span> <span class="n">v4</span> <span class="o">=</span> <span class="n">v1</span> <span class="o">-</span> <span class="n">v2</span><span class="p">;</span>
+<span class="kt">bool</span> <span class="n">test3</span> <span class="o">=</span> <span class="n">v3</span> <span class="o">==</span> <span class="n">vector3d</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">test3</span><span class="p">);</span>
+
+<span class="c1">// 4. Класс имеет конструктор по умолчанию, который инициализирует вектор нулями</span>
+<span class="n">vector3d</span> <span class="n">v5</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="n">test4</span> <span class="o">=</span> <span class="n">v5</span> <span class="o">==</span> <span class="n">vector3d</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">test4</span><span class="p">);</span>
+</pre></div>
+<p>Как мы видим, не любая реализацию класса <code>vector3d</code> будет удовлетворять требованиям, описанным выше. Именно это и
+подразумевается под фиксацией интерфейса взаимодействия: тесты описывают, <strong>как</strong> именно мы собираемся использовать
+класс и <strong>какое</strong> поведение ожидаем от класса.</p>
+</div>
+<div class="section" id="google-test">
+<h2><a class="toc-backref" href="#id17">Библиотека Google Test</a></h2>
+<p>Существует большое количество библиотек для тестирования программ, написанных на языке C++ (<a class="reference external" href="http://cxxtest.tigris.org/">CxxTest</a>, <a class="reference external" href="http://doc.qt.io/qt-5/qtest.html">QTest</a>,
+<a class="reference external" href="http://www.boost.org/doc/libs/1_40_0/libs/test/doc/html/index.html">Boost::Test</a> и др.). В этой работе мы будем использовать библиотеку <a class="reference external" href="https://github.com/google/googletest">Google Test</a>.</p>
+<p>Эта библиотека предоставляет набор макросов (а также функций и классов) для написания модульных тестов. Рассмотрим
+пример написания модульного теста с использованием <code>Google Test</code>:</p>
+<div class="highlight"><pre><span></span><span class="c1">// Подключаем заголовочный файл</span>
+<span class="cp">#include</span> <span class="cpf">&lt;gtest/gtest.h&gt;</span><span class="cp"></span>
+
+<span class="c1">// Описываем тест</span>
+<span class="c1">// Sample1 — группа, к которой относится тест</span>
+<span class="c1">// TestThatPasses — название теста</span>
+<span class="c1">//</span>
+<span class="c1">// Имя группы название и теста должны быть валидными идентификаторами,</span>
+<span class="c1">// при этом они не могут содержать символ подчёркивания.</span>
+<span class="c1">// Группа указывается для логического объединения «близких» тестов.</span>
+<span class="n">TEST</span><span class="p">(</span><span class="n">Sample1</span><span class="p">,</span> <span class="n">TestThatPasses</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Выполняем проверки при помощи макросов ASSERT_*</span>
+    <span class="c1">// Все проверки ниже будут успешно пройдены</span>
+
+    <span class="n">ASSERT_TRUE</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+    <span class="n">ASSERT_FALSE</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+
+    <span class="n">ASSERT_EQ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">ASSERT_EQ</span><span class="p">(</span><span class="s">"123"</span><span class="p">,</span> <span class="s">"123"</span><span class="p">);</span>
+
+    <span class="n">ASSERT_NE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+
+    <span class="n">ASSERT_FLOAT_EQ</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+
+    <span class="n">ASSERT_LE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="n">ASSERT_LE</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+
+    <span class="n">ASSERT_GE</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">ASSERT_GE</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Описываем ещё один тест</span>
+<span class="n">TEST</span><span class="p">(</span><span class="n">Sample2</span><span class="p">,</span> <span class="n">TestThatFails</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Выполняем проверки при помощи макросов ASSERT_*</span>
+
+    <span class="n">ASSERT_FALSE</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="c1">// Эта проверка не будет пройдена</span>
+    <span class="n">ASSERT_FALSE</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="c1">// Запускаем все тесты на исполнение</span>
+    <span class="n">testing</span><span class="o">::</span><span class="n">InitGoogleTest</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nf">RUN_ALL_TESTS</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+<p>Вывод программы из примера:</p>
+<div class="highlight"><pre><span></span>[==========] Running 2 tests from 2 test cases.
+[----------] Global test environment set-up.
+[----------] 1 test from Sample1
+[ RUN      ] Sample1.TestThatPasses
+[       OK ] Sample1.TestThatPasses (0 ms)
+[----------] 1 test from Sample1 (0 ms total)
+
+[----------] 1 test from Sample2
+[ RUN      ] Sample2.TestThatFails
+/home/student/lab8/gtest_sample.cpp:40: Failure
+Value of: true
+  Actual: true
+Expected: false
+[  FAILED  ] Sample2.TestThatFails (0 ms)
+[----------] 1 test from Sample2 (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 2 tests from 2 test cases ran. (0 ms total)
+[  PASSED  ] 1 test.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] Sample2.TestThatFails
+
+ 1 FAILED TEST
+</pre></div>
+<p>Ниже приведён список небольшой части макросов <code>ASSERT_*</code>, которые предоставляет библиотека <code>Google Test</code>. Схема работы
+всех макросов одинакова: в случае, если утверждение, описываемое макросом, ложно, то геренируется исключение, а тест
+помечается как проваленный.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%"/>
+<col width="59%"/>
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Макрос</th>
+<th class="head">Эквивалентное утверждение</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>ASSERT_TRUE(v);</td>
+<td>v == true</td>
+</tr>
+<tr><td>ASSERT_FALSE(v);</td>
+<td>v == false</td>
+</tr>
+<tr><td>ASSERT_EQ(val1, val2);</td>
+<td>val1 == val2</td>
+</tr>
+<tr><td>ASSERT_NE(val1, val2);</td>
+<td>val1 != val2</td>
+</tr>
+<tr><td>ASSERT_LT(val1, val2);</td>
+<td>val1 &lt; val2</td>
+</tr>
+<tr><td>ASSERT_LE(val1, val2);</td>
+<td>val1 &lt;= val2</td>
+</tr>
+<tr><td>ASSERT_GT(val1, val2);</td>
+<td>val1 &gt; val2</td>
+</tr>
+<tr><td>ASSERT_GE(val1, val2);</td>
+<td>val1 &gt;= val2</td>
+</tr>
+<tr><td>ASSERT_FLOAT_EQ(val1, val2);</td>
+<td>val1 == val2 // с учётом ошибок округления</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id9">
+<h2><a class="toc-backref" href="#id18">Класс вектора</a></h2>
+<p>Цель данной работы — написать класс вектора, который будет удовлетворять всем требованиям, заданным при помощи заранее
+написанных тестов. Порядок выполнения работы:</p>
+<ol class="arabic simple">
+<li>Скачайте <a class="reference external" href="http://judge.mipt.ru/mipt_cs_on_cpp/extra/lab13/vector3d-gtest.zip">архив</a> с заготовкой работы и распакуйте его.</li>
+<li>В файлах <a class="reference external" href="https://github.com/mipt-cs-on-cpp/vector3d/blob/master/vector3d.hpp">vector3d.hpp</a> и <a class="reference external" href="https://github.com/mipt-cs-on-cpp/vector3d/blob/master/vector3d.cpp">vector3d.cpp</a>  допишите реализацию класса вектора, для
+которой будут проходить все тесты, описанные в файле <a class="reference external" href="https://github.com/mipt-cs-on-cpp/vector3d/blob/master/vector_tests.cpp">vector_tests.cpp</a>. К классу вектора предъявляются следующие
+требования:<ul>
+<li>наличие конструктора с параметрами;</li>
+<li>наличие конструктора по-умолчанию;</li>
+<li>возможность прямого доступа к полям;</li>
+<li>поддержка векторного сложения и вычитания;</li>
+<li>поддержка векторного умножения;</li>
+<li>поддержка скалярного умножения;</li>
+<li>поддержка операции умножения на скаляр;</li>
+<li>наличие метода для вычисления длины;</li>
+<li>наличие метода для нормализации;</li>
+<li>поддержка операций проверки равенства и неравенства;</li>
+<li>наличие перегруженного оператора для вывода в <code>std::ostream</code>.</li>
+</ul>
+</li>
+</ol>
+</div>
+
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+                <section id="extras" class="body">
+                </section><!-- /#extras -->
+            </div>
+        </div>
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Сайт построен с использованием <a href="http://getpelican.com/">Pelican</a>. За основу оформления взята тема от <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>. Исходные тексты программ, приведённые на этом сайте, распространяются под лицензией <a href="http://www.gnu.org/licenses/quick-guide-gplv3.en.html">GPLv3</a>, все остальные материалы сайта распространяются под лицензией <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.ru">CC-BY-SA</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">//<![CDATA[
+//  var code_blocks = Array.prototype.slice.call(document.getElementsByClassName('highlight'));
+//  var solutions = code_blocks.filter(function(e, i, z){
+//    return (e.parentElement.firstElementChild.tagName == 'H3' || e.parentElement.firstElementChild.tagName == 'H2') &&
+//           e.parentElement.firstElementChild.firstChild.text.startsWith('Упражнение') &&
+//           e.parentElement.lastElementChild == e
+//  })
+//  for (var i in solutions)
+//  {
+//  //    solutions[i].remove();
+//  //  }
+//]]>
+</script>
+</body>
+</html>
