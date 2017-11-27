@@ -31,7 +31,7 @@ public:
     vector3d operator^(const vector3d& other) const;
     friend std::ostream& operator<<(std::ostream& os, const vector3d& v);
 
-    vector3d normalize();
+    void normalize();
 
 };
 

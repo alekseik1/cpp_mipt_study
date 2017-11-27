@@ -60,12 +60,12 @@ double vector3d::length() {
 }
 
 /**
- * Нормализация без изменения исходнго вектора.
- * @return Возращает исходный вектор, поделенный на его длину
+ * Нормализация с изменением исходнго вектора.
+ * @return Ничего
  */
-vector3d vector3d::normalize() {
+void vector3d::normalize() {
     double ro = length();
-    return {x/ro, y/ro, z/ro};
+    *this = {x/ro, y/ro, z/ro};
 }
 
 /**
