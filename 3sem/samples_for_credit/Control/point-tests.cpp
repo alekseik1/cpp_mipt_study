@@ -22,6 +22,13 @@ TEST(PointND, PointND_Create_With_Params_TestParams) {
     ASSERT_FLOAT_EQ(p1.get(2), 3.0);
 }
 
-TEST(PointND, PointND_CreateBigDimensionNoParams) {
+TEST(PointND, PointND_Params_Size_Mismatch) {
     ASSERT_ANY_THROW(PointND p2(100, {}));
+}
+
+TEST(PointND, PointND_Create_Big_Dimensions_Default_Params) {
+    PointND p1(100);
+    for(int i = 0; i < 100; i++) {
+        ASSERT_EQ(p1.get(i), 0);
+    }
 }

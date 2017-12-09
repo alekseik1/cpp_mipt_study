@@ -8,16 +8,19 @@
 
 class PointND {
 private:
-    double* _X;
     int _N;
+protected:
+    double* _X;
 public:
     PointND();
 
     PointND(unsigned n, std::initializer_list<double> coords);
+    
+    explicit PointND(int n);
 
-    double get(int n) const;
+    virtual double get(int n) const;
 
-    int getDim() const noexcept;
+    virtual int getDim() const noexcept;
 
     virtual ~PointND();
 };

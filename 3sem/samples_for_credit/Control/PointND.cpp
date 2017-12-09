@@ -25,8 +25,16 @@ PointND::~PointND() {
     _X = nullptr;
 }
 
-PointND::PointND(): PointND(1, {0.0})  // А-тя-тя, вот тут ты и попался, temporary object!
+PointND::PointND(): PointND(1, {0.0})
 {}
+
+PointND::PointND(int n) {
+    _N = n;
+    _X = new double[n];
+    for(int i = 0; i < n; i++) {
+        _X[i] = 0;
+    }
+}
 
 double PointND::get(int n) const {
     if(n >= _N) {
