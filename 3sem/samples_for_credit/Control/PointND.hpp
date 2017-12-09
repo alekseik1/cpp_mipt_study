@@ -6,6 +6,8 @@
 #define WEEK11_POINT2D_HPP
 
 
+#include <initializer_list>
+
 class PointND {
 private:
     int _N;
@@ -15,7 +17,7 @@ public:
     PointND();
 
     PointND(unsigned n, std::initializer_list<double> coords);
-    
+
     explicit PointND(int n);
 
     virtual double get(int n) const;
