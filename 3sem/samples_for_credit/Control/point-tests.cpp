@@ -23,7 +23,7 @@ TEST(PointND, PointND_Create_With_Params_TestParams) {
 }
 
 TEST(PointND, PointND_Params_Size_Mismatch) {
-    ASSERT_ANY_THROW(PointND p2(100, {}));
+    ASSERT_ANY_THROW(PointND p2(100, {1, 2, 3}));
 }
 
 TEST(PointND, PointND_Create_Big_Dimensions_Default_Params) {
