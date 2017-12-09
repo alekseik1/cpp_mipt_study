@@ -3,7 +3,6 @@
 //
 
 #include <cstdlib>
-#include <stdio.h>
 #include <cstdarg>
 #include <iostream>
 #include "PointND.hpp"
