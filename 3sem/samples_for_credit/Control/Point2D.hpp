@@ -19,7 +19,7 @@ public:
 
     int getDim() const noexcept;
 
-    virtual ~PointND();//
+    virtual ~PointND();
 };
 
 

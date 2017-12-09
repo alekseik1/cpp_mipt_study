@@ -8,11 +8,10 @@
 #include <iostream>
 #include "Point2D.hpp"
 
-PointND::PointND() {
-    PointND(1, {0.0});
-}
-
 PointND::PointND(unsigned n, std::initializer_list<double> coords) {
+    if(coords.size() != n) {
+        throw("Not enough coords to unpack!");
+    }
     _N = n;
     _X = new double[n];
     int i = 0;
@@ -26,6 +25,9 @@ PointND::~PointND() {
     delete[] _X;
     _X = nullptr;
 }
+
+PointND::PointND(): PointND(1, {0.0})  // А-тя-тя, вот тут ты и попался, temporary object!
+{}
 
 double PointND::get(int n) const {
     if(n >= _N) {
