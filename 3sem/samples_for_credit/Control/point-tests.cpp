@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "Point2D.hpp"
+#include "PointND.hpp"
 
 
 TEST(PointND, PointND_Empty_Create) {

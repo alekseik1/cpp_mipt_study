@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <cstdarg>
 #include <iostream>
-#include "Point2D.hpp"
+#include "PointND.hpp"
 
 PointND::PointND(unsigned n, std::initializer_list<double> coords) {
     if(coords.size() != n) {
