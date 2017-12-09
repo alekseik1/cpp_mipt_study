@@ -11,9 +11,15 @@ private:
     double* _X;
     int _N;
 public:
-    PointND(int n, ...);
+    PointND();
 
-    virtual ~PointND();
+    PointND(unsigned n, std::initializer_list<double> coords);
+
+    double get(int n) const;
+
+    int getDim() const noexcept;
+
+    virtual ~PointND();//
 };
 
 

@@ -7,4 +7,5 @@ project(control-var3 VERSION ${PVERSION})
 
 project(control-var3-test VERSION ${PVERSION})
     add_executable(point-tests point-tests.cpp)
-    target_link_libraries(point-tests gtest gtest_main)
+    add_library(point-nd Point2D.cpp)
+    target_link_libraries(point-tests point-nd gtest gtest_main)
