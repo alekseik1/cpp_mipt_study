@@ -12,7 +12,7 @@ class PointND {
 private:
     int _N;
 protected:
-    double* _X;
+    double* _X = nullptr;
 public:
     PointND();
 
