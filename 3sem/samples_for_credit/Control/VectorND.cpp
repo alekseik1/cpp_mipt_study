@@ -33,6 +33,9 @@ VectorND operator*(const VectorND& v, double k) {
 }
 
 VectorND VectorND::operator+(const VectorND &other) {
+    if(getDim() != other.getDim()) {
+        throw("Dimensions differ!");
+    }
     VectorND p(getDim());
     for(int i = 0; i < getDim(); i++) {
         p.setCoord(i, get(i) + other.get(i));
@@ -49,6 +52,9 @@ VectorND VectorND::operator-() {
 }
 
 VectorND VectorND::operator-(const VectorND &other) {
+    if(getDim() != other.getDim()) {
+        throw("Dimensions differ!");
+    }
     VectorND p(getDim());
     for(int i = 0; i < getDim(); i++) {
         p.setCoord(i, get(i) - other.get(i));

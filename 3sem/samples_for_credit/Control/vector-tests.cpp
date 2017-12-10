@@ -43,6 +43,12 @@ TEST(VectorND, VectorND_Vector_Sum) {
     }
 }
 
+TEST(VectorND, VectorND_Vector_Sum_With_Different_Dims) {
+    VectorND p1(5, {1, 2, 3, 4, 5});
+    VectorND p2(4, {2, 3, 4, 5});
+    ASSERT_ANY_THROW(VectorND ps1 = p1+p2);
+}
+
 TEST(VectorND, VectorND_Negative_One_Vector) {
     VectorND p1(4, {1, 2, -2, -3});
     VectorND p2 = -p1;
@@ -58,4 +64,10 @@ TEST(VectorND, VectorND_Vector_Minus_Vector) {
     for(int i = 0; i < p1.getDim(); i++) {
         ASSERT_DOUBLE_EQ(p3.get(i), 1);
     }
+}
+
+TEST(VectorND, VectorND_Vector_Minus_Vector_With_Different_Dims) {
+    VectorND p1(5, {1, 2, 3, 4, 5});
+    VectorND p2(4, {2, 3, 4, 5});
+    ASSERT_ANY_THROW(VectorND ps1 = p1-p2);
 }
