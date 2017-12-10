@@ -6,7 +6,7 @@
 #include "VectorND.hpp"
 
 TEST(VectorND, VectorND_Empty_Creation) {
-    for(int i = 1; i < 3; i++) {
+    for(int i = 1; i < 100; i++) {
         VectorND v(i);
         ASSERT_EQ(v.getDim(), i);
     }
