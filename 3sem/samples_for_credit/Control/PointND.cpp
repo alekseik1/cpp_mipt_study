@@ -12,7 +12,7 @@ PointND::PointND(unsigned n, std::initializer_list<double> coords) {
         throw("Not enough coords to unpack!");
     }
     _N = n;
-    _X = new double[n];
+    _X = (double*) calloc(n, sizeof(double));
     int i = 0;
     for(auto& x : coords) {
         _X[i] = x;
@@ -21,8 +21,10 @@ PointND::PointND(unsigned n, std::initializer_list<double> coords) {
 }
 
 PointND::~PointND() {
-    delete[] _X;
-    _X = nullptr;
+    if(_X != nullptr) {
+        free(_X);
+        _X = nullptr;
+    }
 }
 
 PointND::PointND(): PointND(1, {0.0})
@@ -30,7 +32,7 @@ PointND::PointND(): PointND(1, {0.0})
 
 PointND::PointND(int n) {
     _N = n;
-    _X = new double[n];
+    _X = (double*) calloc(n, sizeof(double));
     for(int i = 0; i < n; i++) {
         _X[i] = 0;
     }
