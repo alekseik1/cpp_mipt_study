@@ -42,3 +42,20 @@ TEST(VectorND, VectorND_Vector_Sum) {
         ASSERT_DOUBLE_EQ(ps1.get(i), i+1+i+2);
     }
 }
+
+TEST(VectorND, VectorND_Negative_One_Vector) {
+    VectorND p1(4, {1, 2, -2, -3});
+    VectorND p2 = -p1;
+    for(int i = 0; i < p1.getDim(); i++) {
+        ASSERT_DOUBLE_EQ(p2.get(i), -p1.get(i));
+    }
+}
+
+TEST(VectorND, VectorND_Vector_Minus_Vector) {
+    VectorND p1(5, {1, 2, 3, 4, 5});
+    VectorND p2(5, {0, 1, 2, 3, 4});
+    VectorND p3 = p1 - p2;
+    for(int i = 0; i < p1.getDim(); i++) {
+        ASSERT_DOUBLE_EQ(p3.get(i), 1);
+    }
+}

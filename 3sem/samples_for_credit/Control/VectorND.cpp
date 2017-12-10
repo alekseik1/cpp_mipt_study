@@ -39,3 +39,19 @@ VectorND VectorND::operator+(const VectorND &other) {
     }
     return p;
 }
+
+VectorND VectorND::operator-() {
+    VectorND p(getDim());
+    for(int i = 0; i < getDim(); i++) {
+        p.setCoord(i, -get(i));
+    }
+    return p;
+}
+
+VectorND VectorND::operator-(const VectorND &other) {
+    VectorND p(getDim());
+    for(int i = 0; i < getDim(); i++) {
+        p.setCoord(i, get(i) - other.get(i));
+    }
+    return p;
+}
