@@ -17,9 +17,11 @@ public:
     VectorND operator-(const VectorND& other);
     VectorND operator-();
     double operator*(const VectorND& other);
-    friend VectorND operator*(double k, const VectorND& v);
-    friend VectorND operator*(const VectorND& v, double k);
+    void setCoord(int i, double c);
 };
+
+VectorND operator*(double k, const VectorND& v);
+VectorND operator*(const VectorND& v, double k);
 
 
 #endif //WEEK11_VECTORND_HPP
