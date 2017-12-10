@@ -7,11 +7,10 @@
 #include <iostream>
 #include "PointND.hpp"
 
-PointND::PointND(unsigned n, std::initializer_list<double> coords) {
+PointND::PointND(unsigned n, std::initializer_list<double> coords): _N(n) {
     if(coords.size() != n) {
         throw("Not enough coords to unpack!");
     }
-    _N = n;
     _X = (double*) calloc(n, sizeof(double));
     int i = 0;
     for(auto& x : coords) {

@@ -32,3 +32,12 @@ TEST(PointND, PointND_Create_Big_Dimensions_Default_Params) {
         ASSERT_EQ(p1.get(i), 0);
     }
 }
+
+TEST(PointND, PointND_Create_Five_dim_with_params) {
+    PointND p1(5, {0.123, 0.234, 0.345, 0.456, 0.567});
+    ASSERT_DOUBLE_EQ(p1.get(0), 0.123);
+    ASSERT_DOUBLE_EQ(p1.get(1), 0.234);
+    ASSERT_DOUBLE_EQ(p1.get(2), 0.345);
+    ASSERT_DOUBLE_EQ(p1.get(3), 0.456);
+    ASSERT_DOUBLE_EQ(p1.get(4), 0.567);
+}

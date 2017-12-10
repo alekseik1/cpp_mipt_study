@@ -9,9 +9,8 @@
 #include <initializer_list>
 
 class PointND {
-private:
-    int _N;
 protected:
+    int _N;
     double* _X = nullptr;
 public:
     PointND();

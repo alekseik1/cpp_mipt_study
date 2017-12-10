@@ -10,11 +10,8 @@
 
 class VectorND: public PointND {
 
-private:
-    int _N;
-
 public:
-    VectorND(int n, const PointND& start, const PointND& finish);
+    VectorND(int n, std::initializer_list<double> coords);
     explicit VectorND(int n);
     virtual ~VectorND();
     VectorND operator+(const VectorND& other);

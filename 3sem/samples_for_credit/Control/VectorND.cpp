@@ -4,13 +4,28 @@
 
 #include "VectorND.hpp"
 
-VectorND::VectorND(int n, const PointND& start, const PointND& finish): _N(n) {
-    for(int i = 0; i < n; i++) {
-        _X[i] = finish.get(i) - start.get(i);
+VectorND::VectorND(int n, std::initializer_list<double> coords) {
+    _N = n;
+
+    if(coords.size() == 0) {    // С пустым init_list мы заполним нулями
+        for(int i = 0; i < n; i++) {
+            _X[i] = 0;
+        }
+        return;
+    }
+
+    if(coords.size() != n) {
+        throw("Not enough coords to unpack!");
+    }
+    unsigned i = 0;
+    // TODO: Пользователь может скормить не double в init_list. Надо сделать на это проверку
+    for(auto& coord : coords) {
+        _X[i] = coord;
+        i++;
     }
 }
 
-VectorND::VectorND(int n): VectorND(n, PointND(n), PointND(n))
+VectorND::VectorND(int n): VectorND(n, {})
 {}
 
 VectorND::~VectorND() {
