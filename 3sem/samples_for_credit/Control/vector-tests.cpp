@@ -71,3 +71,15 @@ TEST(VectorND, VectorND_Vector_Minus_Vector_With_Different_Dims) {
     VectorND p2(4, {2, 3, 4, 5});
     ASSERT_ANY_THROW(VectorND ps1 = p1-p2);
 }
+
+TEST(VectorND, VectorND_Vector_Mult_By_Vector_Test) {
+    VectorND p1(4, {-1, -2, -3, -4});
+    VectorND p2(4, {1, 2, 3, 4});
+    ASSERT_DOUBLE_EQ(p1*p2, -1*1+2*(-2)+3*(-3)+4*(-4));
+}
+
+TEST(VectorND, VectorND_VectorND_Vector_Mult_By_Vector_Test_Incorrect_Dims) {
+    VectorND p1(4, {124324, 346345, 34563456, 234534253});
+    VectorND p2(2, {-3624, -23462346});
+    ASSERT_ANY_THROW(p1*p2);
+}

@@ -61,3 +61,15 @@ VectorND VectorND::operator-(const VectorND &other) {
     }
     return p;
 }
+
+double VectorND::operator*(const VectorND &other) {
+    if(getDim() != other.getDim()) {
+        throw("Dimesions differ!");
+    }
+    VectorND p(getDim());
+    double result = 0;
+    for(int i = 0; i < getDim(); i++) {
+        result += get(i)*other.get(i);
+    }
+    return result;
+}
