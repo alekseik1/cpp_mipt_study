@@ -33,3 +33,12 @@ TEST(VectorND, VectorND_Mult_By_Double) {
         }
     }
 }
+
+TEST(VectorND, VectorND_Vector_Sum) {
+    VectorND p1(5, {1, 2, 3, 4, 5});
+    VectorND p2(5, {2, 3, 4, 5, 6});
+    VectorND ps1 = p1+p2;
+    for(int i = 0; i < p1.getDim(); i++) {
+        ASSERT_DOUBLE_EQ(ps1.get(i), i+1+i+2);
+    }
+}

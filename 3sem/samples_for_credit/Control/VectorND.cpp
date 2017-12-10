@@ -31,3 +31,11 @@ VectorND operator*(const VectorND& v, double k) {
     }
     return p;
 }
+
+VectorND VectorND::operator+(const VectorND &other) {
+    VectorND p(getDim());
+    for(int i = 0; i < getDim(); i++) {
+        p.setCoord(i, get(i) + other.get(i));
+    }
+    return p;
+}
