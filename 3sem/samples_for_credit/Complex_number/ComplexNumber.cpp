@@ -71,3 +71,32 @@ ComplexNumber operator+(double other, const ComplexNumber& number) {
 ComplexNumber operator-(double other, const ComplexNumber& number) {
     return ComplexNumber(other) - number;
 }
+
+void ComplexNumber::operator++() {
+    re++;
+}
+
+void ComplexNumber::operator+=(const ComplexNumber& other) {
+    re += other.re;
+    im += other.im;
+}
+
+void ComplexNumber::operator--() {
+    re--;
+}
+
+void ComplexNumber::operator-=(const ComplexNumber& other) {
+    re -= other.re;
+    im -= other.im;
+}
+
+void ComplexNumber::operator*=(const ComplexNumber& other) {
+    double save_re = re;
+    re = re*other.re - im*other.im;
+    im = save_re*other.im + im*other.re;
+}
+
+void ComplexNumber::operator*=(double k) {
+    re*=k;
+    im*=k;
+}

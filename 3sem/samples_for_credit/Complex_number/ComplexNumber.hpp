@@ -26,6 +26,14 @@ public:
     // Мои хотелки. Хочу, чтобы обычный double можно было прибавлять к комплексу!
     ComplexNumber operator+(double other);
     ComplexNumber operator-(double other);
+    // Всеми любимые плюсы!
+    void operator++();
+    void operator+=(const ComplexNumber& other);
+    void operator--();
+    void operator-=(const ComplexNumber& other);
+    void operator*=(const ComplexNumber& other);
+    void operator*=(double k);
+    // TODO: Сделать еще деление
 };
 
 ComplexNumber operator*(double k, const ComplexNumber& number);
