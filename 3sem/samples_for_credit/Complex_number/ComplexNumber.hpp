@@ -23,9 +23,15 @@ public:
     ComplexNumber operator^(int n);
     double abs();
     double arg();
+    // Мои хотелки. Хочу, чтобы обычный double можно было прибавлять к комплексу!
+    ComplexNumber operator+(double other);
+    ComplexNumber operator-(double other);
 };
 
 ComplexNumber operator*(double k, const ComplexNumber& number);
+// Мои хотелки. Хочу, чтобы обычный double можно было прибавлять к комплексу, да еще и в обратном порядке!
+ComplexNumber operator+(double other, const ComplexNumber& number);
+ComplexNumber operator-(double other, const ComplexNumber& number);
 
 
 #endif //WEEK11_COMPLEX_NUMBER_HPP

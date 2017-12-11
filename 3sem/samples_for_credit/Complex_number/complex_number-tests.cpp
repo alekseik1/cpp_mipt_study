@@ -76,3 +76,14 @@ TEST(ComplexNumber, ComplexNumber_ArgumentValue) {
     ComplexNumber c1(5, 7);
     ASSERT_DOUBLE_EQ(c1.arg(), acos(5/sqrt(5*5+7*7)));
 }
+
+TEST(ComplexNumber, ComplexNumber_SumComplexWithDouble) {
+    ComplexNumber c1(2, 5);
+    double other = 5;
+    ComplexNumber c2 = c1 + other;
+    ComplexNumber c3 = other + c1;
+    ASSERT_DOUBLE_EQ(c2.re, 7);
+    ASSERT_DOUBLE_EQ(c2.im, 5);
+    ASSERT_DOUBLE_EQ(c3.re, 7);
+    ASSERT_DOUBLE_EQ(c3.im, 5);
+}

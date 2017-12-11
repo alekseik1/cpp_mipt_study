@@ -55,3 +55,19 @@ double ComplexNumber::abs() {
 double ComplexNumber::arg() {
     return acos(re/abs());
 }
+
+ComplexNumber ComplexNumber::operator+(double other) {
+    return *this + ComplexNumber(other);
+}
+
+ComplexNumber ComplexNumber::operator-(double other) {
+    return *this - ComplexNumber(other);
+}
+
+ComplexNumber operator+(double other, const ComplexNumber& number) {
+    return  ComplexNumber(other) + number;
+}
+
+ComplexNumber operator-(double other, const ComplexNumber& number) {
+    return ComplexNumber(other) - number;
+}
