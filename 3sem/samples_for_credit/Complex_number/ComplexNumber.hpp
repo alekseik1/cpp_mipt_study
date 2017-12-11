@@ -21,6 +21,8 @@ public:
     ComplexNumber operator*(const ComplexNumber& other);
     ComplexNumber operator*(double k);
     ComplexNumber operator^(int n);
+    double abs();
+    double arg();
 };
 
 ComplexNumber operator*(double k, const ComplexNumber& number);

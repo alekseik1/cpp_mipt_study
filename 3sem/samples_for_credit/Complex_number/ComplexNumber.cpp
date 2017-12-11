@@ -2,6 +2,7 @@
 // Created by aleksei on 12.12.17.
 //
 
+#include <cmath>
 #include "ComplexNumber.hpp"
 
 ComplexNumber::ComplexNumber(double _re, double _im) {
@@ -45,4 +46,12 @@ ComplexNumber ComplexNumber::operator^(int n) {
         res = res*(*this);
     }
     return res;
+}
+
+double ComplexNumber::abs() {
+    return sqrt(re*re + im*im);
+}
+
+double ComplexNumber::arg() {
+    return acos(re/abs());
 }

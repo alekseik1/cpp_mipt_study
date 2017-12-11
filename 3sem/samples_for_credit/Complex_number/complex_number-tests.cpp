@@ -64,3 +64,15 @@ TEST(ComplexNumber, ComplexNumber_PowerComplex) {
     ASSERT_DOUBLE_EQ(c2.re, -3);
     ASSERT_DOUBLE_EQ(c2.im, -4);
 }
+
+TEST(ComplexNumber, ComplexNumber_AbsoluteValue) {
+    ComplexNumber c1(3, 4);
+    ComplexNumber c2(5, 12);
+    ASSERT_DOUBLE_EQ(c1.abs(), 5);
+    ASSERT_DOUBLE_EQ(c2.abs(), 13);
+}
+
+TEST(ComplexNumber, ComplexNumber_ArgumentValue) {
+    ComplexNumber c1(5, 7);
+    ASSERT_DOUBLE_EQ(c1.arg(), acos(5/sqrt(5*5+7*7)));
+}
