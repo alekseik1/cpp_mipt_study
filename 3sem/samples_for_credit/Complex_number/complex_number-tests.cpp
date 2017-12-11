@@ -37,4 +37,30 @@ TEST(ComplexNumber, ComplexNumber_SubTwoNumbers) {
     ASSERT_DOUBLE_EQ(c3.im, 0.5);
 }
 
-// TODO: дописать тесты!!!!
+TEST(ComplexNumber, ComplexNumber_MultByDouble) {
+    ComplexNumber c1(1, 2);
+    ComplexNumber c2 = c1*2.0;
+    ComplexNumber c3 = 3*c1;
+    ASSERT_DOUBLE_EQ(c2.re, 2);
+    ASSERT_DOUBLE_EQ(c2.im, 4);
+
+    ASSERT_DOUBLE_EQ(c3.re, 3);
+    ASSERT_DOUBLE_EQ(c3.im, 6);
+}
+
+TEST(ComplexNumber, ComplexNumber_MultTwoComplex) {
+    ComplexNumber c1(1, 2);
+    ComplexNumber c2(-1, 3);
+    ComplexNumber c3 = c1*c2;
+
+    ASSERT_DOUBLE_EQ(c3.re, -7);
+    ASSERT_DOUBLE_EQ(c3.im, 1);
+}
+
+TEST(ComplexNumber, ComplexNumber_PowerComplex) {
+    ComplexNumber c1(-1, 2);
+    ComplexNumber c2 = c1^2;
+
+    ASSERT_DOUBLE_EQ(c2.re, -3);
+    ASSERT_DOUBLE_EQ(c2.im, -4);
+}

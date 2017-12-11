@@ -19,10 +19,11 @@ public:
     ComplexNumber operator-();
     ComplexNumber operator-(const ComplexNumber& other);
     ComplexNumber operator*(const ComplexNumber& other);
+    ComplexNumber operator*(double k);
+    ComplexNumber operator^(int n);
 };
 
 ComplexNumber operator*(double k, const ComplexNumber& number);
-ComplexNumber operator*(const ComplexNumber& number, double k);
 
 
 #endif //WEEK11_COMPLEX_NUMBER_HPP

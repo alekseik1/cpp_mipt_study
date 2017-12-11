@@ -13,7 +13,7 @@ ComplexNumber::ComplexNumber(double _re): ComplexNumber(_re, 0)
 {}
 
 ComplexNumber ComplexNumber::operator+(const ComplexNumber &other) {
-    return ComplexNumber(this->re + other.re, this->im + other.im);
+    return {this->re + other.re, this->im + other.im};
 }
 
 ComplexNumber::ComplexNumber(): ComplexNumber(0, 0)
@@ -31,10 +31,18 @@ ComplexNumber ComplexNumber::operator*(const ComplexNumber &other) {
     return {re*other.re - im*other.im, re*other.im + im*other.re};
 }
 
-ComplexNumber operator*(double k, const ComplexNumber& number) {
-    return {k*number.re, k*number.im};
+ComplexNumber ComplexNumber::operator*(double k) {
+    return ComplexNumber(k*re, k*im);
 }
 
-ComplexNumber operator*(const ComplexNumber& number, double k) {
-    return k*number;
+ComplexNumber operator*(double k, const ComplexNumber& number) {
+    return ComplexNumber(k*number.re, k*number.im);
+}
+
+ComplexNumber ComplexNumber::operator^(int n) {
+    ComplexNumber res = *this;
+    for(int i = 1; i < n; i++) {
+        res = res*(*this);
+    }
+    return res;
 }
