@@ -72,6 +72,16 @@ ComplexNumber operator-(double other, const ComplexNumber& number) {
     return ComplexNumber(other) - number;
 }
 
+bool ComplexNumber::operator==(const ComplexNumber& other) {
+    return (re == other.re) && (im == other.im);
+}
+
+bool ComplexNumber::operator!=(const ComplexNumber& other) {
+    return !(*this == other);
+}
+
+// ДАЛЬШЕ ИДУТ МОИ ХОТЕЛКИ. Основное уже реализовано выше
+
 void ComplexNumber::operator++() {
     re++;
 }

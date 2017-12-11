@@ -23,7 +23,10 @@ public:
     ComplexNumber operator^(int n);
     double abs();
     double arg();
-    // Мои хотелки. Хочу, чтобы обычный double можно было прибавлять к комплексу!
+    bool operator==(const ComplexNumber& other);
+    bool operator!=(const ComplexNumber& other);
+    // Обязательная часть закончена. Дальше -- мои хотелки
+    // Хочу, чтобы обычный double можно было прибавлять к комплексу!
     ComplexNumber operator+(double other);
     ComplexNumber operator-(double other);
     // Всеми любимые плюсы!

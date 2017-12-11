@@ -77,6 +77,16 @@ TEST(ComplexNumber, ComplexNumber_ArgumentValue) {
     ASSERT_DOUBLE_EQ(c1.arg(), acos(5/sqrt(5*5+7*7)));
 }
 
+TEST(ComplexNumber, ComplexNumber_ComplexEquality) {
+    ComplexNumber c1(2, 3);
+    ComplexNumber c2(5, 6);
+    ComplexNumber c3(2, 3);
+    ASSERT_TRUE(c1 != c2);
+    ASSERT_TRUE(c1 == c3);
+}
+
+// ДАЛЬШЕ ИДУТ ТЕСТЫ МОИХ ХОТЕЛОК. Основное уже реализовано
+
 TEST(ComplexNumber, ComplexNumber_SumComplexWithDouble) {
     ComplexNumber c1(2, 5);
     double other = 5;
