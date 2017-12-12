@@ -25,9 +25,8 @@ private:
         }
     }
 public:
-    Matrix(int n) {
+    Matrix(int n): _n(n) {
         init_array(n);
-
     }
 
     virtual ~Matrix() {
