@@ -140,3 +140,18 @@ TEST(Matrix, MatrixMultByMatrix) {
     ASSERT_EQ(m3.get(1, 0), 6);
     ASSERT_EQ(m3.get(1, 1), 11);
 }
+
+TEST(Matrix, MatrixPow) {
+    Matrix<int> m1(2);
+    // Устанавливаем значения
+    m1.set(0, 0, 0);
+    m1.set(0, 1, 1);
+    m1.set(1, 0, 1);
+    m1.set(1, 1, 1);
+    Matrix<int> res = m1^2;
+    // Проверка
+    ASSERT_EQ(res.get(0, 0), 1);
+    ASSERT_EQ(res.get(0, 1), 1);
+    ASSERT_EQ(res.get(1, 0), 1);
+    ASSERT_EQ(res.get(1, 1), 2);
+}

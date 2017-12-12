@@ -123,7 +123,7 @@ public:
         return res;
     }
 
-    Matrix operator*(const Matrix& other) {
+    Matrix operator*(const Matrix& other) const {
         if(_n != other.size()) {
             throw("Dimension problems!");
         }
@@ -137,6 +137,30 @@ public:
                 }
                 res.set(i, j, tmp_sum);
             }
+        }
+        return res;
+    }
+
+    // Опасное присваивание
+    void operator=(const Matrix& other) {
+        delete_array();
+        init_array(other.size());
+        for(int i = 0; i < other.size(); i++) {
+            for(int j = 0; j < other.size(); j++) {
+                set(i, j, other.get(i, j));
+            }
+        }
+    }
+
+    Matrix operator^(int n) const {
+        Matrix<T> res(_n);
+        for(int i = 0; i < size(); i++) {
+            for(int j = 0; j < size(); j++) {
+                res.set(i, j, get(i, j));
+            }
+        }
+        for(int i = 1; i < n; i++) {
+            res = res*(*this);
         }
         return res;
     }
