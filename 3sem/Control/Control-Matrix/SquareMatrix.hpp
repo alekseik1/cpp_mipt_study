@@ -122,6 +122,24 @@ public:
         }
         return res;
     }
+
+    Matrix operator*(const Matrix& other) {
+        if(_n != other.size()) {
+            throw("Dimension problems!");
+        }
+        Matrix<T> res(_n);
+        for(int i = 0; i < _n; i++) {
+            for(int j = 0; j < _n; j++) {
+                // Суммируем строки/столбцы
+                T tmp_sum = 0;
+                for(int k = 0; k < _n; k++) {
+                    tmp_sum += get(i, k)*other.get(k, j);
+                }
+                res.set(i, j, tmp_sum);
+            }
+        }
+        return res;
+    }
 };
 
 template<typename T>

@@ -65,7 +65,7 @@ TEST(Matrix, MatrixOutput) {
             m1.set(i, j, i+j);
         }
     }
-    std::cout << m1;
+    std::cout << m1 << std::endl;
 }
 
 TEST(Matrix, MatrixSum) {
@@ -118,4 +118,25 @@ TEST(Matrix, MatrixMultDouble) {
             ASSERT_EQ(m3.get(i, j), 5*(i*m3.size()+ j));
         }
     }
+}
+
+TEST(Matrix, MatrixMultByMatrix) {
+    Matrix<int> m1(2);
+    Matrix<int> m2(2);
+    for(int i = 0; i < m1.size(); i++) {
+        for(int j = 0; j < m1.size(); j++) {
+            m1.set(i, j, i*m1.size()+ j);
+        }
+    }
+    for(int i = 0; i < m2.size(); i++) {
+        for(int j = 0; j < m2.size(); j++) {
+            m2.set(i, j, i*m2.size()+ j);
+        }
+    }
+    Matrix<int> m3 = m1*m2;
+    // Проверка
+    ASSERT_EQ(m3.get(0, 0), 2);
+    ASSERT_EQ(m3.get(0, 1), 3);
+    ASSERT_EQ(m3.get(1, 0), 6);
+    ASSERT_EQ(m3.get(1, 1), 11);
 }
