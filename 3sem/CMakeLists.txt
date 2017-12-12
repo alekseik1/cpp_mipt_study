@@ -43,5 +43,5 @@ add_subdirectory(labs/week13-/solutions)
 # Tests
 add_subdirectory(tests)
 
-add_subdirectory(samples_for_credit/Control)
+add_subdirectory(samples_for_credit/Control-2016-var-C)
 add_subdirectory(samples_for_credit/Complex_number)
