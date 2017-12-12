@@ -45,3 +45,4 @@ add_subdirectory(tests)
 
 add_subdirectory(samples_for_credit/Control-2016-var-C)
 add_subdirectory(samples_for_credit/Complex_number)
+add_subdirectory(Control/Control-Matrix)
