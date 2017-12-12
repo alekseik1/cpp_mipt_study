@@ -41,7 +41,7 @@ public:
     T get(int i, int j) const {
         return _matrix[i][j];
     }
-    void set(const T& value, int i, int j) {
+    void set(int i, int j, const T& value) {
         _matrix[i][j] = value;
     }
 };
