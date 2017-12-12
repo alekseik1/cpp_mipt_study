@@ -200,3 +200,61 @@ TEST(Matrix, MatrixTranspose) {
         }
     }
 }
+
+TEST(Matrix, MatrixDivDouble) {
+    Matrix<double> m1(2);
+    for(int i = 0; i < m1.size(); i++) {
+        for(int j = 0; j < m1.size(); j++) {
+            m1.set(i, j, i*m1.size() + j);
+        }
+    }
+
+    Matrix<double> m2 = m1 / 2;
+    for(int i = 0; i < m2.size(); i++) {
+        for(int j = 0; j < m2.size(); j++) {
+            ASSERT_DOUBLE_EQ(m2.get(i, j), ((double) (i*m2.size() + j))/2);
+        }
+    }
+}
+
+TEST(Matrix, MatrixMinorPrint) {
+    Matrix<double> m1(3);
+    for(int i = 0; i < m1.size(); i++) {
+        for(int j = 0; j < m1.size(); j++) {
+            m1.set(i, j, i*m1.size() + j);
+        }
+    }
+    Matrix<double> m2 = m1.get_minor(1, 1);
+    ASSERT_DOUBLE_EQ(m2.get(0, 0), 0);
+    ASSERT_DOUBLE_EQ(m2.get(0, 1), 2);
+    ASSERT_DOUBLE_EQ(m2.get(1, 0), 6);
+    ASSERT_DOUBLE_EQ(m2.get(1, 1), 8);
+}
+
+TEST(Matrix, MatrixInverse) {
+    Matrix<double> m1(2);
+    // Задаем
+    m1.set(0, 0, 0.);
+    m1.set(0, 1, 1.);
+    m1.set(1, 0, 1.);
+    m1.set(1, 1, 1.);
+    // Проверяем
+    Matrix<double> res = m1.inverse();
+    std::cout << res << std::endl;
+    ASSERT_EQ(res.get(0, 0), -1);
+    ASSERT_EQ(res.get(0, 1), 1);
+    ASSERT_EQ(res.get(1, 0), 1);
+    ASSERT_EQ(res.get(1, 1), 0);
+
+    Matrix<double> m2(2);
+    // Задаем матрицу
+    m2.set(0, 0, 2.);
+    m2.set(0, 1, 5.);
+    m2.set(1, 0, 1.);
+    m2.set(1, 1, 9.);
+    Matrix<double> res2 = m2.inverse();
+    ASSERT_DOUBLE_EQ(res2.get(0, 0), 9.0/13);
+    ASSERT_DOUBLE_EQ(res2.get(0, 1), -5.0/13);
+    ASSERT_DOUBLE_EQ(res2.get(1, 0), -1.0/13);
+    ASSERT_DOUBLE_EQ(res2.get(1, 1), 2.0/13);
+}

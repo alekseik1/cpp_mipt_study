@@ -32,6 +32,7 @@ private:
 
     // TODO: Из-за этого метода нельзя использовать Matrix для нечисленных типов (и типов, не приводимых к double). Грустно!
     double _determ(T** Arr, int size) const {
+        // FIXME: На int все плохо. Видимо, опять целочисленная арифметика
         try {
             (double) T();
         } catch(error_t e) {
@@ -86,6 +87,7 @@ public:
         _matrix[i][j] = value;
     }
 
+    // TODO: Из-за этого метода нельзя использовать Matrix для нечисленных типов (и типов, не приводимых к double). Грустно!
     double det() const {
         return _determ(_matrix, _n);
     }
@@ -153,6 +155,7 @@ public:
         return *this;
     }
 
+    // TODO: Из-за этого метода нельзя использовать Matrix для типов, на которых нет умножения
     Matrix operator^(int n) const {
         Matrix<T> res(_n);
         for(int i = 0; i < size(); i++) {
@@ -190,6 +193,48 @@ public:
             }
         }
         return res;
+    }
+
+    Matrix operator/(double k) const {
+        return ((*this) * (1.0/k));
+    }
+
+    Matrix get_minor(int n, int m) const {
+        Matrix minor_m(_n - 1);
+
+        for(int i0 = 0; i0 < n; i0++) {
+            for(int j0 = 0; j0 < m; j0++) { // верх лево
+                minor_m.set(i0, j0, get(i0, j0));
+            }
+            for(int j0 = m+1; j0 < _n; j0++) {  // верх право
+                minor_m.set(i0, j0-1, get(i0, j0));
+            }
+        }
+        for(int i0 = n+1; i0 < _n; i0++) {
+            for(int j0 = 0; j0 < m; j0++) { // низ лево
+                minor_m.set(i0-1, j0, get(i0, j0));
+            }
+            for(int j0 = m+1; j0 < _n; j0++) {  // низ право
+                minor_m.set(i0-1, j0-1, get(i0, j0));
+            }
+        }
+        return minor_m;
+    }
+
+    // TODO: Из-за этого метода нельзя использовать Matrix для нечисленных типов (и типов, не приводимых к double). Грустно!
+    Matrix inverse() {
+        // Веселье начинается!
+        if(_n == 1) {
+            return *this / det();
+        }
+        Matrix res(_n);
+        for(int i = 0; i < _n; i++) {
+            for(int j = 0; j < _n; j++) {
+                Matrix minor_m = get_minor(i, j);
+                res.set(i, j, minor_m.det()*pow((double) -1, i+j));
+            }
+        }
+        return res.trans()/det();
     }
 };
 
