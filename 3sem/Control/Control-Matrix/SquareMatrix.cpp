@@ -15,15 +15,15 @@ void Matrix<T>::delete_array() {
 }
 
 template<typename T>
-void Matrix<T>::init_array(int n, int m) {
+void Matrix<T>::init_array(int n) {
     _matrix = new T*[n];
     for(int s=0; s < n; s++)
-        _matrix[s] = new T[m];
+        _matrix[s] = new T[n];
 }
 
 template<typename T>
-Matrix<T>::Matrix(int n, int m): _n(n), _m(m) {
-    init_array(n, m);
+Matrix<T>::Matrix(int n): _n(n) {
+    init_array(n);
 }
 
 template<typename T>

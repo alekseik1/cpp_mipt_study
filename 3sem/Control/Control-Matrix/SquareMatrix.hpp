@@ -10,11 +10,10 @@ class Matrix {
 private:
     T** _matrix;
     int _n;
-    int _m;
-    void init_array(int n, int m);
+    void init_array(int n);
     void delete_array();
 public:
-    Matrix(int n, int m);
+    Matrix(int n);
     virtual ~Matrix();
 };
 
