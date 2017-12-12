@@ -88,7 +88,7 @@ TEST(Matrix, MatrixSum) {
     ASSERT_ANY_THROW(m1+m3);
 }
 
-TEST(Matrix, MatrixSub) {
+TEST(Matrix, MatrixUnoSub) {
     Matrix<int> m1(11);
     for (int i = 0; i < m1.size(); i++) {
         for (int j = 0; j < m1.size(); j++) {
@@ -99,6 +99,23 @@ TEST(Matrix, MatrixSub) {
     for (int i = 0; i < m1.size(); i++) {
         for (int j = 0; j < m1.size(); j++) {
             ASSERT_EQ(m2.get(i, j), -i);
+        }
+    }
+}
+
+TEST(Matrix, MatrixMultDouble) {
+    Matrix<double> m1(5);
+    for(int i = 0; i < m1.size(); i++) {
+        for(int j = 0; j < m1.size(); j++) {
+            m1.set(i, j, i*m1.size()+ j);
+        }
+    }
+    Matrix<double> m2 = m1*5;
+    Matrix<double> m3 = 5*m1;
+    for(int i = 0; i < m2.size(); i++) {
+        for(int j = 0; j < m2.size(); j++) {
+            ASSERT_EQ(m2.get(i, j), 5*(i*m2.size()+ j));
+            ASSERT_EQ(m3.get(i, j), 5*(i*m3.size()+ j));
         }
     }
 }

@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <ostream>
+#include<cmath>
 
 template<typename T>
 class Matrix {
@@ -30,7 +31,7 @@ private:
     }
 
     // TODO: Из-за этого метода нельзя использовать Matrix для нечисленных типов (и типов, не приводимых к double). Грустно!
-    double _determ(T** Arr, int size) {
+    double _determ(T** Arr, int size) const {
         try {
             (double) T();
         } catch(error_t e) {
@@ -85,11 +86,11 @@ public:
         _matrix[i][j] = value;
     }
 
-    double det() {
+    double det() const {
         return _determ(_matrix, _n);
     }
 
-    Matrix operator+(const Matrix& other) {
+    Matrix operator+(const Matrix& other) const {
         if(_n != other.size()) {
             throw("Dimension problems!");
         }
@@ -102,11 +103,21 @@ public:
         return res;
     }
 
-    Matrix operator-() {
+    Matrix operator-() const {
         Matrix res(_n);
         for(int i = 0; i < _n; i++) {
             for(int j = 0; j < _n; j++) {
                 res.set(i, j, -_matrix[i][j]);
+            }
+        }
+        return res;
+    }
+
+    Matrix operator*(double k) const {
+        Matrix<T> res(_n);
+        for(int i = 0; i < _n; i++) {
+            for(int j = 0; j < _n; j++) {
+                res.set(i, j, k*_matrix[i][j]);
             }
         }
         return res;
@@ -122,6 +133,11 @@ std::ostream& operator<<(std::ostream& os, const Matrix<T>& m) {
         os << std::endl;
     }
     return os;
+}
+
+template<typename T>
+Matrix<T> operator*(double k, const Matrix<T>& matrix) {
+    return matrix*k;
 }
 
 
