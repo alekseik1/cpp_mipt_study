@@ -10,6 +10,7 @@
 #include<cmath>
 
 template<typename T>
+// TODO: Переписать отдельный класс для нечисленных данных, а этот сделать нешаблонным. Но без шаблонов снизят оценку!
 class Matrix {
 private:
     T** _matrix;
