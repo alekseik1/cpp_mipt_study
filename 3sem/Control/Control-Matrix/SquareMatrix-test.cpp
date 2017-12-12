@@ -3,7 +3,7 @@
 //
 
 #include<gtest/gtest.h>
-#include "Matrix.hpp"
+#include "SquareMatrix.hpp"
 
 TEST(Matrix, EmptyCreation) {
     Matrix<int> m();

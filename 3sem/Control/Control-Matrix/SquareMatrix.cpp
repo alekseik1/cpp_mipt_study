@@ -2,7 +2,7 @@
 // Created by aleksei on 12.12.17.
 //
 
-#include "Matrix.hpp"
+#include "SquareMatrix.hpp"
 
 template<typename T>
 void Matrix<T>::delete_array() {
