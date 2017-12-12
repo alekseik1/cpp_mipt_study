@@ -32,7 +32,6 @@ private:
 
     // TODO: Из-за этого метода нельзя использовать Matrix для нечисленных типов (и типов, не приводимых к double). Грустно!
     double _determ(T** Arr, int size) const {
-        // FIXME: На int все плохо. Видимо, опять целочисленная арифметика
         try {
             (double) T();
         } catch(error_t e) {
@@ -72,14 +71,30 @@ public:
         delete_array();
     }
 
+    /**
+     *
+     * @return Размер матрицы
+     */
     int size() const {
         return _n;
     }
 
+    /**
+     *
+     * @param i номер строки
+     * @param j номер столбца
+     * @return Значение на их пересечении
+     */
     T get(int i, int j) const {
         return _matrix[i][j];
     }
 
+    /**
+     * Записывает элемент матрицы
+     * @param i номер строки
+     * @param j номер столбца
+     * @param value Значение, которое будет записано
+     */
     void set(int i, int j, const T& value) {
         if(i >= _n || j >= _n) {
             throw("Dimension problems!");
@@ -88,6 +103,11 @@ public:
     }
 
     // TODO: Из-за этого метода нельзя использовать Matrix для нечисленных типов (и типов, не приводимых к double). Грустно!
+    // TODO: Перепиши меня, используя get_minor
+    /**
+     *
+     * @return Определитель матрицы
+     */
     double det() const {
         return _determ(_matrix, _n);
     }
@@ -185,6 +205,10 @@ public:
         return !(*this == other);
     }
 
+    /**
+     * Транспонирование матрицы (не меняет исходной)
+     * @return Транспонированная матрица
+     */
     Matrix trans() const {
         Matrix res(_n);
         for(int i = 0; i < _n; i++) {
@@ -199,6 +223,12 @@ public:
         return ((*this) * (1.0/k));
     }
 
+    /**
+     * Поиск минорной матрицы.
+     * @param n Номер строки
+     * @param m Номер столбца
+     * @return Матрица, полученная вычеркиванием n строки и m столбца
+     */
     Matrix get_minor(int n, int m) const {
         Matrix minor_m(_n - 1);
 
@@ -222,6 +252,10 @@ public:
     }
 
     // TODO: Из-за этого метода нельзя использовать Matrix для нечисленных типов (и типов, не приводимых к double). Грустно!
+    /**
+     * Обратная матрица (не меняет исходной)
+     * @return Обратная матрица
+     */
     Matrix inverse() {
         // Веселье начинается!
         if(_n == 1) {
