@@ -63,7 +63,7 @@ private:
     }
 
 public:
-    Matrix(int n): _n(n) {
+    explicit Matrix(int n): _n(n) {
         init_array(n);
     }
 
@@ -142,7 +142,7 @@ public:
     }
 
     // Опасное присваивание
-    void operator=(const Matrix& other) {
+    Matrix& operator=(const Matrix& other) {
         delete_array();
         init_array(other.size());
         for(int i = 0; i < other.size(); i++) {
@@ -150,6 +150,7 @@ public:
                 set(i, j, other.get(i, j));
             }
         }
+        return *this;
     }
 
     Matrix operator^(int n) const {
