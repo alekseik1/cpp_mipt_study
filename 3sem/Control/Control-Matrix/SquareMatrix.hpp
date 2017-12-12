@@ -79,6 +79,9 @@ public:
     }
 
     void set(int i, int j, const T& value) {
+        if(i >= _n || j >= _n) {
+            throw("Dimension problems!");
+        }
         _matrix[i][j] = value;
     }
 

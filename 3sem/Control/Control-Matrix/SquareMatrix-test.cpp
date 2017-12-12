@@ -88,17 +88,17 @@ TEST(Matrix, MatrixSum) {
     ASSERT_ANY_THROW(m1+m3);
 }
 
-TEST(Matrix, DISABLED_MatrixSub) {
-    Matrix<int> m1(7);
+TEST(Matrix, MatrixSub) {
+    Matrix<int> m1(11);
     for (int i = 0; i < m1.size(); i++) {
         for (int j = 0; j < m1.size(); j++) {
             m1.set(i, j, i);
         }
     }
-    m1 = -m1;
+    Matrix<int> m2 = -m1;
     for (int i = 0; i < m1.size(); i++) {
         for (int j = 0; j < m1.size(); j++) {
-            ASSERT_EQ(m1.get(i, j), -i);
+            ASSERT_EQ(m2.get(i, j), -i);
         }
     }
 }
