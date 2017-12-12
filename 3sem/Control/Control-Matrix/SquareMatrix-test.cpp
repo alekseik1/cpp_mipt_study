@@ -57,3 +57,13 @@ TEST(Matrix, DeterminantNonNumber) {
     m3.set(1, 1, 'b');
     ASSERT_EQ((char) m3.det(), '"');    // That's okey, we can mult chars and cast to double
 }
+
+TEST(Matrix, MatrixOutput) {
+    Matrix<int> m1(4);
+    for(int i = 0; i < m1.size(); i++) {
+        for(int j = 0; j < m1.size(); j++) {
+            m1.set(i, j, i+j);
+        }
+    }
+    std::cout << m1;
+}

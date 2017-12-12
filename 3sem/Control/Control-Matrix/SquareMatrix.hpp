@@ -5,6 +5,9 @@
 #ifndef WEEK11_MATRIX_HPP
 #define WEEK11_MATRIX_HPP
 
+#include <iostream>
+#include <ostream>
+
 template<typename T>
 class Matrix {
 private:
@@ -83,6 +86,17 @@ public:
         return _determ(_matrix, _n);
     }
 };
+
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const Matrix<T>& m) {
+    for(int i = 0; i < m.size(); i++) {
+        for(int j = 0; j < m.size(); j++) {
+            os << m.get(i, j) << ' ';
+        }
+        os << std::endl;
+    }
+    return os;
+}
 
 
 #endif //WEEK11_MATRIX_HPP
