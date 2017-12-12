@@ -67,3 +67,38 @@ TEST(Matrix, MatrixOutput) {
     }
     std::cout << m1;
 }
+
+TEST(Matrix, MatrixSum) {
+    Matrix<int> m1(4);
+    Matrix<int> m2(4);
+    Matrix<int> m3(3);
+    for(int i = 0; i < m1.size(); i++) {
+        for(int j = 0; j < m1.size(); j++) {
+            m1.set(i, j, i);
+            m2.set(i, j, j);
+        }
+    }
+    Matrix<int> res = m1+m2;
+    for(int i = 0; i < res.size(); i++) {
+        for(int j = 0; j < res.size(); j++) {
+            ASSERT_EQ(res.get(i, j), i+j);
+        }
+    }
+    // Drop, if dims not equal
+    ASSERT_ANY_THROW(m1+m3);
+}
+
+TEST(Matrix, DISABLED_MatrixSub) {
+    Matrix<int> m1(7);
+    for (int i = 0; i < m1.size(); i++) {
+        for (int j = 0; j < m1.size(); j++) {
+            m1.set(i, j, i);
+        }
+    }
+    m1 = -m1;
+    for (int i = 0; i < m1.size(); i++) {
+        for (int j = 0; j < m1.size(); j++) {
+            ASSERT_EQ(m1.get(i, j), -i);
+        }
+    }
+}

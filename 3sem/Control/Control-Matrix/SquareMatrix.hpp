@@ -85,6 +85,29 @@ public:
     double det() {
         return _determ(_matrix, _n);
     }
+
+    Matrix operator+(const Matrix& other) {
+        if(_n != other.size()) {
+            throw("Dimension problems!");
+        }
+        Matrix res(_n);
+        for(int i = 0; i < _n; i++) {
+            for(int j = 0; j < _n; j++) {
+                res.set(i, j, get(i, j) + other.get(i, j));
+            }
+        }
+        return res;
+    }
+
+    Matrix operator-() {
+        Matrix res(_n);
+        for(int i = 0; i < _n; i++) {
+            for(int j = 0; j < _n; j++) {
+                res.set(i, j, -_matrix[i][j]);
+            }
+        }
+        return res;
+    }
 };
 
 template<typename T>
