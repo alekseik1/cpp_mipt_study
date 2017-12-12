@@ -30,3 +30,17 @@ template<typename T>
 Matrix<T>::~Matrix() {
     delete_array();
 }
+
+template<typename T>
+T Matrix<T>::get(int i, int j) {
+    return _matrix[i][j];
+}
+
+template<typename T>
+void Matrix<T>::set(const T& value, int i, int j) {
+    _matrix[i][j] = value;
+}
+
+int Matrix::size() {
+    return _n;
+}

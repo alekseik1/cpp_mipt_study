@@ -15,6 +15,9 @@ private:
 public:
     Matrix(int n);
     virtual ~Matrix();
+    int size();
+    T get(int i, int j);
+    void set(const T& value, int i, int j);
 };
 
 
