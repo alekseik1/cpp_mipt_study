@@ -30,3 +30,30 @@ TEST(Matrix, SettersAndGetters) {
         }
     }
 }
+
+TEST(Matrix, Determinant) {
+    Matrix<int> m(3);
+    for(int i = 0; i < m.size(); i++) {
+        for(int j = 0; j < m.size(); j++) {
+            m.set(i, j, i+j);
+        }
+    }
+    ASSERT_EQ(m.det(), 0);
+
+    Matrix<double> m1(2);
+    // Задаем матрицу
+    m1.set(0, 0, 2.);
+    m1.set(0, 1, 5.);
+    m1.set(1, 0, 1.);
+    m1.set(1, 1, 9.);
+    ASSERT_EQ(m1.det(), 13);
+}
+
+TEST(Matrix, DeterminantNonNumber) {
+    Matrix<char> m3(2);
+    m3.set(0, 0, 'a');
+    m3.set(0, 1, '0');
+    m3.set(1, 0, '0');
+    m3.set(1, 1, 'b');
+    ASSERT_EQ((char) m3.det(), '"');    // That's okey, we can mult chars and cast to double
+}
