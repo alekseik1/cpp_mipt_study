@@ -165,6 +165,22 @@ public:
         }
         return res;
     }
+
+    bool operator==(const Matrix& other) const {
+        if(_n != other.size())
+            return false;
+        for(int i = 0; i < other.size(); i++) {
+            for(int j = 0; j < other.size(); j++) {
+                if(get(i, j) != other.get(i, j))
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    bool operator!=(const Matrix& other) const {
+        return !(*this == other);
+    }
 };
 
 template<typename T>

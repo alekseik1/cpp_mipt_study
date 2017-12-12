@@ -155,3 +155,33 @@ TEST(Matrix, MatrixPow) {
     ASSERT_EQ(res.get(1, 0), 1);
     ASSERT_EQ(res.get(1, 1), 2);
 }
+
+TEST(Matrix, MatrixEquality) {
+    Matrix<int> m1(2);
+    Matrix<int> m2(2);
+    Matrix<int> m3(2);
+    Matrix<int> m4(5);
+    for(int i = 0; i < m1.size(); i++) {
+        for(int j = 0; j < m1.size(); j++) {
+            m1.set(i, j, i+j);
+        }
+    }
+    for(int i = 0; i < m2.size(); i++) {
+        for(int j = 0; j < m2.size(); j++) {
+            m2.set(i, j, i+j);
+        }
+    }
+    for(int i = 0; i < m3.size(); i++) {
+        for(int j = 0; j < m3.size(); j++) {
+            m3.set(i, j, 0);
+        }
+    }
+    for(int i = 0; i < m4.size(); i++) {
+        for(int j = 0; j < m4.size(); j++) {
+            m4.set(i, j, i+j);
+        }
+    }
+    ASSERT_EQ(m1, m2);
+    ASSERT_NE(m1, m3);
+    ASSERT_NE(m1, m4);
+}
