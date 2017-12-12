@@ -181,6 +181,16 @@ public:
     bool operator!=(const Matrix& other) const {
         return !(*this == other);
     }
+
+    Matrix trans() const {
+        Matrix res(_n);
+        for(int i = 0; i < _n; i++) {
+            for(int j = 0; j < _n; j++) {
+                res.set(i, j, get(j, i));
+            }
+        }
+        return res;
+    }
 };
 
 template<typename T>

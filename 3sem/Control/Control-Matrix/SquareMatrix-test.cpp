@@ -185,3 +185,18 @@ TEST(Matrix, MatrixEquality) {
     ASSERT_NE(m1, m3);
     ASSERT_NE(m1, m4);
 }
+
+TEST(Matrix, MatrixTranspose) {
+    Matrix<int> m1(3);
+    for(int i = 0; i < m1.size(); i++) {
+        for(int j = 0; j < m1.size(); j++) {
+            m1.set(i, j, i*m1.size() + j);
+        }
+    }
+    Matrix<int> res = m1.trans();
+    for(int i = 0; i < res.size(); i++) {
+        for(int j = 0; j < res.size(); j++) {
+            ASSERT_EQ(res.get(j, i), i*res.size() + j);
+        }
+    }
+}
