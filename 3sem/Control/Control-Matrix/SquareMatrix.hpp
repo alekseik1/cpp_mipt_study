@@ -10,14 +10,40 @@ class Matrix {
 private:
     T** _matrix;
     int _n;
-    void init_array(int n);
-    void delete_array();
+    void init_array(int n) {
+        _matrix = new T*[n];
+        for(int s=0; s < n; s++)
+            _matrix[s] = new T[n];
+    }
+
+    void delete_array() {
+        if(_matrix != nullptr) {
+            for (int r = 0; r < _n; r++)
+                delete[] _matrix[r];
+            delete[] _matrix;
+            _matrix = nullptr;
+        }
+    }
 public:
-    Matrix(int n);
-    virtual ~Matrix();
-    int size();
-    T get(int i, int j);
-    void set(const T& value, int i, int j);
+    Matrix(int n) {
+        init_array(n);
+
+    }
+
+    virtual ~Matrix() {
+        delete_array();
+    }
+
+    int size() const {
+        return _n;
+    }
+
+    T get(int i, int j) const {
+        return _matrix[i][j];
+    }
+    void set(const T& value, int i, int j) {
+        _matrix[i][j] = value;
+    }
 };
 
 
