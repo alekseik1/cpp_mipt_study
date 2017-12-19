@@ -39,11 +39,6 @@ private:
 
     // TODO: Из-за этого метода нельзя использовать Matrix для нечисленных типов (и типов, не приводимых к double). Грустно!
     double _determ(T** Arr, int size) const {
-        try {
-            (double) T();
-        } catch(error_t e) {
-            throw(e);
-        }
         int i,j;
         double det = 0;
         T** matr;
