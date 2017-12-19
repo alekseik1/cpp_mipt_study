@@ -10,6 +10,12 @@
 #include<cmath>
 
 template<typename T>
+class Matrix;
+
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const Matrix<T>& m);
+
+template<typename T>
 // TODO: Переписать отдельный класс для нечисленных данных, а этот сделать нешаблонным. Но без шаблонов снизят оценку!
 class Matrix {
 private:
@@ -64,13 +70,26 @@ private:
     }
 
 public:
+
+    class line
+    {
+        T* a;
+    public:
+        line(T* n):a(n){};
+        T& operator[](int i){return a[i];};
+    };
+
+    line operator[](int i){return line(_matrix[i]);};
+    T & operator()(int i, int j){return _matrix[i][j];};
+
     explicit Matrix(int n): _n(n) {
         init_array(n);
     }
 
-    virtual ~Matrix() {
+    ~Matrix() {
         delete_array();
     }
+
 
     /**
      *
@@ -120,7 +139,7 @@ public:
         Matrix res(_n);
         for(int i = 0; i < _n; i++) {
             for(int j = 0; j < _n; j++) {
-                res.set(i, j, get(i, j) + other.get(i, j));
+                res._matrix[i][j] = _matrix[i][j] + other._matrix[i][j];
             }
         }
         return res;
@@ -271,13 +290,14 @@ public:
         }
         return res.trans()/det();
     }
+    friend std::ostream& operator<< <T> (std::ostream& os, const Matrix<T>& m);
 };
 
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const Matrix<T>& m) {
     for(int i = 0; i < m.size(); i++) {
         for(int j = 0; j < m.size(); j++) {
-            os << m.get(i, j) << ' ';
+            os << m._matrix[i][j] << ' ';
         }
         os << std::endl;
     }
