@@ -9,6 +9,10 @@ git clone https://github.com/alekseik1/cpp_mipt_study
 git submodule init
 git submodule update
 ```
+Можно и сразу все одной командой:
+```
+git clone --recursive https://github.com/alekseik1/cpp_mipt_study
+```
 ## Работа с IDE
 После подготовки папку **3sem** или **4sem** можно открыть в Clion
 (или любой другой IDE, умеющей работать с системой _CMake_).
