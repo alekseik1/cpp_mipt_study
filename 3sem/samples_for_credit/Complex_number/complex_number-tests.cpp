@@ -4,6 +4,7 @@
 
 #include <gtest/gtest.h>
 #include "ComplexNumber.hpp"
+#include <cmath>
 
 TEST(ComplexNumber, ComplexNumber_EmptyCreation) {
     ComplexNumber c;
