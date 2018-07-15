@@ -1,12 +1,6 @@
 [submodule "3sem/labs/week6-/solutions/wiki-stats-cpp"]
 	path = 3sem/labs/week6-/solutions/wiki-stats-cpp
 	url = https://github.com/alekseik1/wiki-stats-cpp
-[submodule "3sem/contributors/valshal"]
-	path = contributors/valshal
-	url = https://github.com/valshal/cppShare
-[submodule "3sem/contributors/urnguk/control_week_7"]
-	path = contributors/urnguk/control_week_7
-	url = https://github.com/Urnguk/control_week_7
 [submodule "3sem/gtest"]
 	path = gtest
 	url = https://github.com/google/googletest
